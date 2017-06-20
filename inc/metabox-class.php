@@ -599,7 +599,7 @@ class Dilaz_Meta_Box {
 							case 'upload'            : dilaz_mb_field_upload($field); break;
 							case 'buttonset'         : dilaz_mb_field_buttonset($field); break;
 							case 'switch'            : dilaz_mb_field_switch($field); break;
-							case $field['type']      : do_action('dilaz_mb_field_'. $field['type'] .'_action', $field); break; # add custom field types via this hook
+							case $field['type']      : do_action('dilaz_mb_field_'. $field['type'] .'_hook', $field); break; # add custom field types via this hook
 							
 						}
 						
@@ -808,7 +808,7 @@ class Dilaz_Meta_Box {
 				
 			# sanitize custom field types via this filter hook
 			case $type: 
-				$output = apply_filters('dilaz_mb_sanitize_field_'. $type .'_action', $input, $field); 
+				$output = apply_filters('dilaz_mb_sanitize_field_'. $type .'_hook', $input, $field); 
 				return $output;
 				break;
 				
