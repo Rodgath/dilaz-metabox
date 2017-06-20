@@ -6,11 +6,13 @@
 ||
 || @package		Dilaz Metaboxes
 || @subpackage	Metabox
+|| @version		1.1
 || @since		Dilaz Metaboxes 1.0
 || @author		WebDilaz Team, http://webdilaz.com
 || @copyright	Copyright (C) 2017, WebDilaz LTD
 || @link		http://webdilaz.com/metaboxes
-|| @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+|| @License		GPL-2.0+
+|| @License URI	http://www.gnu.org/licenses/gpl-2.0.txt
 || 
 */
 
@@ -26,16 +28,18 @@ defined('ABSPATH') || exit;
  */
 function dilaz_metabox_parameters() {
 	
-	$metabox_parameters = array(
-		'prefix'          => 'dilaz_mb', # must be unique. Any time its changed, saved settings are no longer used. New settings will be saved. Set this once.
-		'use_type'        => 'theme', # 'theme' if used within a theme or 'plugin' if used within a plugin
-		'use_type_error'  => false, # error when wrong "use_type" is declared, default is false
-		'default_options' => true, # whether to load default options
-		'custom_options'  => true, # whether to load custom options
-	);
+	$metabox_parameters = apply_filters('dilaz_metabox_parameters', []);
 	
-	return apply_filters('dilaz_metabox_parameters', $metabox_parameters);
+	return $metabox_parameters;
 }
+
+
+/**
+ * Config
+ *
+ * @since	1.1
+ */
+require_once file_exists(dirname(__FILE__) .'/inc/config.php') ? dirname(__FILE__) .'/inc/config.php' : dirname(__FILE__) .'/inc/config-sample.php';
 
 
 /**
@@ -98,7 +102,7 @@ function dilaz_mb_get_url($file) {
  * Include options
  */
 if (isset($GLOBALS['dilaz_mb_params']['default_options']) && $GLOBALS['dilaz_mb_params']['default_options'] == false) {
-	require_once DILAZ_MB_DIR .'options/main-options.php';
+	require_once file_exists(DILAZ_MB_DIR .'options/options.php') ? DILAZ_MB_DIR .'options/options.php' : DILAZ_MB_DIR .'options/options-sample.php';
 }
 
 if (isset($GLOBALS['dilaz_mb_params']['default_options']) && $GLOBALS['dilaz_mb_params']['default_options'] == true) {
@@ -106,7 +110,7 @@ if (isset($GLOBALS['dilaz_mb_params']['default_options']) && $GLOBALS['dilaz_mb_
 }
 
 if (isset($GLOBALS['dilaz_mb_params']['custom_options']) && $GLOBALS['dilaz_mb_params']['custom_options'] == true) {
-	require_once DILAZ_MB_DIR .'options/custom-options.php';
+	require_once file_exists(DILAZ_MB_DIR .'options/custom-options.php') ? DILAZ_MB_DIR .'options/custom-options.php' : DILAZ_MB_DIR .'options/custom-options-sample.php';
 }
 
 
