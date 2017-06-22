@@ -1,7 +1,7 @@
 <?php
 /*
 || --------------------------------------------------------------------------------------------
-|| Theme Metaboxes Fields
+|| Theme/Plugin Metaboxes Fields
 || --------------------------------------------------------------------------------------------
 ||
 || @package		Dilaz Metaboxes
@@ -12,7 +12,11 @@
 || @link		http://webdilaz.com/metaboxes
 || @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 || 
-|| NOTE: Add all your theme/plugin options in this file
+|| NOTE 1: Rename this file from "options-sample.php" to "options.php". If you
+||         don't rename it, all your options and settings will be overwritten
+||         when updating Dilaz Metaboxes.
+|| 
+|| NOTE 2: Add all your theme/plugin metabox options in this file
 || 
 */
 
@@ -112,6 +116,7 @@ function dilaz_meta_boxes( array $dilaz_meta_boxes ) {
 				'options' => dilaz_mb_var('yes_no'),
 				'std'     => 'no'
 			);
+			
 			
 	return $dilaz_meta_boxes;
 }

@@ -12,6 +12,12 @@
 || @link		http://webdilaz.com/metaboxes
 || @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 || 
+|| NOTE 1: Rename this file from "custom-options-sample.php" to "custom-options.php". If you
+||         don't rename it, all your options and settings will be overwritten
+||         when updating Dilaz Metaboxes.
+|| 
+|| NOTE 2: Add all your theme/plugin custom options in this file
+|| 
 */
 
 defined('ABSPATH') || exit;
