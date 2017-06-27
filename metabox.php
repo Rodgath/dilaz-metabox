@@ -57,6 +57,7 @@ require_once dirname(__FILE__) .'/inc/functions.php';
 /**
  * Get URL from file
  *
+ * @global	array	$dilaz_mb_params
  * @param	string	$file
  * @since	1.0
  *
@@ -106,7 +107,7 @@ if (isset($GLOBALS['dilaz_mb_params']['default_options']) && $GLOBALS['dilaz_mb_
 }
 
 if (isset($GLOBALS['dilaz_mb_params']['default_options']) && $GLOBALS['dilaz_mb_params']['default_options'] == true) {
-	require_once DILAZ_MB_DIR .'options/default-options.php';
+	file_exists(DILAZ_MB_DIR .'options/default-options.php') ? require_once DILAZ_MB_DIR .'options/default-options.php' : '';
 }
 
 if (isset($GLOBALS['dilaz_mb_params']['custom_options']) && $GLOBALS['dilaz_mb_params']['custom_options'] == true) {

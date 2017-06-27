@@ -22,10 +22,11 @@ defined('ABSPATH') || exit;
  *
  * @since 1.0
  *
- * @param string $_POST['q']          search string
- * @param array  $_POST['selected']   selected items
- * @param string $_POST['query_type'] 'post', 'user', 'term'
- * @param array  $_POST['query_args'] query arguments
+ * @global	wpdb	$wpdb                WordPress database abstraction object
+ * @param	string	$_POST['q']          search string
+ * @param	array	$_POST['selected']   selected items
+ * @param	string	$_POST['query_type'] 'post', 'user', 'term'
+ * @param	array	$_POST['query_args'] query arguments
  *
  * @return json.data
  */
@@ -111,7 +112,7 @@ function dilaz_mb_query_select() {
  *
  * @since 1.0
  *
- * @param array  $_POST['selected']   selected items
+ * @param array  $_POST['selected'] selected items
  *
  * @return json.data
  */
@@ -147,9 +148,9 @@ function dilaz_mb_get_post_titles() {
 /**
  * Find position of array using its key and value
  *
- * @param	array	$array - array to be searched through
- * @param	string	$field - key of the array
- * @param	string	$value - value of the array
+ * @param	array	$array	array to be searched through
+ * @param	string	$field	key of the array
+ * @param	string	$value	value of the array
  * @since	1.0
  *
  * @return	integer
@@ -167,10 +168,10 @@ function dilaz_mb_find_array_key_by_value($array, $field, $value) {
 /**
  * Insert an array before the key of another array
  *
- * @param	array	$array - array to insert into
- * @param	array	$data - array to be inserted
- * @param	string	$key_offset - key position of the array to be inserted
- * @param	string	$insert_position - 'before' or 'after' or 'last', default: before
+ * @param	array	$array           array to insert into
+ * @param	array	$data            array to be inserted
+ * @param	string	$key_offset      key position of the array to be inserted
+ * @param	string	$insert_position 'before' or 'after' or 'last', default: before
  * @since	1.0
  *
  * @return	array
@@ -197,8 +198,8 @@ function dilaz_mb_insert_array_adjacent_to_key($array, $data, $key_offset, $inse
 /**
  * Get all fields within a metabox set
  *
- * @param	array	$dilaz_meta_boxes - all metaboxes array
- * @param	string	$metabox_set_id - options set id
+ * @param	array	$dilaz_meta_boxes	all metaboxes array
+ * @param	string	$metabox_set_id		options set id
  * @since	1.0
  *
  * @return	array
@@ -230,12 +231,12 @@ function dilaz_mb_get_meta_box_content($dilaz_meta_boxes, $metabox_set_id) {
 /**
  * Add/Insert metabox field before a specific field
  *
- * @param	array	$meta_boxes - all metaboxes array
- * @param	string	$metabox_set_id - target options set id
- * @param	string	$before_field_id - target metabox field id
- * @param	string	$context - tabs or fields, default: fields
- * @param	array	$insert_data - metabox fields to be inserted
- * @param	string	$insert_position - 'before' or 'after'
+ * @param	array	$meta_boxes			all metaboxes array
+ * @param	string	$metabox_set_id		target options set id
+ * @param	string	$before_field_id	target metabox field id
+ * @param	string	$context			tabs or fields, default: fields
+ * @param	array	$insert_data		metabox fields to be inserted
+ * @param	string	$insert_position	'before' or 'after'
  * @since	1.0
  *
  * @return	array
@@ -287,7 +288,7 @@ function dilaz_mb_insert_field($meta_boxes, $metabox_set_id, $before_field_id, $
  *
  * @since 1.0
  *
- * @param string  $var - option variable name
+ * @param string  $var option variable name
  *
  * @return mixed
  */
