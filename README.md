@@ -1,12 +1,12 @@
 # Dilaz-Metaboxes
 WordPress metaboxes for themes and plugins.
 
-##Features
+## Features
 * Extendability - Easy to update or create new functionality 
 * Easy updating - Your settings will not be part of core files
 * AddOns availability - AddOns created by other developers
 
-##Metabox Fields
+## Metabox Fields
 * Text
 * Password
 * Hidden
