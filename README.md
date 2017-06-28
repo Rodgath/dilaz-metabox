@@ -45,3 +45,25 @@ WordPress metaboxes for themes and plugins.
 * Switch Buttons
 
 
+## File Structure
+```
+your-directory/your-metaboxes-folder/    # → Root of your metaboxes
+├── assets/                              # → Assets
+│   ├── css/                             # → Stylesheets
+│   ├── fonts/                           # → Fonts
+│   ├── images/                          # → Images
+│   └── js/                              # → JavaScripts
+├── inc/                                 # → Includes
+│   ├── config-sample.php                # → Sample config file - Rename to config.php
+│   ├── fields.php                       # → Metabox fields (never edit)
+│   ├── functions.php                    # → Metabox functions (never edit)
+│   └── metabox-class.php                # → Metabox class (never edit)
+├── options/                             # → Metabox options
+│   ├── custom-options-sample.php        # → Sample custom options - Rename to custom-options.php
+│   ├── default-options.php              # → Default options (never edit)
+│   └── options-sample.php               # → Sample options file - Rename to options.php
+└── metabox.php                          # → metabox access (never edit)
+```
+
+
+
