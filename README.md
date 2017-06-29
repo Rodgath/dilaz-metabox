@@ -1,6 +1,8 @@
 # Dilaz-Metaboxes
 WordPress metaboxes for themes and plugins.
 
+Feel free to use this admin panel in your __premium__ and __commercial__ projects.
+
 ## Features
 * Extendability - Easy to update or create new functionality 
 * Easy updating - Your settings will not be part of core files
