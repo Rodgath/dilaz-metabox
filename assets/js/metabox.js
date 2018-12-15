@@ -3,9 +3,9 @@
 || Metabox JS
 || --------------------------------------------------------------------------------------------
 ||
-|| @package		Dilaz Metaboxes
+|| @package		Dilaz Metabox
 || @subpackage	Metabox
-|| @since		Dilaz Metaboxes 1.0
+|| @since		Dilaz Metabox 1.0
 || @author		WebDilaz Team, http://webdilaz.com, http://themedilaz.com
 || @copyright	Copyright (C) 2017, WebDilaz LTD
 || @link		http://webdilaz.com/metaboxes

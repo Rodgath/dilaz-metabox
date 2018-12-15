@@ -1,12 +1,12 @@
 <?php
 /*
 || --------------------------------------------------------------------------------------------
-|| Custom Metabox Class
+|| Metabox Class
 || --------------------------------------------------------------------------------------------
 ||
-|| @package		Dilaz Metaboxes
+|| @package		Dilaz Metabox
 || @subpackage	Metabox Class
-|| @since		Dilaz Metaboxes 1.0
+|| @since		Dilaz Metabox 1.0
 || @author		WebDilaz Team, http://webdilaz.com
 || @copyright	Copyright (C) 2017, WebDilaz LTD
 || @link		http://webdilaz.com/metaboxes
@@ -17,46 +17,71 @@
 defined('ABSPATH') || exit;
 
 
-$dilaz_meta_boxes = array();
-$dilaz_meta_boxes = apply_filters('dilaz_meta_boxes_filter', $dilaz_meta_boxes);
-
-$dilaz_box = new Dilaz_Meta_Box($dilaz_meta_boxes);
-
+/**
+ * Metabox class
+ */
 class Dilaz_Meta_Box {
+	
+	# Holds meta box prefix
+	protected $prefix;
 	
 	# Holds meta box object
 	protected $_meta_box;
 	
+	# Holds meta box parameters
+	protected $params;
+	
 	# PHP Contructor method
-	function __construct($meta_box) {
+	function __construct($prefix, $meta_box, $parameters) {
+		
+		// var_dump($meta_box); exit;
 		
 		# Exit, if we are not in Admin area
 		// if ( !is_admin() ) 
 		// return;
 		
+		# metabox prefix
+		$this->prefix = $prefix;
+		
+		# metabox parameters
+		$this->params = $parameters;
+		
 		# Assign meta box values to local variables
 		$this->_meta_box = $meta_box;
 		
-		add_action('admin_init', array( &$this, 'admin_init' ));	
-		add_action('add_meta_boxes', array( &$this, 'add_meta_box' )); # Add metaboxes
-		add_action('save_post', array( &$this, 'save_meta_box' )); # Save post meta
-		add_action('admin_enqueue_scripts', array( &$this, 'load_scripts_and_styles' )); # Enqueue common styles and scripts
+		add_action('admin_init', array(&$this, 'admin_init'));	
+		add_action('add_meta_boxes', array(&$this, 'add_meta_box')); # Add metaboxes
+		add_action('save_post', array(&$this, 'save_meta_box')); # Save post meta
+		add_action('admin_enqueue_scripts', array(&$this, 'load_scripts_and_styles')); # Enqueue common styles and scripts
 	}
 	
-	# Initialize Metaboxes
-	# =============================================================================================
+	
+	/**
+	 * Initialize Metaboxes
+	 *
+	 * @since 1.0
+	 *
+	 * @return mixed
+	 */
 	function admin_init() {
 		require_once DILAZ_MB_DIR .'inc/fields.php';
 	}
 	
-	# Load Scripts and Styles
-	# =============================================================================================
+	
+	/**
+	 * Load Scripts and Styles
+	 *
+	 * @since 1.0
+	 * @param string $hook The hook name (also known as the hook suffix) used to determine the screen.
+	 *
+	 * @return void
+	 */
 	function load_scripts_and_styles($hook) {
 		
 		# only enqueue our scripts/styles specific pages
 		if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' || $hook == 'edit.php' ) {
 			
-			do_action('dilaz_mb_before_scripts_enqueue', $this->_meta_box);
+			do_action('dilaz_mb_before_scripts_enqueue', $this->prefix, $this->_meta_box);
 		
 			# scripts included with WordPress
 			if (function_exists('wp_enqueue_media')) {
@@ -125,24 +150,30 @@ class Dilaz_Meta_Box {
 			
 			# translation
 	 		wp_localize_script('dilaz-mb-script', 'dilaz_mb_lang', apply_filters('dilaz_mb_localized_data', array(
-				'dilaz_mb_images' => DILAZ_MB_IMAGES,
-				'dilaz_mb_prefix' => DILAZ_MB_PREFIX
+				'dilaz_mb_images' => $this->params['dir_url'] .'assets/images/',
+				'dilaz_mb_prefix' => $this->prefix
 			)));
 			
 			# Webfont styles
 			wp_enqueue_style('fontawesome', DILAZ_MB_URL .'assets/css/font-awesome.min.css', false, '4.5.0');
 			
-			do_action('dilaz_mb_before_main_style_enqueue', $this->_meta_box);
+			do_action('dilaz_mb_before_main_style_enqueue', $this->prefix, $this->_meta_box, $this->params);
 			
 			# metabox styles
 			wp_enqueue_style('dilaz-metabox-style', DILAZ_MB_URL .'assets/css/metabox.css', array('thickbox'));
 			
-			do_action('dilaz_mb_after_scripts_enqueue', $this->_meta_box);
+			do_action('dilaz_mb_after_scripts_enqueue', $this->prefix, $this->_meta_box);
 		}
 	}
 	
-	# metabox sets and metabox tabs array
-	# =============================================================================================
+	
+	/**
+	 * metabox sets and metabox tabs array
+	 *
+	 * @since 1.0
+	 *
+	 * @return array
+	 */
 	function meta_box_groups() {
 		$meta_groups = array();
 		foreach ($this->_meta_box as $key => $val) {
@@ -156,12 +187,18 @@ class Dilaz_Meta_Box {
 		return $meta_groups;
 	}
 	
-	# All metabox content
-	# =============================================================================================
+	
+	/**
+	 * All metabox content
+	 *
+	 * @since 1.0
+	 *
+	 * @return array
+	 */
 	function meta_box_content() {
 		
-		$parent = 0;
-		$tab = 0;
+		$parent       = 0;
+		$tab          = 0;
 		$box_contents = array();
 		
 		foreach ($this->_meta_box as $key => $val) {
@@ -194,8 +231,8 @@ class Dilaz_Meta_Box {
 	# =============================================================================================
 	function meta_box_menu() {
 		
-		$parent = 0;
-		$menu_items = array();
+		$parent          = 0;
+		$menu_items      = array();
 		$meta_box_groups = $this->meta_box_groups();
 		
 		if (!empty($meta_box_groups)) {
@@ -319,7 +356,7 @@ class Dilaz_Meta_Box {
 	# =============================================================================================
 	function has_field_arg($field_arg_key, $field_arg_val) {
 		
-		$pages = $this->meta_box_pages();
+		$pages       = $this->meta_box_pages();
 		$box_content = $this->meta_box_content();
 		
 		# Add meta box for multiple post types
@@ -349,7 +386,7 @@ class Dilaz_Meta_Box {
 	# =============================================================================================
 	function add_meta_box() {
 		
-		$pages = $this->meta_box_pages();
+		$pages     = $this->meta_box_pages();
 		$box_items = $this->metabox_sets();
 		
 		foreach ($box_items as $box_item_key => $box_item) {
@@ -393,6 +430,7 @@ class Dilaz_Meta_Box {
 				if ($meta_box_id != '') {
 					
 					$meta_box_content = $this->meta_box_content();
+					
 					$counter = 0;
 					
 					foreach ($meta_box_content[$meta_box_id]['fields'] as $key => $field) {
@@ -482,11 +520,11 @@ class Dilaz_Meta_Box {
 						$post_object = get_post($post->ID, ARRAY_A);
 						if ($post_object['post_type'] == 'dilaz_event_txns') {
 							
-							if ((!get_post_meta($post->ID, DILAZ_MB_PREFIX .'event_txn_event_id', true) || !get_post_meta($post->ID, DILAZ_MB_PREFIX .'event_txn_event_id', true)) && $field['hide_key'] == 'event_txn' && $field['hide_val'] == 1) {
+							if ((!get_post_meta($post->ID, $this->prefix .'event_txn_event_id', true) || !get_post_meta($post->ID, $this->prefix .'event_txn_event_id', true)) && $field['hide_key'] == 'event_txn' && $field['hide_val'] == 1) {
 								$hide = 'data-dilaz-hide="hidden"';
 							}
 							
-							if ((!get_post_meta($post->ID, DILAZ_MB_PREFIX .'event_txn_pkg_id', true) || !get_post_meta($post->ID, DILAZ_MB_PREFIX .'event_txn_pkg_id', true)) && $field['hide_key'] == 'pkg_txn' && $field['hide_val'] == 1) {
+							if ((!get_post_meta($post->ID, $this->prefix .'event_txn_pkg_id', true) || !get_post_meta($post->ID, $this->prefix .'event_txn_pkg_id', true)) && $field['hide_key'] == 'pkg_txn' && $field['hide_val'] == 1) {
 								$hide = 'data-dilaz-hidden="yes"';
 							}
 						}
@@ -565,40 +603,40 @@ class Dilaz_Meta_Box {
 						switch ($field['type']) {
 							
 							case 'metabox_tab'       : break;
-							case 'text'              : dilaz_mb_field_text($field); break;
-							case 'password'          : dilaz_mb_field_password($field); break;
-							case 'hidden'            : dilaz_mb_field_hidden($field); break;
-							case 'paragraph'         : dilaz_mb_field_paragraph($field); break;
-							case 'url'               : dilaz_mb_field_url($field); break;
-							case 'email'             : dilaz_mb_field_email($field); break;
-							case 'number'            : dilaz_mb_field_number($field); break;
-							case 'stepper'           : dilaz_mb_field_stepper($field); break;
-							case 'code'              : dilaz_mb_field_code($field); break;
-							case 'textarea'          : dilaz_mb_field_textarea($field); break;
-							case 'editor'            : dilaz_mb_field_editor($field); break;
-							case 'radio'             : dilaz_mb_field_radio($field); break;
-							case 'checkbox'          : dilaz_mb_field_checkbox($field); break;
-							case 'multicheck'        : dilaz_mb_field_multicheck($field); break;
-							case 'select'            : dilaz_mb_field_select($field); break;
-							case 'multiselect'       : dilaz_mb_field_multiselect($field); break;
-							case 'queryselect'       : dilaz_mb_field_queryselect($field); break;
-							case 'timezone'          : dilaz_mb_field_timezone($field); break;
-							case 'radioimage'        : dilaz_mb_field_radioimage($field); break;
-							case 'color'             : dilaz_mb_field_color($field); break;
-							case 'multicolor'        : dilaz_mb_field_multicolor($field); break;
-							case 'date'              : dilaz_mb_field_date($field); break;
-							case 'date_from_to'      : dilaz_mb_field_date_from_to($field); break;
-							case 'month'             : dilaz_mb_field_month($field); break;
-							case 'month_from_to'     : dilaz_mb_field_month_from_to($field); break;
-							case 'time'              : dilaz_mb_field_time($field); break;
-							case 'time_from_to'      : dilaz_mb_field_time_from_to($field); break;
-							case 'date_time'         : dilaz_mb_field_date_time($field); break;
-							case 'date_time_from_to' : dilaz_mb_field_date_time_from_to($field); break;
-							case 'slider'            : dilaz_mb_field_slider($field); break;
-							case 'range'             : dilaz_mb_field_range($field); break;
-							case 'upload'            : dilaz_mb_field_upload($field); break;
-							case 'buttonset'         : dilaz_mb_field_buttonset($field); break;
-							case 'switch'            : dilaz_mb_field_switch($field); break;
+							case 'text'              : DilazMetaboxFields::_text($field); break;
+							case 'password'          : DilazMetaboxFields::_password($field); break;
+							case 'hidden'            : DilazMetaboxFields::_hidden($field); break;
+							case 'paragraph'         : DilazMetaboxFields::_paragraph($field); break;
+							case 'url'               : DilazMetaboxFields::_url($field); break;
+							case 'email'             : DilazMetaboxFields::_email($field); break;
+							case 'number'            : DilazMetaboxFields::_number($field); break;
+							case 'stepper'           : DilazMetaboxFields::_stepper($field); break;
+							case 'code'              : DilazMetaboxFields::_code($field); break;
+							case 'textarea'          : DilazMetaboxFields::_textarea($field); break;
+							case 'editor'            : DilazMetaboxFields::_editor($field); break;
+							case 'radio'             : DilazMetaboxFields::_radio($field); break;
+							case 'checkbox'          : DilazMetaboxFields::_checkbox($field); break;
+							case 'multicheck'        : DilazMetaboxFields::_multicheck($field); break;
+							case 'select'            : DilazMetaboxFields::_select($field); break;
+							case 'multiselect'       : DilazMetaboxFields::_multiselect($field); break;
+							case 'queryselect'       : DilazMetaboxFields::_queryselect($field); break;
+							case 'timezone'          : DilazMetaboxFields::_timezone($field); break;
+							case 'radioimage'        : DilazMetaboxFields::_radioimage($field); break;
+							case 'color'             : DilazMetaboxFields::_color($field); break;
+							case 'multicolor'        : DilazMetaboxFields::_multicolor($field); break;
+							case 'date'              : DilazMetaboxFields::_date($field); break;
+							case 'date_from_to'      : DilazMetaboxFields::_date_from_to($field); break;
+							case 'month'             : DilazMetaboxFields::_month($field); break;
+							case 'month_from_to'     : DilazMetaboxFields::_month_from_to($field); break;
+							case 'time'              : DilazMetaboxFields::_time($field); break;
+							case 'time_from_to'      : DilazMetaboxFields::_time_from_to($field); break;
+							case 'date_time'         : DilazMetaboxFields::_date_time($field); break;
+							case 'date_time_from_to' : DilazMetaboxFields::_date_time_from_to($field); break;
+							case 'slider'            : DilazMetaboxFields::_slider($field); break;
+							case 'range'             : DilazMetaboxFields::_range($field); break;
+							case 'upload'            : DilazMetaboxFields::_upload($field); break;
+							case 'buttonset'         : DilazMetaboxFields::_buttonset($field); break;
+							case 'switch'            : DilazMetaboxFields::_switch($field); break;
 							case $field['type']      : do_action('dilaz_mb_field_'. $field['type'] .'_hook', $field); break; # add custom field types via this hook
 							
 						}
@@ -826,7 +864,7 @@ class Dilaz_Meta_Box {
 		global $wpdb;
 		
 		# filter all meta keys that have the unique meta prefix identifier
-		$where = $wpdb->prepare("pm.meta_key LIKE '%s' AND pm.post_id = '%s'", '%'. DILAZ_MB_PREFIX .'%', $post_id);
+		$where = $wpdb->prepare("pm.meta_key LIKE '%s' AND pm.post_id = '%s'", '%'. $this->prefix .'%', $post_id);
 		
 		# return all filtered meta data
 		$saved_meta = $wpdb->get_results("SELECT * FROM {$wpdb->postmeta} pm WHERE {$where}", ARRAY_A);

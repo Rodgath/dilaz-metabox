@@ -1,8 +1,29 @@
-<?php 
+<?php
+/*
+|| --------------------------------------------------------------------------------------------
+|| Dilaz Metabox Fields
+|| --------------------------------------------------------------------------------------------
+||
+|| @package		Dilaz Metabox
+|| @subpackage	Fields
+|| @since		Dilaz Metabox 1.0
+|| @author		WebDilaz Team, http://webdilaz.com
+|| @copyright	Copyright (C) 2017, WebDilaz LTD
+|| @link		http://webdilaz.com/metaboxes
+|| @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+|| 
+*/ 
 
-# Text
-if (!function_exists('dilaz_mb_field_text')) {
-	function dilaz_mb_field_text($field) {
+defined('ABSPATH') || exit;
+
+
+/**
+ * Fields class
+ */
+class DilazMetaboxFields {
+	
+	# Text
+	public static function _text($field) {
 		
 		extract($field);
 		
@@ -13,11 +34,10 @@ if (!function_exists('dilaz_mb_field_text')) {
 		
 		echo $output;
 	}
-}
-
-# Password
-if (!function_exists('dilaz_mb_field_password')) {
-	function dilaz_mb_field_password($field) {
+	
+	
+	# Password
+	public static function _password($field) {
 		
 		extract($field);
 		
@@ -28,11 +48,10 @@ if (!function_exists('dilaz_mb_field_password')) {
 		
 		echo $output;
 	}
-}
-
-# Hidden
-if (!function_exists('dilaz_mb_field_hidden')) {
-	function dilaz_mb_field_hidden($field) {
+	
+	
+	# Hidden
+	public static function _hidden($field) {
 		
 		extract($field);
 		
@@ -44,11 +63,10 @@ if (!function_exists('dilaz_mb_field_hidden')) {
 		
 		echo $output;
 	}
-}
-
-# Paragraph
-if (!function_exists('dilaz_mb_field_paragraph')) {
-	function dilaz_mb_field_paragraph($field) {
+	
+	
+	# Paragraph
+	public static function _paragraph($field) {
 		
 		extract($field);
 		
@@ -62,11 +80,10 @@ if (!function_exists('dilaz_mb_field_paragraph')) {
 		
 		echo $output;
 	}
-}
-
-# URL
-if (!function_exists('dilaz_mb_field_url')) {
-	function dilaz_mb_field_url($field) {
+	
+	
+	# URL
+	public static function _url($field) {
 		
 		extract($field);
 		
@@ -77,11 +94,10 @@ if (!function_exists('dilaz_mb_field_url')) {
 		
 		echo $output;
 	}
-}
-
-# Email
-if (!function_exists('dilaz_mb_field_email')) {
-	function dilaz_mb_field_email($field) {
+	
+	
+	# Email
+	public static function _email($field) {
 		
 		extract($field);
 		
@@ -92,11 +108,10 @@ if (!function_exists('dilaz_mb_field_email')) {
 		
 		echo $output;
 	}
-}
-
-# Number
-if (!function_exists('dilaz_mb_field_number')) {
-	function dilaz_mb_field_number($field) {
+	
+	
+	# Number
+	public static function _number($field) {
 		
 		extract($field);
 		
@@ -107,11 +122,10 @@ if (!function_exists('dilaz_mb_field_number')) {
 		
 		echo $output;
 	}
-}
-
-# Stepper
-if (!function_exists('dilaz_mb_field_stepper')) {
-	function dilaz_mb_field_stepper($field) {
+	
+	
+	# Stepper
+	public static function _stepper($field) {
 		
 		extract($field);
 		
@@ -125,11 +139,10 @@ if (!function_exists('dilaz_mb_field_stepper')) {
 		
 		echo $output;
 	}
-}
-
-# Code
-if (!function_exists('dilaz_mb_field_code')) {
-	function dilaz_mb_field_code($field) {
+	
+	
+	# Code
+	public static function _code($field) {
 		
 		extract($field);
 		
@@ -141,11 +154,10 @@ if (!function_exists('dilaz_mb_field_code')) {
 		
 		echo $output;
 	}
-}
-
-# Textarea
-if (!function_exists('dilaz_mb_field_textarea')) {
-	function dilaz_mb_field_textarea($field) {
+	
+	
+	# Textarea
+	public static function _textarea($field) {
 		
 		extract($field);
 		
@@ -157,11 +169,10 @@ if (!function_exists('dilaz_mb_field_textarea')) {
 		
 		echo $output;
 	}
-}
-
-# Editor
-if (!function_exists('dilaz_mb_field_editor')) {
-	function dilaz_mb_field_editor($field) {
+	
+	
+	# Editor
+	public static function _editor($field) {
 		
 		extract($field);
 		
@@ -179,11 +190,10 @@ if (!function_exists('dilaz_mb_field_editor')) {
 		
 		echo $output;
 	}
-}
-
-# Radio
-if (!function_exists('dilaz_mb_field_radio')) {
-	function dilaz_mb_field_radio($field) {
+	
+	
+	# Radio
+	public static function _radio($field) {
 		
 		extract($field);
 		
@@ -208,11 +218,10 @@ if (!function_exists('dilaz_mb_field_radio')) {
 
 		echo $output;
 	}
-}
-
-# Checkbox
-if (!function_exists('dilaz_mb_field_checkbox')) {
-	function dilaz_mb_field_checkbox($field) {
+	
+	
+	# Checkbox
+	public static function _checkbox($field) {
 		
 		extract($field);
 		
@@ -223,11 +232,10 @@ if (!function_exists('dilaz_mb_field_checkbox')) {
 		
 		echo $output;
 	}
-}
-
-# Multicheckbox
-if (!function_exists('dilaz_mb_field_multicheck')) {
-	function dilaz_mb_field_multicheck($field) {
+	
+	
+	# Multicheckbox
+	public static function _multicheck($field) {
 		
 		extract($field);
 		
@@ -255,11 +263,10 @@ if (!function_exists('dilaz_mb_field_multicheck')) {
 		
 		echo $output;
 	}
-}
-
-# Select
-if (!function_exists('dilaz_mb_field_select')) {
-	function dilaz_mb_field_select($field) {
+	
+	
+	# Select
+	public static function _select($field) {
 		
 		extract($field);
 		
@@ -279,11 +286,10 @@ if (!function_exists('dilaz_mb_field_select')) {
 		
 		echo $output;
 	}
-}
-
-# Multielect
-if (!function_exists('dilaz_mb_field_multiselect')) {
-	function dilaz_mb_field_multiselect($field) {
+	
+	
+	# Multielect
+	public static function _multiselect($field) {
 		
 		extract($field);
 		
@@ -304,11 +310,10 @@ if (!function_exists('dilaz_mb_field_multiselect')) {
 		
 		echo $output;
 	}
-}
-
-# Query select - 'post', 'term', 'user'
-if (!function_exists('dilaz_mb_field_queryselect')) {
-	function dilaz_mb_field_queryselect($field) {
+	
+	
+	# Query select - 'post', 'term', 'user'
+	public static function _queryselect($field) {
 		
 		extract($field);
 		
@@ -365,11 +370,10 @@ if (!function_exists('dilaz_mb_field_queryselect')) {
 
 		echo $output;
 	}
-}
-
-# Timezone
-if (!function_exists('dilaz_mb_field_timezone')) {
-	function dilaz_mb_field_timezone($field) {
+	
+	
+	# Timezone
+	public static function _timezone($field) {
 		
 		extract($field);
 		
@@ -389,11 +393,10 @@ if (!function_exists('dilaz_mb_field_timezone')) {
 		
 		echo $output;
 	}
-}
-
-# Radio image
-if (!function_exists('dilaz_mb_field_radioimage')) {
-	function dilaz_mb_field_radioimage($field) {
+	
+	
+	# Radio image
+	public static function _radioimage($field) {
 		
 		extract($field);
 		
@@ -414,11 +417,10 @@ if (!function_exists('dilaz_mb_field_radioimage')) {
 
 		echo $output;
 	}
-}
-
-# Color
-if (!function_exists('dilaz_mb_field_color')) {
-	function dilaz_mb_field_color($field) {
+	
+	
+	# Color
+	public static function _color($field) {
 		
 		extract($field);
 		
@@ -432,11 +434,10 @@ if (!function_exists('dilaz_mb_field_color')) {
 		
 		echo $output;
 	}
-}
-
-# Multiple Colors
-if (!function_exists('dilaz_mb_field_multicolor')) {
-	function dilaz_mb_field_multicolor($field) {
+	
+	
+	# Multiple Colors
+	public static function _multicolor($field) {
 		
 		extract($field);
 		
@@ -461,11 +462,10 @@ if (!function_exists('dilaz_mb_field_multicolor')) {
 		
 		echo $output;
 	}
-}
-
-# Date
-if (!function_exists('dilaz_mb_field_date')) {
-	function dilaz_mb_field_date($field) {
+	
+	
+	# Date
+	public static function _date($field) {
 		
 		extract($field);
 		
@@ -478,11 +478,10 @@ if (!function_exists('dilaz_mb_field_date')) {
 		
 		echo $output;
 	}
-}
-
-# Date - (From - to)
-if (!function_exists('dilaz_mb_field_date_from_to')) {
-	function dilaz_mb_field_date_from_to($field) {
+	
+	
+	# Date - (From - to)
+	public static function _date_from_to($field) {
 		
 		extract($field);
 		
@@ -525,11 +524,10 @@ if (!function_exists('dilaz_mb_field_date_from_to')) {
 		
 		echo $output;
 	}
-}
-
-# Month
-if (!function_exists('dilaz_mb_field_month')) {
-	function dilaz_mb_field_month($field) {
+	
+	
+	# Month
+	public static function _month($field) {
 		
 		extract($field);
 		
@@ -541,12 +539,12 @@ if (!function_exists('dilaz_mb_field_month')) {
 		$output = '<input type="text" class="dilaz-mb-input dilaz-mb-month '. $class .'" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" value="'. $selected .'" size="'. $size .'" />'. $suffix .''. $desc2 .'';
 		
 		echo $output;
+		
 	}
-}
-
-# Month - (From - To)
-if (!function_exists('dilaz_mb_field_month_from_to')) {
-	function dilaz_mb_field_month_from_to($field) {
+	
+	
+	# Month - (From - To)
+	public static function _month_from_to($field) {
 		
 		extract($field);
 		
@@ -589,11 +587,10 @@ if (!function_exists('dilaz_mb_field_month_from_to')) {
 		
 		echo $output;
 	}
-}
-
-# Time
-if (!function_exists('dilaz_mb_field_time')) {
-	function dilaz_mb_field_time($field) {
+	
+	
+	# Time
+	public static function _time($field) {
 		
 		extract($field);
 		
@@ -606,11 +603,10 @@ if (!function_exists('dilaz_mb_field_time')) {
 
 		echo $output;
 	}
-}
-
-# Time - (From - To)
-if (!function_exists('dilaz_mb_field_time_from_to')) {
-	function dilaz_mb_field_time_from_to($field) {
+	
+	
+	# Time - (From - To)
+	public static function _time_from_to($field) {
 		
 		extract($field);
 		
@@ -653,11 +649,10 @@ if (!function_exists('dilaz_mb_field_time_from_to')) {
 		
 		echo $output;
 	}
-}
-
-# Date Time
-if (!function_exists('dilaz_mb_field_date_time')) {
-	function dilaz_mb_field_date_time($field) {
+	
+	
+	# Date Time
+	public static function _date_time($field) {
 		
 		extract($field);
 		
@@ -670,11 +665,10 @@ if (!function_exists('dilaz_mb_field_date_time')) {
 		
 		echo $output;
 	}
-}
-
-# Date Time - (From - To)
-if (!function_exists('dilaz_mb_field_date_time_from_to')) {
-	function dilaz_mb_field_date_time_from_to($field) {
+	
+	
+	# Date Time - (From - To)
+	public static function _date_time_from_to($field) {
 		
 		extract($field);
 		
@@ -717,11 +711,10 @@ if (!function_exists('dilaz_mb_field_date_time_from_to')) {
 		
 		echo $output;
 	}
-}
-
-# Slider
-if (!function_exists('dilaz_mb_field_slider')) {
-	function dilaz_mb_field_slider($field) {
+	
+	
+	# Slider
+	public static function _slider($field) {
 		
 		extract($field);
 		
@@ -741,11 +734,10 @@ if (!function_exists('dilaz_mb_field_slider')) {
 
 		echo $output;
 	}
-}
-
-# Range
-if (!function_exists('dilaz_mb_field_range')) {
-	function dilaz_mb_field_range($field) {
+	
+	
+	# Range
+	public static function _range($field) {
 		
 		extract($field);
 		
@@ -776,11 +768,10 @@ if (!function_exists('dilaz_mb_field_range')) {
 		
 		echo $output;
 	}
-}
-
-# File Upload
-if (!function_exists('dilaz_mb_field_upload')) {
-	function dilaz_mb_field_upload($field) {
+	
+	
+	# File Upload
+	public static function _upload($field) {
 		
 		global $post;
 		
@@ -800,48 +791,48 @@ if (!function_exists('dilaz_mb_field_upload')) {
 		switch ($file_type) {
 			
 			case ('image') :
-				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Image', 'dilaz-panel') .'"';
-				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Image', 'dilaz-panel') .'"';
+				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Image', 'dilaz-metabox') .'"';
+				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Image', 'dilaz-metabox') .'"';
 				break;
 			
 			case ('audio') :
-				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Audio', 'dilaz-panel') .'"';
-				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Audio', 'dilaz-panel') .'"';
+				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Audio', 'dilaz-metabox') .'"';
+				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Audio', 'dilaz-metabox') .'"';
 				break;
 			
 			case ('video') :
-				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Video', 'dilaz-panel') .'"';
-				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Video', 'dilaz-panel') .'"';
+				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Video', 'dilaz-metabox') .'"';
+				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Video', 'dilaz-metabox') .'"';
 				break;
 			
 			case ('document') :
-				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Document', 'dilaz-panel') .'"';
-				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Document', 'dilaz-panel') .'"';
+				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Document', 'dilaz-metabox') .'"';
+				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Document', 'dilaz-metabox') .'"';
 				break;
 			
 			case ('spreadsheet') :
-				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Spreadsheet', 'dilaz-panel') .'"';
-				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Spreadsheet', 'dilaz-panel') .'"';
+				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Spreadsheet', 'dilaz-metabox') .'"';
+				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Spreadsheet', 'dilaz-metabox') .'"';
 				break;
 			
 			case ('interactive') :
-				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Interactive File', 'dilaz-panel') .'"';
-				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Interactive File', 'dilaz-panel') .'"';
+				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Interactive File', 'dilaz-metabox') .'"';
+				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Interactive File', 'dilaz-metabox') .'"';
 				break;
 			
 			case ('text') :
-				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Text File', 'dilaz-panel') .'"';
-				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Text File', 'dilaz-panel') .'"';
+				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Text File', 'dilaz-metabox') .'"';
+				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Text File', 'dilaz-metabox') .'"';
 				break;
 			
 			case ('archive') :
-				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Archive File', 'dilaz-panel') .'"';
-				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Archive File', 'dilaz-panel') .'"';
+				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Archive File', 'dilaz-metabox') .'"';
+				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Archive File', 'dilaz-metabox') .'"';
 				break;
 			
 			case ('code') :
-				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Code File', 'dilaz-panel') .'"';
-				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Code File', 'dilaz-panel') .'"';
+				$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Code File', 'dilaz-metabox') .'"';
+				$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Code File', 'dilaz-metabox') .'"';
 				break;
 		}
 		
@@ -931,11 +922,10 @@ if (!function_exists('dilaz_mb_field_upload')) {
 		$output .= '</div><!-- .dilaz-mb-file-upload -->'; // end .dilaz-mb-file-upload
 		echo $output;
 	}
-}
-
-# Buttonset
-if (!function_exists('dilaz_mb_field_buttonset')) {
-	function dilaz_mb_field_buttonset($field) {
+	
+	
+	# Buttonset
+	public static function _buttonset($field) {
 		
 		extract($field);
 		
@@ -956,11 +946,10 @@ if (!function_exists('dilaz_mb_field_buttonset')) {
 		
 		echo $output;
 	}
-}
-
-# Switch
-if (!function_exists('dilaz_mb_field_switch')) {
-	function dilaz_mb_field_switch($field) {
+	
+	
+	# Switch
+	public static function _switch($field) {
 		
 		extract($field);
 		

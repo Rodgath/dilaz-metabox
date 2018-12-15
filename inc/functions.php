@@ -1,12 +1,12 @@
 <?php
 /*
 || --------------------------------------------------------------------------------------------
-|| Custom Metaboxes Fields
+|| Dilaz Metabox Functions
 || --------------------------------------------------------------------------------------------
 ||
-|| @package		Dilaz Metaboxes
+|| @package		Dilaz Metabox
 || @subpackage	Functions
-|| @since		Dilaz Metaboxes 1.0
+|| @since		Dilaz Metabox 1.0
 || @author		WebDilaz Team, http://webdilaz.com
 || @copyright	Copyright (C) 2017, WebDilaz LTD
 || @link		http://webdilaz.com/metaboxes
@@ -16,257 +16,268 @@
 
 defined('ABSPATH') || exit;
 
-
 /**
- * Query select function
- *
- * @since 1.0
- *
- * @global	wpdb	$wpdb                WordPress database abstraction object
- * @param	string	$_POST['q']          search string
- * @param	array	$_POST['selected']   selected items
- * @param	string	$_POST['query_type'] 'post', 'user', 'term'
- * @param	array	$_POST['query_args'] query arguments
- *
- * @return json.data
+ * Functions class
  */
-add_action('wp_ajax_dilaz_mb_query_select', 'dilaz_mb_query_select');
-function dilaz_mb_query_select() {
+class DilazMetaboxFunction {
 	
-	global $wpdb;
+	function __construct() {
+		add_action('wp_ajax_dilaz_mb_query_select', array($this, 'query_select'));
+		add_action('wp_ajax_dilaz_mb_get_post_titles', array($this, 'get_post_titles'));
+	}
 	
-	$search     = isset($_POST['q']) ? $wpdb->esc_like($_POST['q']) : '';
-	$selected   = isset($_POST['selected']) ? (array)$_POST['selected'] : '';
-	$query_type = isset($_POST['query_type']) ? sanitize_text_field($_POST['query_type']) : '';
-	$query_args = isset($_POST['query_args']) ? $_POST['query_args'] : '';
 	
-	$data = array();
-	
-	if ($query_type == 'post') {
+	/**
+	 * Query select function
+	 *
+	 * @since 1.0
+	 *
+	 * @global wpdb   $wpdb                WordPress database abstraction object
+	 * @param  string $_POST['q']          search string
+	 * @param  array  $_POST['selected']   selected items
+	 * @param  string $_POST['query_type'] 'post', 'user', 'term'
+	 * @param  array  $_POST['query_args'] query arguments
+	 *
+	 * @return json.data
+	 */
+	function query_select() {
 		
-		# The callback is a closure that needs to use the $search from the current scope
-		add_filter('posts_where', function ($where) use ($search) {
-			$where .= (' AND post_title LIKE "%'. $search .'%"');
-			return $where;
-		});
+		global $wpdb;
 		
-		$default_args = array(
-			'post__not_in'     => $selected,
-			'suppress_filters' => false,
-		);
+		$search     = isset($_POST['q']) ? $wpdb->esc_like($_POST['q']) : '';
+		$selected   = isset($_POST['selected']) ? (array)$_POST['selected'] : '';
+		$query_type = isset($_POST['query_type']) ? sanitize_text_field($_POST['query_type']) : '';
+		$query_args = isset($_POST['query_args']) ? $_POST['query_args'] : '';
 		
-		$query = wp_parse_args( unserialize(base64_decode($query_args)), $default_args );
-		$posts = get_posts($query);
+		$data = array();
 		
-		foreach ($posts as $post) {
-			$data[] = array(
-				'id'   => $post->ID,
-				'name' => $post->post_title,
+		if ($query_type == 'post') {
+			
+			# The callback is a closure that needs to use the $search from the current scope
+			add_filter('posts_where', function ($where) use ($search) {
+				$where .= (' AND post_title LIKE "%'. $search .'%"');
+				return $where;
+			});
+			
+			$default_args = array(
+				'post__not_in'     => $selected,
+				'suppress_filters' => false,
 			);
+			
+			$query = wp_parse_args( unserialize(base64_decode($query_args)), $default_args );
+			$posts = get_posts($query);
+			
+			foreach ($posts as $post) {
+				$data[] = array(
+					'id'   => $post->ID,
+					'name' => $post->post_title,
+				);
+			}
+			
+		} else if ($query_type == 'user') {
+			
+			$default_args = array(
+				'search'  => '*'. $search .'*',
+				'exclude' => $selected
+			);
+			
+			$query = wp_parse_args( unserialize(base64_decode($query_args)), $default_args );
+			$users = get_users($query);
+			
+			foreach ($users as $user) {
+				$data[] = array(
+					'id'   => $user->ID,
+					'name' => $user->nickname,
+				);
+			}
+			
+		} else if ($query_type == 'term') {
+			
+			$default_args = array(
+				'name__like' => $search,
+				'exclude'    => $selected
+			);
+			
+			$query = wp_parse_args( unserialize(base64_decode($query_args)), $default_args );
+			$terms = get_terms($query);
+			
+			foreach ($terms as $term) {
+				$data[] = array(
+					'id'   => $term->term_id,
+					'name' => $term->name,
+				);
+			}
+			
 		}
 		
-	} else if ($query_type == 'user') {
+		echo json_encode($data);
 		
-		$default_args = array(
-			'search'  => '*'. $search .'*',
-			'exclude' => $selected
-		);
-		
-		$query = wp_parse_args( unserialize(base64_decode($query_args)), $default_args );
-		$users = get_users($query);
-		
-		foreach ($users as $user) {
-			$data[] = array(
-				'id'   => $user->ID,
-				'name' => $user->nickname,
-			);
-		}
-		
-	} else if ($query_type == 'term') {
-		
-		$default_args = array(
-			'name__like' => $search,
-			'exclude'    => $selected
-		);
-		
-		$query = wp_parse_args( unserialize(base64_decode($query_args)), $default_args );
-		$terms = get_terms($query);
-		
-		foreach ($terms as $term) {
-			$data[] = array(
-				'id'   => $term->term_id,
-				'name' => $term->name,
-			);
-		}
-		
+		die();
 	}
 	
-	echo json_encode($data);
 	
-	die();
-}
-
-
-/**
- * Get post titles
- *
- * @since 1.0
- *
- * @param array  $_POST['selected'] selected items
- *
- * @return json.data
- */
-add_action('wp_ajax_dilaz_mb_get_post_titles', 'dilaz_mb_get_post_titles');
-function dilaz_mb_get_post_titles() {
-	
-	$result = array();
-	
-	$selected = isset($_POST['selected']) ? $_POST['selected'] : '';
-	
-	if (is_array($selected) && !empty($selected)) {
-		$posts = get_posts(array(
-			'posts_per_page' => -1,
-			'post_status'    => array('publish', 'draft', 'pending', 'future', 'private'),
-			'post__in'       => $selected,
-			'post_type'      => 'any'
-		));
+	/**
+	 * Get post titles
+	 *
+	 * @since 1.0
+	 *
+	 * @param array $_POST['selected'] selected items
+	 *
+	 * @return json.data
+	 */
+	function get_post_titles() {
 		
-		foreach ($posts as $post) {
-			$result[] = array(
-				'id'    => $post->ID,
-				'title' => $post->post_title,
-			);
-		}
-	}
-	
-	echo json_encode($result);
-	
-	die;
-}
-
-
-/**
- * Find position of array using its key and value
- *
- * @param	array	$array	array to be searched through
- * @param	string	$field	key of the array
- * @param	string	$value	value of the array
- * @since	1.0
- *
- * @return	integer
- */
-function dilaz_mb_find_array_key_by_value($array, $field, $value) {
-	foreach ($array as $key => $array_item) {
-		if ($array_item[$field] === $value)
-			return $key;
-	}
-	
-	return false;
-}
-
-
-/**
- * Insert an array before the key of another array
- *
- * @param	array	$array           array to insert into
- * @param	array	$data            array to be inserted
- * @param	string	$key_offset      key position of the array to be inserted
- * @param	string	$insert_position 'before' or 'after' or 'last', default: before
- * @since	1.0
- *
- * @return	array
- */
-function dilaz_mb_insert_array_adjacent_to_key($array, $data, $key_offset, $insert_position = 'before') {
-	
-	if (!is_array($data)) return false;
-	
-	switch ($insert_position) {
-		case 'before' : $offset = $key_offset; break;
-		case 'after'  : $offset = $key_offset+1; break;
-		case 'last'   : $offset = count($array); break; # usually used when inserting a tab to be the last one
-		default       : $offset = $key_offset; break;
-	}
-	
-	foreach ($data as $item) {
-		$new_array = array_merge( array_slice($array, 0, $offset, true), (array) $item, array_slice($array, $offset, NULL, true) );  
-	}
-	
-    return $new_array;  
-}
-
-
-/**
- * Get all fields within a metabox set
- *
- * @param	array	$dilaz_meta_boxes	all metaboxes array
- * @param	string	$metabox_set_id		options set id
- * @since	1.0
- *
- * @return	array
- */
-function dilaz_mb_get_meta_box_content($dilaz_meta_boxes, $metabox_set_id) {
-	
-	$set_id = 0;
-	$box_contents = array();
-	
-	foreach ($dilaz_meta_boxes as $key => $val) {
+		$result = array();
 		
-		if (!isset($val['type'])) continue;
+		$selected = isset($_POST['selected']) ? $_POST['selected'] : '';
 		
-		if (isset($val['type'])) {
-			if ($val['type'] == 'metabox_set') {
-				$set_id = sanitize_key($val['id']);
+		if (is_array($selected) && !empty($selected)) {
+			$posts = get_posts(array(
+				'posts_per_page' => -1,
+				'post_status'    => array('publish', 'draft', 'pending', 'future', 'private'),
+				'post__in'       => $selected,
+				'post_type'      => 'any'
+			));
+			
+			foreach ($posts as $post) {
+				$result[] = array(
+					'id'    => $post->ID,
+					'title' => $post->post_title,
+				);
 			}
 		}
 		
-		if ($set_id == $metabox_set_id) {
-			$box_contents['fields'][] = $val;
-		}
+		echo json_encode($result);
+		
+		die;
 	}
 	
-	return $box_contents;
-}
-
-
-/**
- * Add/Insert metabox field before a specific field
- *
- * @param	array	$meta_boxes			all metaboxes array
- * @param	string	$metabox_set_id		target options set id
- * @param	string	$before_field_id	target metabox field id
- * @param	string	$context			tabs or fields, default: fields
- * @param	array	$insert_data		metabox fields to be inserted
- * @param	string	$insert_position	'before' or 'after'
- * @since	1.0
- *
- * @return	array
- */
-function dilaz_mb_insert_field($meta_boxes, $metabox_set_id, $before_field_id, $insert_data, $insert_position) {
 	
-	$metabox_content      = dilaz_mb_get_meta_box_content($meta_boxes, $metabox_set_id);
-	$metabox_content_data = $metabox_content['fields'];
+	/**
+	 * Find position of array using its key and value
+	 *
+	 * @param array  $array	array to be searched through
+	 * @param string $field	key of the array
+	 * @param string $value	value of the array
+	 * @since 1.0
+	 *
+	 * @return integer
+	 */
+	public static function find_array_key_by_value($array, $field, $value) {
+		foreach ($array as $key => $array_item) {
+			if ($array_item[$field] === $value)
+				return $key;
+		}
+		
+		return false;
+	}
 	
-	# get array key position
-	$key_offset = isset($metabox_content_data) ? dilaz_mb_find_array_key_by_value($metabox_content_data, 'id', $before_field_id) : '';
 	
-	# new array after another array has been inserted 
-	$new_array_modified = isset($metabox_content_data) ? dilaz_mb_insert_array_adjacent_to_key( $metabox_content_data, array($insert_data), $key_offset, $insert_position ) : $meta_boxes;
+	/**
+	 * Insert an array before the key of another array
+	 *
+	 * @param array  $array           array to insert into
+	 * @param array  $data            array to be inserted
+	 * @param string $key_offset      key position of the array to be inserted
+	 * @param string $insert_position 'before' or 'after' or 'last', default: before
+	 * @since 1.0
+	 *
+	 * @return	array
+	 */
+	public static function insert_array_adjacent_to_key($array, $data, $key_offset, $insert_position = 'before') {
+		
+		if (!is_array($data)) return false;
+		
+		switch ($insert_position) {
+			case 'before' : $offset = $key_offset; break;
+			case 'after'  : $offset = $key_offset+1; break;
+			case 'last'   : $offset = count($array); break; # usually used when inserting a tab to be the last one
+			default       : $offset = $key_offset; break;
+		}
+		
+		foreach ($data as $item) {
+			$new_array = array_merge( array_slice($array, 0, $offset, true), (array) $item, array_slice($array, $offset, NULL, true) );  
+		}
+		
+		return $new_array;  
+	}
 	
-	# merge the new array with the entire metabox options array
-	$new_meta_boxes = $new_array_modified;
 	
-	return $new_meta_boxes;
-}
- 
-
-/**
- * Timezones list with GMT offset
- *
- * @return	array
- * @link	http://stackoverflow.com/a/9328760
- */
- if (!function_exists('dilaz_mb_time_zones')) {
-	function dilaz_mb_time_zones() {
+	/**
+	 * Get all fields within a metabox set
+	 *
+	 * @param array  $dilaz_meta_boxes all metaboxes array
+	 * @param string $metabox_set_id   options set id
+	 * @since 1.0
+	 *
+	 * @return array
+	 */
+	public static function get_meta_box_content($dilaz_meta_boxes, $metabox_set_id) {
+		
+		$set_id = 0;
+		$box_contents = array();
+		
+		foreach ($dilaz_meta_boxes as $key => $val) {
+			
+			if (!isset($val['type'])) continue;
+			
+			if (isset($val['type'])) {
+				if ($val['type'] == 'metabox_set') {
+					$set_id = sanitize_key($val['id']);
+				}
+			}
+			
+			if ($set_id == $metabox_set_id) {
+				$box_contents['fields'][] = $val;
+			}
+		}
+		
+		return $box_contents;
+	}
+	
+	
+	/**
+	 * Add/Insert metabox field before a specific field
+	 *
+	 * @param array  $meta_boxes      all metaboxes array
+	 * @param string $metabox_set_id  target options set id
+	 * @param string $before_field_id target metabox field id
+	 * @param string $context         tabs or fields, default: fields
+	 * @param array  $insert_data     metabox fields to be inserted
+	 * @param string $insert_position 'before' or 'after'
+	 * @since 1.0
+	 *
+	 * @return array
+	 */
+	public static function insert_field($meta_boxes, $metabox_set_id, $before_field_id, $insert_data, $insert_position) {
+		
+		$metabox_content = self::get_meta_box_content($meta_boxes, $metabox_set_id);
+		
+		# bail if fileds not found
+		if (!isset($metabox_content['fields'])) return;
+		
+		$metabox_content_data = $metabox_content['fields'];
+		
+		# get array key position
+		$key_offset = isset($metabox_content_data) ? self::find_array_key_by_value($metabox_content_data, 'id', $before_field_id) : '';
+		
+		# new array after another array has been inserted 
+		$new_array_modified = isset($metabox_content_data) ? self::insert_array_adjacent_to_key($metabox_content_data, array($insert_data), $key_offset, $insert_position) : $meta_boxes;
+		
+		# merge the new array with the entire metabox options array
+		$new_meta_boxes = $new_array_modified;
+		
+		return $new_meta_boxes;
+	}
+	
+	
+	/**
+	 * Timezones list with GMT offset
+	 *
+	 * @return array
+	 * @link   http://stackoverflow.com/a/9328760
+	 */
+	public static function time_zones() {
 		$zones_array = array();
 		$timestamp = time();
 		
@@ -280,20 +291,18 @@ function dilaz_mb_insert_field($meta_boxes, $metabox_set_id, $before_field_id, $
 		
 		return $zones_array;
 	}
-}
-
-
-/**
- * Default option vars
- *
- * @since 1.0
- *
- * @param string  $var option variable name
- *
- * @return mixed
- */
-if ( !function_exists('dilaz_mb_var') ) {
-	function dilaz_mb_var($var) {
+	
+	
+	/**
+	 * Default option vars
+	 *
+	 * @since 1.0
+	 *
+	 * @param string  $var option variable name
+	 *
+	 * @return mixed
+	 */
+	public static function choice($var) {
 		
 		switch ($var) {
 			
@@ -687,7 +696,7 @@ if ( !function_exists('dilaz_mb_var') ) {
 			
 			# add custom variables via this hook
 			case $var : 
-				$output = apply_filters('dilaz_mb_var_'. $var .'_action');
+				$output = apply_filters('dilaz_mb_choice_'. $var .'_action');
 				break; 
 
 			default: break;
