@@ -4,23 +4,18 @@
  * Plugin URI:	http://webdilaz.com/plugins/dilaz-metabox/
  * Description:	Create custom metaboxes for WordPress themes and plugins.
  * Author:		WebDilaz Team
- * Version:		2.0
+ * Version:		2.1
  * Author URI:	http://webdilaz.com/
  * License:		GPL-2.0+
  * License URI:	http://www.gnu.org/licenses/gpl-2.0.txt
-*/
-
-defined('ABSPATH') || exit;
-
-
-/*
+||
 || --------------------------------------------------------------------------------------------
 || Metabox
 || --------------------------------------------------------------------------------------------
 ||
 || @package		Dilaz Metabox
 || @subpackage	Metabox
-|| @version		2.0
+|| @version		2.1
 || @since		Dilaz Metabox 2.0
 || @author		WebDilaz Team, http://webdilaz.com
 || @copyright	Copyright (C) 2017, WebDilaz LTD
@@ -30,14 +25,18 @@ defined('ABSPATH') || exit;
 || 
 */
 
+defined('ABSPATH') || exit;
 
+/**
+ * DilazMetabox functions
+ */
 require_once plugin_dir_path(__FILE__) .'inc/functions.php';
+
 
 /**
  * DilazMetabox main class
  */
 final class DilazMetabox {
-	
 	
 	/**
 	 * Metabox parameters
@@ -117,11 +116,10 @@ final class DilazMetabox {
 
 		do_action('dilaz_metabox_before_load');
 		
-		$this->args        = $metabox_args;
-		$this->params      = $this->args[0];
-		$this->metaboxes   = $this->args[1];
-		$this->prefix      = rtrim($this->params['prefix'], '_') . '_';
-		$this->metaboxAtts = $this->metaboxes[0];
+		$this->args      = $metabox_args;
+		$this->params    = $this->args[0];
+		$this->metaboxes = $this->args[1];
+		$this->prefix    = DilazMetaboxFunction::preparePrefix($this->params['prefix']);
 		
 		# Hooks
 		add_action('init', array(&$this, 'init'));
@@ -136,7 +134,6 @@ final class DilazMetabox {
 	 * Initialize the metabox class
 	 *
 	 * @since	1.0
-	 *
 	 * @return	void
 	 */
 	function metabox_class() {
@@ -148,8 +145,6 @@ final class DilazMetabox {
 		$dilaz_meta_boxes = array();
 		$dilaz_meta_boxes = $this->metaboxes;
 		$dilaz_meta_boxes = apply_filters('dilaz_meta_box_filter', $dilaz_meta_boxes, $prefix, $parameters);
-		// var_dump($dilaz_meta_boxes); exit;
-		// var_dump($dilaz_meta_boxes); exit;
 		
 		new Dilaz_Meta_Box($prefix, $dilaz_meta_boxes, $parameters);
 	}
@@ -159,7 +154,6 @@ final class DilazMetabox {
 	 * Initialize Admin Panel
 	 *
 	 * @since 1.0
-	 *
 	 * @return void
 	 */
 	function init() {
@@ -183,7 +177,6 @@ final class DilazMetabox {
 	 * Add metabox parameters
 	 *
 	 * @since	1.0
-	 *
 	 * @return	array
 	 */
 	function parameters() {
@@ -195,7 +188,6 @@ final class DilazMetabox {
 	 * Constants
 	 *
 	 * @since 1.0
-	 *
 	 * @return void
 	 */
 	function constants() {
@@ -209,7 +201,6 @@ final class DilazMetabox {
 	 * Includes
 	 *
 	 * @since 1.0
-	 *
 	 * @return void
 	 */
 	function includes() {

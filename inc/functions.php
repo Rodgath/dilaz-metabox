@@ -28,6 +28,20 @@ class DilazMetaboxFunction {
 	
 	
 	/**
+	 * Add underscore to prefix
+	 *
+	 * @since 2.1
+	 *
+	 * @param  string prefix metabox options prefix
+	 *
+	 * @return json.data
+	 */
+	public static function preparePrefix($prefix) {
+		return rtrim($prefix, '_') . '_';
+	}
+	
+	
+	/**
 	 * Query select function
 	 *
 	 * @since 1.0

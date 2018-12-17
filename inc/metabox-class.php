@@ -34,11 +34,8 @@ class Dilaz_Meta_Box {
 	# PHP Contructor method
 	function __construct($prefix, $meta_box, $parameters) {
 		
-		// var_dump($meta_box); exit;
-		
-		# Exit, if we are not in Admin area
-		// if ( !is_admin() ) 
-		// return;
+		# bail if we are not in Admin area
+		if (!is_admin()) return;
 		
 		# metabox prefix
 		$this->prefix = $prefix;
