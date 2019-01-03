@@ -601,6 +601,7 @@ class Dilaz_Meta_Box {
 							
 							case 'metabox_tab'       : break;
 							case 'text'              : DilazMetaboxFields::_text($field); break;
+							case 'multitext'         : DilazMetaboxFields::_multitext($field); break;
 							case 'password'          : DilazMetaboxFields::_password($field); break;
 							case 'hidden'            : DilazMetaboxFields::_hidden($field); break;
 							case 'paragraph'         : DilazMetaboxFields::_paragraph($field); break;
@@ -689,6 +690,16 @@ class Dilaz_Meta_Box {
 			case 'hidden':
 			case 'switch':
 				return sanitize_text_field($input);
+				break;
+				
+			case 'multitext':
+				$output = '';
+				foreach ((array)$input as $k => $v) {
+					if (isset($field['options'][$k])) {
+						$output[$k] = sanitize_text_field($v);
+					}
+				}
+				return $output;
 				break;
 				
 			case 'password':

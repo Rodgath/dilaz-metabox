@@ -248,6 +248,23 @@
 }
 
 /*--------------------------------------------------------------*/
+/* Multitext
+/*--------------------------------------------------------------*/
+.dilaz-mb-field-multitext .dilaz-mb-multi-text {
+	margin-bottom: 14px;
+}
+.dilaz-mb-field-multitext .option .inline {
+	float: none;
+	display: inline-block;
+}
+.dilaz-mb-field-multitext .option .inline input{
+	width: 100%
+}
+.dilaz-mb-multi-text-wrap {
+	margin-right: 10px;
+}
+
+/*--------------------------------------------------------------*/
 /* Media uploader
 /*--------------------------------------------------------------*/
 .dilaz-mb-file-wrapper {

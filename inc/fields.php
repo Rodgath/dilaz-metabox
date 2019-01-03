@@ -36,6 +36,43 @@ class DilazMetaboxFields {
 	}
 	
 	
+	# Multiple Text Input
+	public static function _multitext($field) {
+		
+		extract($field);
+		
+		$class = isset($class) ? sanitize_html_class($class) : '';
+		
+		$output = '';
+		
+		if (isset($options)) {
+			foreach ($options as $key => $value) {
+				
+				$text_name    = isset($value['name']) ? $value['name'] : '';
+				$default_text = isset($value['default']) ? $value['default'] : '';
+				$saved_text   = isset($meta[$key]) ? $meta[$key] : $default_text;
+				$inline       = isset($args['inline']) && $args['inline'] == true ? 'inline' : '';
+				
+				if ($inline == '') {
+					$cols = 'style="width:100%;display:block"'; # set width to 100% if fields are not inline
+				} else {
+					$cols = isset($args['cols']) ? 'style="width:'. (100/intval($args['cols'])) .'%"' : 'style="width:30%"';
+				}
+				
+				$output .= '<div class="dilaz-mb-multi-text '. $inline .'" '. $cols .'>';
+					$output .= '<div class="dilaz-mb-multi-text-wrap">';
+						$output .= '<strong>'. $text_name .'</strong><br />';
+						$output .= '<input class="dilaz-mb-text '. $class .'" type="text" name="'. esc_attr($id) .'['. esc_attr($key) .']" id="'. esc_attr($id) .'" value="'. $saved_text .'" />';
+					$output .= '</div>';
+				$output .= '</div>';
+			}
+			$output .= ''. $suffix .' '. $desc2 .'';
+		}
+		
+		echo $output;
+	}
+	
+	
 	# Password
 	public static function _password($field) {
 		
