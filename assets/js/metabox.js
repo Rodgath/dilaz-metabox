@@ -442,4 +442,51 @@ jQuery(document).ready(function($) {
 		$pageTemplateSelect.trigger('change');
     });
 	
+	/* Drag-and-drop repeatable field */
+	$(function() {
+		$('.dilaz-mb-repeatable').sortable({
+			opacity: 0.6,
+			revert: true,
+			handle: '.sort-repeatable',
+			cursor: 'move',
+			axis: 'y',
+			update: function() {
+				var i = 0;
+				$(this).children().each(function(i) {
+					$(this).find('input').attr('name', function(index, name) {
+						return name.replace(/\[([^\]])\]/g, function(fullMatch, n) {
+							return '['+Number(i)+']';
+						});
+					});
+					i++;
+				});
+			}
+		});
+	});
+	
+	/* add new repeatable items in the repeatable field */
+	$('.dilaz-mb-add-repeatable-item').on('click', function() {
+		var $this     = $(this),
+		    rList     = $this.parent().prev('.dilaz-mb-repeatable'),
+		    rListItem = rList.find('>li'),
+		    rClone    = rList.find('>li:last').clone();
+			
+		rClone.each(function() {
+			$(this).find('input').val('').attr('name', function(index, name) {
+				return name.replace(/\[([^\]])\]/g, function(fullMatch, n) {
+					return '['+(Number(n) + 1)+']';
+				});
+			});
+		});
+		$(rList).append(rClone);
+
+	});
+	
+	/* remove repeatable field */
+	$(document).on('click', '.repeatable-remove', function(e){
+		e.preventDefault();
+		$(this).parent().remove();
+		return false;
+	});
+	
 });

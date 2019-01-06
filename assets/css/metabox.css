@@ -145,7 +145,7 @@
 	border-right: 1px solid #ccc;
 	width: 170px
 }
-.dilaz-metabox ul.sortable .ui-sortable-placeholder { 
+/* .dilaz-metabox ul.sortable .ui-sortable-placeholder { 
 	border: 2px dashed #aaa !important; 
 	background: #f9f9f9 !important; 
 	visibility: visible !important; 
@@ -156,7 +156,7 @@
 	margin-right: 10px !important;
 	width: inherit;
 	height: 36px;
-}
+} */
 .dilaz-metabox ul.sortable li > span.criteria-button,
 .dilaz-metabox ul.sortable li > span.del-keyvalopts,
 .dilaz-metabox ul.sortable li > span.skill-button {
@@ -265,6 +265,58 @@
 }
 
 /*--------------------------------------------------------------*/
+/* Repeatable
+/*--------------------------------------------------------------*/
+.dilaz-mb-repeatable  {
+	position: relative
+}
+.dilaz-mb-repeatable .ui-sortable-placeholder { 
+	border: 2px dashed #aaa !important; 
+	background: #f9f9f9 !important; 
+	visibility: visible !important; 
+	margin: 0 15px 15px 0 !important;
+	width: 100% !important;
+	height: 50px !important;
+	float: left !important;
+	display: inline-block !important;
+}
+.dilaz-mb-repeatable-item {
+	margin-bottom: 15px;
+	position: relative;
+	height: auto
+}
+.dilaz-mb-repeatable-item-wrap {
+	margin-right: 10px;
+}
+.dilaz-mb-repeatable-item-wrap.inline {
+	float: none;
+	display: inline-block;
+}
+.dilaz-mb-repeatable-item-wrap label {
+	float: none;
+	display: block;
+}
+.sort-repeatable {
+	vertical-align:bottom !important;
+	position: relative;
+	bottom: -2px;
+}
+.sort-repeatable .dashicons-move {
+	vertical-align: baseline;
+	margin-right: 5px;
+	font-size: 16px;
+	cursor: move;
+}
+.repeatable-remove {
+	position: relative;
+	vertical-align:bottom !important;
+	bottom: 3px;
+	padding: 0 !important;
+	line-height:initial !important;
+	height: auto !important
+}
+
+/*--------------------------------------------------------------*/
 /* Media uploader
 /*--------------------------------------------------------------*/
 .dilaz-mb-file-wrapper {
@@ -353,7 +405,7 @@
 .dilaz-metabox .dilaz-mb-media-file:hover .filename.image {
 	display: block
 }
-.dilaz-metabox .ui-sortable-placeholder { 
+.dilaz-mb-file-upload .ui-sortable-placeholder { 
 	border: 2px dashed #aaa !important; 
 	background: #f9f9f9 !important; 
 	visibility: visible !important; 
@@ -464,13 +516,13 @@
 .dilaz-metabox textarea {
 	overflow: auto;
 }
-.dilaz-repeater-block {
+.dilaz-repeatable-block {
 	display: block;
 	position: relative;
 	margin: 0px 0;
 	padding: 0px 0;
 }
-.dilaz-repeater-block {
+.dilaz-repeatable-block {
 	border-top: 0;
 	padding-top: 0;
 	padding-left: 50px;
