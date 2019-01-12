@@ -68,7 +68,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 			
 			if ($query_type == 'post') {
 				
-				# The callback is a closure that needs to use the $search from the current scope
+				/* The callback is a closure that needs to use the $search from the current scope */
 				add_filter('posts_where', function ($where) use ($search) {
 					$where .= (' AND post_title LIKE "%'. $search .'%"');
 					return $where;
@@ -268,18 +268,18 @@ if (!class_exists('DilazMetaboxFunction')) {
 			
 			$metabox_content = self::get_meta_box_content($meta_boxes, $metabox_set_id);
 			
-			# bail if fileds not found
+			/* bail if fileds not found */
 			if (!isset($metabox_content['fields'])) return;
 			
 			$metabox_content_data = $metabox_content['fields'];
 			
-			# get array key position
+			/* get array key position */
 			$key_offset = isset($metabox_content_data) ? self::find_array_key_by_value($metabox_content_data, 'id', $before_field_id) : '';
 			
-			# new array after another array has been inserted 
+			/* new array after another array has been inserted  */
 			$new_array_modified = isset($metabox_content_data) ? self::insert_array_adjacent_to_key($metabox_content_data, array($insert_data), $key_offset, $insert_position) : $meta_boxes;
 			
-			# merge the new array with the entire metabox options array
+			/* merge the new array with the entire metabox options array */
 			$new_meta_boxes = $new_array_modified;
 			
 			return $new_meta_boxes;
@@ -709,7 +709,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 					);
 					break;
 				
-				# add custom variables via this hook
+				/* add custom variables via this hook */
 				case $var : 
 					$output = apply_filters('dilaz_mb_choice_'. $var .'_action');
 					break; 

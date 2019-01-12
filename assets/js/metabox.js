@@ -554,8 +554,12 @@ var DilazMetaboxScript = new function() {
 				rItems    = rListItem.length;
 				
 			rClone.each(function() {
-				// rItems++
 				var $this = $(this);
+				
+				/* hide so that we can slidedown */
+				$this.hide();
+				
+				/* clear all fields */
 				$this.find('input').val('').attr('name', function(index, name) {
 					return name.replace(/\[([^\]])\]/g, function(fullMatch, n) {
 						return '['+(Number(n) + 1)+']';
@@ -563,20 +567,21 @@ var DilazMetaboxScript = new function() {
 				});
 				
 				/* if items not-sortable is equal to number of shown items */
-				if (nS == rItems) {
+				if (nS <= rItems) {
 					if (!$this.find('.sort-repeatable').length && sortable == true) {
 						$this.prepend(sorter);
 					}
 				}
 				
 				/* if items not-repeatable is equal to number of shown items */
-				if (nR == rItems) {
+				if (nR == rItems || nR < 1) {
 					if (!$this.find('.repeatable-remove').length && removable == true) {
 						$this.append(remover);
 					}
 				}
 			});
 			$(rList).append(rClone);
+			rClone.slideDown(100);
 		});
 	}
 	
@@ -584,9 +589,20 @@ var DilazMetaboxScript = new function() {
 	 * remove repeatable field
 	 */
 	$t.removeRepeatableField = function() {
-		$doc.on('click', '.repeatable-remove', function(e){
+		$doc.on('click', '.repeatable-remove', function(e) {
 			e.preventDefault();
-			$(this).parent().remove();
+			
+			var $this = $(this),
+				$parent = $this.parent();
+			
+			/* one item should always remain */
+			if ($parent.siblings().length > 0) {
+				$parent.slideUp(100);
+				setTimeout(function() {
+					$parent.remove();
+				}, 1000);
+			}
+			
 			return false;
 		});
 	}
@@ -596,7 +612,7 @@ var DilazMetaboxScript = new function() {
 	 *
 	 */
 	$t.init = function() {
-
+		
 		$t.doWhen();
 		$t.tabMinHeight();
 		$t.tabs();
@@ -615,7 +631,7 @@ var DilazMetaboxScript = new function() {
 		$t.repeatableField();
 		$t.addRepeatableField();
 		$t.removeRepeatableField();
-
+		
 	};
 }
 

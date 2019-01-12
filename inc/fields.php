@@ -23,7 +23,15 @@ defined('ABSPATH') || exit;
 if (!class_exists('DilazMetaboxFields')) {
 	class DilazMetaboxFields {
 		
-		# Text
+		/**
+		 * Text
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldText($field) {
 			
 			extract($field);
@@ -36,8 +44,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Multiple Text Input
+		/**
+		 * Multiple Text Input
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldMultiText($field) {
 			
 			extract($field);
@@ -73,8 +88,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Password
+		/**
+		 * Password
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldPassword($field) {
 			
 			extract($field);
@@ -87,8 +109,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Hidden
+		/**
+		 * Hidden
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldHidden($field) {
 			
 			extract($field);
@@ -102,8 +131,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Paragraph
+		/**
+		 * Paragraph
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldParagraph($field) {
 			
 			extract($field);
@@ -117,8 +153,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Code Output
+		/**
+		 * Code Output
+		 *
+		 * @since  2.3.1
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldCodeOutput($field) {
 			
 			extract($field);
@@ -132,8 +175,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# URL
+		/**
+		 * URL
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldUrl($field) {
 			
 			extract($field);
@@ -146,8 +196,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Email
+		/**
+		 * Email
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldEmail($field) {
 			
 			extract($field);
@@ -160,8 +217,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Number
+		/**
+		 * Number
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldNumber($field) {
 			
 			extract($field);
@@ -174,8 +238,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Repeatable
+		/**
+		 * Repeatable
+		 *
+		 * @since  2.3
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldRepeatable($field) {
 			
 			extract($field);
@@ -211,7 +282,7 @@ if (!class_exists('DilazMetaboxFields')) {
 							} else {
 								$output .= '<input type="text" name="'.esc_attr($id).'['.$i.']" value="'.$value.'" size="30" />';
 							}
-						$output .= ($not_removable > $i ? '' : $remover).'</li>';
+						$output .= ($not_removable > $i || $i < 1 ? '' : $remover).'</li>';
 						$i++;
 					}
 				} else {
@@ -228,11 +299,11 @@ if (!class_exists('DilazMetaboxFields')) {
 									$output .= '<input type="text" class="'.$k.$i.'" name="'.esc_attr($id).'['.$i.'][]" value="'.$v['value'].'" size="'.$field_size.'" />
 									</div>';
 								}
-								$i++;
 							} else {
 								$output .= '<input type="text" name="'.esc_attr($id).'['.$i.']" value="'.$option_value.'" size="30" />';
 							}
-						$output .= ($not_removable >= $i ? '' : $remover).'</li>';
+						$output .= ($not_removable > $i || $i < 1 ? '' : $remover).'</li>';
+						$i++;
 					}
 				}
 			$output .= '</ul>';
@@ -243,8 +314,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Stepper
+		/**
+		 * Stepper
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldStepper($field) {
 			
 			extract($field);
@@ -260,8 +338,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Code
+		/**
+		 * Code
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldCode($field) {
 			
 			extract($field);
@@ -275,8 +360,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Textarea
+		/**
+		 * Textarea
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldTextarea($field) {
 			
 			extract($field);
@@ -290,8 +382,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Editor
+		/**
+		 * Editor
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldEditor($field) {
 			
 			extract($field);
@@ -311,8 +410,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Radio
+		/**
+		 * Radio
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldRadio($field) {
 			
 			extract($field);
@@ -339,8 +445,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Checkbox
+		/**
+		 * Checkbox
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldCheckbox($field) {
 			
 			extract($field);
@@ -353,8 +466,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Multicheckbox
+		/**
+		 * Multicheckbox
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldMultiCheck($field) {
 			
 			extract($field);
@@ -384,8 +504,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Select
+		/**
+		 * Select
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldSelect($field) {
 			
 			extract($field);
@@ -407,8 +534,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Multielect
+		/**
+		 * Multielect
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldMultiSelect($field) {
 			
 			extract($field);
@@ -431,8 +565,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Query select - 'post', 'term', 'user'
+		/**
+		 * Query select - 'post', 'term', 'user'
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldQuerySelect($field) {
 			
 			extract($field);
@@ -491,8 +632,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Timezone
+		/**
+		 * Timezone
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldTimezone($field) {
 			
 			extract($field);
@@ -514,8 +662,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Radio image
+		/**
+		 * Radio image
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldRadioImage($field) {
 			
 			extract($field);
@@ -538,8 +693,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Color
+		/**
+		 * Color
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldColor($field) {
 			
 			extract($field);
@@ -555,8 +717,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Multiple Colors
+		/**
+		 * Multiple Colors
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldMultiColor($field) {
 			
 			extract($field);
@@ -583,8 +752,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Date
+		/**
+		 * Date
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldDate($field) {
 			
 			extract($field);
@@ -599,8 +775,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Date - (From - to)
+		/**
+		 * Date - (From - to)
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldDateFromTo($field) {
 			
 			extract($field);
@@ -645,8 +828,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Month
+		/**
+		 * Month
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldMonth($field) {
 			
 			extract($field);
@@ -662,8 +852,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			
 		}
 		
-		
-		# Month - (From - To)
+		/**
+		 * Month - (From - To)
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldMonthFromTo($field) {
 			
 			extract($field);
@@ -708,8 +905,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Time
+		/**
+		 * Time
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldtime($field) {
 			
 			extract($field);
@@ -724,8 +928,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Time - (From - To)
+		/**
+		 * Time - (From - To)
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldTimeFromTo($field) {
 			
 			extract($field);
@@ -770,8 +981,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Date Time
+		/**
+		 * Date Time
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldDateTime($field) {
 			
 			extract($field);
@@ -786,8 +1004,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Date Time - (From - To)
+		/**
+		 * Date Time - (From - To)
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldDateTimeFromTo($field) {
 			
 			extract($field);
@@ -832,8 +1057,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Slider
+		/**
+		 * Slider
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldSlideRange($field) {
 			
 			extract($field);
@@ -855,8 +1087,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Range
+		/**
+		 * Range
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldRange($field) {
 			
 			extract($field);
@@ -889,8 +1128,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# File Upload
+		/**
+		 * File Upload
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldUpload($field) {
 			
 			global $post;
@@ -983,13 +1229,13 @@ if (!class_exists('DilazMetaboxFields')) {
 							$attachment_id .'" size="30" rel"" />';
 							$output .= sizeof($meta) > 1 ? '<span class="sort"></span>' : '';
 							
-							# get attachment data
+							/* get attachment data */
 							$attachment = get_post($attachment_id);
 							
-							# get file extension
+							/* get file extension */
 							$file_ext = pathinfo($attachment->guid, PATHINFO_EXTENSION);	
 							
-							# get file type
+							/* get file type */
 							$file_type = wp_ext2type($file_ext);
 							
 							$output .= '<div class="filename '. $file_type .'">'. $attachment->post_title .'</div>';
@@ -1045,8 +1291,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Buttonset
+		/**
+		 * Buttonset
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldButtonset($field) {
 			
 			extract($field);
@@ -1069,8 +1322,15 @@ if (!class_exists('DilazMetaboxFields')) {
 			echo $output;
 		}
 		
-		
-		# Switch
+		/**
+		 * Switch
+		 *
+		 * @since  1.0
+		 * @access public
+		 *
+		 * @param array $field Field arguments
+		 * @echo  html  $output
+		 */
 		public static function fieldSwitch($field) {
 			
 			extract($field);
