@@ -1208,7 +1208,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			
 			$output .= '<input type="button" id="upload-'. esc_attr($id) .'" class="dilaz-mb-file-upload-button button" value="'. $upload_button_text .'" rel="'. $post->ID .'" '. $data_file_type.' '. $data_file_specific .' '. $data_file_multiple .' '. $data_frame_title .' '. $data_frame_b_txt .' />';
 			
-				$output .= '<div class="dilaz-mb-file-wrapper" data-file-id="'. esc_attr($id) .'">';
+				$output .= '<div class="dilaz-mb-file-wrapper" data-file-id="'. esc_attr($id) .'" '. $data_file_multiple .'>';
 				
 				if ($meta != '') {
 					foreach ($meta as $key => $attachment_id) {

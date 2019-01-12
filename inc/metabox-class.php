@@ -691,6 +691,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				case 'text':
 				case 'hidden':
 				case 'switch':
+				case 'password':
 					return sanitize_text_field($input);
 					break;
 					
@@ -702,10 +703,6 @@ if (!class_exists('Dilaz_Meta_Box')) {
 						}
 					}
 					return $output;
-					break;
-					
-				case 'password':
-					return wp_hash_password(sanitize_text_field($input));
 					break;
 					
 				case 'paragraph':

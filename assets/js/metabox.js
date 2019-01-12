@@ -345,9 +345,9 @@ var DilazMetaboxScript = new function() {
 		$('.dilaz-mb-file-wrapper').each(function() {
 			
 			var $this = $(this),
-				$media = $this.find('.dilaz-mb-media-file');
+				$multiple = $this.data('file-multiple');
 				
-			if ($media.length > 1) {
+			if ($multiple) {
 				$this.sortable({
 					opacity : 0.6,
 					revert : true,
@@ -377,7 +377,7 @@ var DilazMetaboxScript = new function() {
 	 * jQuery add-on for checking multiple classes in an element
 	 */
 	$t.hasClasses = function() {
-		for (var i =0; i < arguments.length; i++) {
+		for (var i = 0; i < arguments.length; i++) {
 			var classes = arguments[i].split(" ");
 			for (var j = 0; j < classes.length; j++) {
 				if (this.hasClass(classes[j])) {
