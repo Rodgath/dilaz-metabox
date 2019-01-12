@@ -4,7 +4,7 @@
  * Plugin URI:	http://webdilaz.com/plugins/dilaz-metabox/
  * Description:	Create custom metaboxes for WordPress themes and plugins.
  * Author:		WebDilaz Team
- * Version:		2.3
+ * Version:		2.4
  * Author URI:	http://webdilaz.com/
  * License:		GPL-2.0+
  * License URI:	http://www.gnu.org/licenses/gpl-2.0.txt
@@ -15,7 +15,7 @@
 ||
 || @package		Dilaz Metabox
 || @subpackage	Metabox
-|| @version		2.3
+|| @version		2.4
 || @since		Dilaz Metabox 2.0
 || @author		WebDilaz Team, http://webdilaz.com
 || @copyright	Copyright (C) 2017, WebDilaz LTD
@@ -45,7 +45,7 @@ if (!class_exists('DilazMetabox')) {
 		 * @var array
 		 * @since 2.0
 		 */
-		private $params = array();
+		private $_params = array();
 		
 		
 		/**
@@ -54,7 +54,7 @@ if (!class_exists('DilazMetabox')) {
 		 * @var string
 		 * @since 2.0
 		 */
-		protected $prefix;
+		protected $_prefix;
 		
 		
 		/**
@@ -118,13 +118,13 @@ if (!class_exists('DilazMetabox')) {
 			do_action('dilaz_metabox_before_load');
 			
 			$this->args      = $metabox_args;
-			$this->params    = $this->args[0];
+			$this->_params   = $this->args[0];
 			$this->metaboxes = $this->args[1];
-			$this->prefix    = DilazMetaboxFunction::preparePrefix($this->params['prefix']);
+			$this->_prefix   = DilazMetaboxFunction::preparePrefix($this->_params['prefix']);
 			
 			# Hooks
 			add_action('init', array(&$this, 'init'));
-			add_action('init', array(&$this, 'metabox_class'));
+			add_action('init', array(&$this, 'metaboxClass'));
 			
 			do_action('dilaz_metabox_after_load');
 			
@@ -137,12 +137,12 @@ if (!class_exists('DilazMetabox')) {
 		 * @since	1.0
 		 * @return	void
 		 */
-		function metabox_class() {
+		function metaboxClass() {
 			if (!class_exists('Dilaz_Meta_Box'))
 				require_once DILAZ_MB_DIR .'inc/metabox-class.php';
 			
-			$prefix           = $this->prefix;
-			$parameters       = $this->params;
+			$prefix           = $this->_prefix;
+			$parameters       = $this->_params;
 			$dilaz_meta_boxes = array();
 			$dilaz_meta_boxes = $this->metaboxes;
 			$dilaz_meta_boxes = apply_filters('dilaz_meta_box_filter', $dilaz_meta_boxes, $prefix, $parameters);
@@ -181,7 +181,7 @@ if (!class_exists('DilazMetabox')) {
 		 * @return	array
 		 */
 		function parameters() {
-			return $this->params;
+			return $this->_params;
 		}
 		
 		

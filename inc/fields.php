@@ -24,7 +24,7 @@ if (!class_exists('DilazMetaboxFields')) {
 	class DilazMetaboxFields {
 		
 		# Text
-		public static function _text($field) {
+		public static function fieldText($field) {
 			
 			extract($field);
 			
@@ -38,7 +38,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Multiple Text Input
-		public static function _multitext($field) {
+		public static function fieldMultiText($field) {
 			
 			extract($field);
 			
@@ -75,7 +75,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Password
-		public static function _password($field) {
+		public static function fieldPassword($field) {
 			
 			extract($field);
 			
@@ -89,7 +89,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Hidden
-		public static function _hidden($field) {
+		public static function fieldHidden($field) {
 			
 			extract($field);
 			
@@ -104,7 +104,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Paragraph
-		public static function _paragraph($field) {
+		public static function fieldParagraph($field) {
 			
 			extract($field);
 			
@@ -112,16 +112,29 @@ if (!class_exists('DilazMetaboxFields')) {
 			$value = $value != '' && $value != $meta ? $value : $meta;
 			$class = isset($class) ? sanitize_html_class($class) : '';
 			
-			$output = $desc;
-			$output .= $desc2;
-			$output .= '<p class="dilaz-mb-paragraph '. $class .'">'. wpautop($value) .'</p>';
+			$output = '<div class="dilaz-mb-paragraph '. $class .'">'. wpautop($value) .'</div>'.$desc2;
+			
+			echo $output;
+		}
+		
+		
+		# Code Output
+		public static function fieldCodeOutput($field) {
+			
+			extract($field);
+			
+			$size  = isset($args['size']) ? $args['size'] : '30';
+			$value = $value != '' && $value != $meta ? $value : $meta;
+			$class = isset($class) ? sanitize_html_class($class) : '';
+			
+			$output = '<p class="dilaz-mb-codeoutput '. $class .'">'. htmlspecialchars($value) .'</p>'.$desc2;
 			
 			echo $output;
 		}
 		
 		
 		# URL
-		public static function _url($field) {
+		public static function fieldUrl($field) {
 			
 			extract($field);
 			
@@ -135,7 +148,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Email
-		public static function _email($field) {
+		public static function fieldEmail($field) {
 			
 			extract($field);
 			
@@ -149,7 +162,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Number
-		public static function _number($field) {
+		public static function fieldNumber($field) {
 			
 			extract($field);
 			
@@ -163,7 +176,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Repeatable
-		public static function _repeatable($field) {
+		public static function fieldRepeatable($field) {
 			
 			extract($field);
 			
@@ -179,7 +192,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$inline = isset($args['inline']) && $args['inline'] == true ? 'inline' : '';
 			
 			$output = '';
-			$output .= '<ul id="'. esc_attr($id) .'" class="dilaz-mb-repeatable '.$class.'">';
+			$output .= '<ul id="'. esc_attr($id) .'" class="dilaz-mb-repeatable '.$class.'" data-ns="'.$not_sortable.'" data-s="'.$sortable.'" data-nr="'.$not_removable.'" data-r="'.$removable.'">';
 				$i = 0;	
 				if ($meta != '') {
 					foreach($meta as $key => $value) {
@@ -222,10 +235,9 @@ if (!class_exists('DilazMetaboxFields')) {
 						$output .= ($not_removable >= $i ? '' : $remover).'</li>';
 					}
 				}
-				
 			$output .= '</ul>';
 			if ($add_more) {
-				$output .= '<div class="block"><span class="dilaz-mb-add-repeatable-item button">'.$add_text.'</span></div>';
+				$output .= '<span class="dilaz-mb-add-repeatable-item button">'.$add_text.'</span>';
 			}
 			
 			echo $output;
@@ -233,7 +245,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Stepper
-		public static function _stepper($field) {
+		public static function fieldStepper($field) {
 			
 			extract($field);
 			
@@ -250,7 +262,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Code
-		public static function _code($field) {
+		public static function fieldCode($field) {
 			
 			extract($field);
 			
@@ -265,7 +277,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Textarea
-		public static function _textarea($field) {
+		public static function fieldTextarea($field) {
 			
 			extract($field);
 			
@@ -280,7 +292,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Editor
-		public static function _editor($field) {
+		public static function fieldEditor($field) {
 			
 			extract($field);
 			
@@ -301,7 +313,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Radio
-		public static function _radio($field) {
+		public static function fieldRadio($field) {
 			
 			extract($field);
 			
@@ -329,7 +341,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Checkbox
-		public static function _checkbox($field) {
+		public static function fieldCheckbox($field) {
 			
 			extract($field);
 			
@@ -343,7 +355,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Multicheckbox
-		public static function _multicheck($field) {
+		public static function fieldMultiCheck($field) {
 			
 			extract($field);
 			
@@ -374,7 +386,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Select
-		public static function _select($field) {
+		public static function fieldSelect($field) {
 			
 			extract($field);
 			
@@ -397,7 +409,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Multielect
-		public static function _multiselect($field) {
+		public static function fieldMultiSelect($field) {
 			
 			extract($field);
 			
@@ -421,7 +433,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Query select - 'post', 'term', 'user'
-		public static function _queryselect($field) {
+		public static function fieldQuerySelect($field) {
 			
 			extract($field);
 			
@@ -481,7 +493,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Timezone
-		public static function _timezone($field) {
+		public static function fieldTimezone($field) {
 			
 			extract($field);
 			
@@ -504,7 +516,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Radio image
-		public static function _radioimage($field) {
+		public static function fieldRadioImage($field) {
 			
 			extract($field);
 			
@@ -528,7 +540,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Color
-		public static function _color($field) {
+		public static function fieldColor($field) {
 			
 			extract($field);
 			
@@ -545,7 +557,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Multiple Colors
-		public static function _multicolor($field) {
+		public static function fieldMultiColor($field) {
 			
 			extract($field);
 			
@@ -573,7 +585,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Date
-		public static function _date($field) {
+		public static function fieldDate($field) {
 			
 			extract($field);
 			
@@ -589,7 +601,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Date - (From - to)
-		public static function _date_from_to($field) {
+		public static function fieldDateFromTo($field) {
 			
 			extract($field);
 			
@@ -635,7 +647,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Month
-		public static function _month($field) {
+		public static function fieldMonth($field) {
 			
 			extract($field);
 			
@@ -652,7 +664,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Month - (From - To)
-		public static function _month_from_to($field) {
+		public static function fieldMonthFromTo($field) {
 			
 			extract($field);
 			
@@ -698,7 +710,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Time
-		public static function _time($field) {
+		public static function fieldtime($field) {
 			
 			extract($field);
 			
@@ -714,7 +726,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Time - (From - To)
-		public static function _time_from_to($field) {
+		public static function fieldTimeFromTo($field) {
 			
 			extract($field);
 			
@@ -760,7 +772,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Date Time
-		public static function _date_time($field) {
+		public static function fieldDateTime($field) {
 			
 			extract($field);
 			
@@ -776,7 +788,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Date Time - (From - To)
-		public static function _date_time_from_to($field) {
+		public static function fieldDateTimeFromTo($field) {
 			
 			extract($field);
 			
@@ -822,7 +834,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Slider
-		public static function _slider($field) {
+		public static function fieldSlideRange($field) {
 			
 			extract($field);
 			
@@ -845,7 +857,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Range
-		public static function _range($field) {
+		public static function fieldRange($field) {
 			
 			extract($field);
 			
@@ -879,7 +891,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# File Upload
-		public static function _upload($field) {
+		public static function fieldUpload($field) {
 			
 			global $post;
 			
@@ -946,7 +958,9 @@ if (!class_exists('DilazMetaboxFields')) {
 			
 			$output .= '<div class="dilaz-mb-file-upload '. $class .'">';
 			
-			$output .= '<input type="button" id="upload-'. esc_attr($id) .'" class="dilaz-mb-file-upload-button button" value="'. sprintf(__('Upload %s', 'dilaz-metabox'), $file_type) .'" rel="'. $post->ID .'" '. $data_file_type.' '. $data_file_specific .' '. $data_file_multiple .' '. $data_frame_title .' '. $data_frame_b_txt .' />';
+			$upload_button_text  = (isset($args['upload_button_text']) && $args['upload_button_text'] != '') ? sanitize_text_field($args['upload_button_text']) : sprintf(__('Upload %s file', 'dilaz-metabox'), $file_type);
+			
+			$output .= '<input type="button" id="upload-'. esc_attr($id) .'" class="dilaz-mb-file-upload-button button" value="'. $upload_button_text .'" rel="'. $post->ID .'" '. $data_file_type.' '. $data_file_specific .' '. $data_file_multiple .' '. $data_frame_title .' '. $data_frame_b_txt .' />';
 			
 				$output .= '<div class="dilaz-mb-file-wrapper" data-file-id="'. esc_attr($id) .'">';
 				
@@ -1033,7 +1047,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Buttonset
-		public static function _buttonset($field) {
+		public static function fieldButtonset($field) {
 			
 			extract($field);
 			
@@ -1057,7 +1071,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		
 		
 		# Switch
-		public static function _switch($field) {
+		public static function fieldSwitch($field) {
 			
 			extract($field);
 			

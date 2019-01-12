@@ -16,7 +16,6 @@
 
 defined('ABSPATH') || exit;
 
-
 /**
  * Metabox class
  */
@@ -24,13 +23,13 @@ if (!class_exists('Dilaz_Meta_Box')) {
 	class Dilaz_Meta_Box {
 		
 		# Holds meta box prefix
-		protected $prefix;
+		protected $_prefix;
 		
 		# Holds meta box object
 		protected $_meta_box;
 		
 		# Holds meta box parameters
-		protected $params;
+		protected $_params;
 		
 		# PHP Contructor method
 		function __construct($prefix, $meta_box, $parameters) {
@@ -39,18 +38,18 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			if (!is_admin()) return;
 			
 			# metabox prefix
-			$this->prefix = $prefix;
+			$this->_prefix = $prefix;
 			
 			# metabox parameters
-			$this->params = $parameters;
+			$this->_params = $parameters;
 			
 			# Assign meta box values to local variables
 			$this->_meta_box = $meta_box;
 			
-			add_action('admin_init', array(&$this, 'admin_init'));	
-			add_action('add_meta_boxes', array(&$this, 'add_meta_box')); # Add metaboxes
-			add_action('save_post', array(&$this, 'save_meta_box')); # Save post meta
-			add_action('admin_enqueue_scripts', array(&$this, 'load_scripts_and_styles')); # Enqueue common styles and scripts
+			add_action('admin_init', array(&$this, 'adminInit'));	
+			add_action('add_meta_boxes', array(&$this, 'addMetaBox')); # Add metaboxes
+			add_action('save_post', array(&$this, 'saveMetaBox')); # Save post meta
+			add_action('admin_enqueue_scripts', array(&$this, 'loadScriptsAndStyles')); # Enqueue common styles and scripts
 		}
 		
 		
@@ -61,7 +60,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		 *
 		 * @return mixed
 		 */
-		function admin_init() {
+		function adminInit() {
 			require_once DILAZ_MB_DIR .'inc/fields.php';
 		}
 		
@@ -74,12 +73,12 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		 *
 		 * @return void
 		 */
-		function load_scripts_and_styles($hook) {
+		function loadScriptsAndStyles($hook) {
 			
 			# only enqueue our scripts/styles specific pages
 			if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' || $hook == 'edit.php' ) {
 				
-				do_action('dilaz_mb_before_scripts_enqueue', $this->prefix, $this->_meta_box);
+				do_action('dilaz_mb_before_scripts_enqueue', $this->_prefix, $this->_meta_box);
 			
 				# scripts included with WordPress
 				if (function_exists('wp_enqueue_media')) {
@@ -94,14 +93,14 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				wp_enqueue_script('jquery-ui-datepicker');
 				
 				# stepper scripts
-				if ($this->has_field('stepper')) {
+				if ($this->hasField('stepper')) {
 					wp_enqueue_script('dilaz-mb-stepper', DILAZ_MB_URL .'assets/js/stepper.min.js', array('jquery'), '', true);
 					wp_enqueue_script('dilaz-mb-stepperscript', DILAZ_MB_URL .'assets/js/stepper-script.js', array('dilaz-mb-select2'), '', true);
 				}
 				
 				# select 2 scripts
-				if ($this->has_field(array('select', 'queryselect', 'timezone'))) {
-					if ($this->has_field_arg('select2', 'select2single') || $this->has_field_arg('select2', 'select2multiple')) {
+				if ($this->hasField(array('select', 'queryselect', 'timezone'))) {
+					if ($this->hasFieldArg('select2', 'select2single') || $this->hasFieldArg('select2', 'select2multiple')) {
 						wp_enqueue_style('dilaz-mb-select2', DILAZ_MB_URL .'assets/css/select2.min.css', false, '4.0.3', false);
 						wp_enqueue_script('dilaz-mb-select2', DILAZ_MB_URL .'assets/js/select2.min.js', array('jquery'), '4.0.3', true);
 						wp_enqueue_script('dilaz-mb-select2-sortable', DILAZ_MB_URL .'assets/js/select2.sortable.js', array('dilaz-mb-select2'), '', true);
@@ -110,31 +109,31 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				}
 				
 				# color picker
-				if ($this->has_field('color')) {
+				if ($this->hasField('color')) {
 					wp_enqueue_style('wp-color-picker');
 					wp_enqueue_script('wp-color-picker');
 					wp_enqueue_script('dilaz-mb-coloe-script', DILAZ_MB_URL .'assets/js/color-script.js', array('wp-color-picker'), '', true);
 				}
 				
 				# datepicker scripts
-				if ($this->has_field(array('date', 'date_from_to', 'month', 'month_from_to', 'time', 'time_from_to', 'datetime', 'date_time_from_to'))) {
+				if ($this->hasField(array('date', 'date_from_to', 'month', 'month_from_to', 'time', 'time_from_to', 'datetime', 'date_time_from_to'))) {
 					wp_enqueue_script('jquery-ui-datepicker');
 					wp_enqueue_style('jquery-ui-datepicker');
 				}
 				
 				# date scripts
-				if ($this->has_field(array('date', 'date_from_to'))) {
+				if ($this->hasField(array('date', 'date_from_to'))) {
 					wp_enqueue_script('dilaz-mb-date-script', DILAZ_MB_URL .'assets/js/date-script.js', array('jquery-ui-datepicker'), '', true);
 				}
 				
 				# monthpicker scripts
-				if ($this->has_field(array('month', 'month_from_to'))) {
+				if ($this->hasField(array('month', 'month_from_to'))) {
 					wp_enqueue_script('dilaz-mb-monthpicker', DILAZ_MB_URL .'assets/js/jquery-ui-monthpicker.min.js', array('jquery-ui-datepicker'), '', true);
 					wp_enqueue_script('dilaz-mb-date-script', DILAZ_MB_URL .'assets/js/date-script.js', array('dilaz-mb-monthpicker'), '', true);
 				}
 				
 				# datepicker & timepicker scripts
-				if ($this->has_field(array('time', 'time_from_to', 'datetime', 'date_time_from_to'))) {
+				if ($this->hasField(array('time', 'time_from_to', 'datetime', 'date_time_from_to'))) {
 					wp_enqueue_style('jquery-ui-datepicker');
 					wp_enqueue_script('dilaz-mb-timepicker', DILAZ_MB_URL .'assets/js/jquery-ui-timepicker.min.js', array('jquery-ui-datepicker', 'jquery-ui-slider'), '', true);
 					wp_enqueue_script('dilaz-mb-date-script', DILAZ_MB_URL .'assets/js/date-script.js', array('dilaz-mb-timepicker'), '', true);
@@ -148,19 +147,19 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				
 				# translation
 				wp_localize_script('dilaz-mb-script', 'dilaz_mb_lang', apply_filters('dilaz_mb_localized_data', array(
-					'dilaz_mb_images' => $this->params['dir_url'] .'assets/images/',
-					'dilaz_mb_prefix' => $this->prefix
+					'dilaz_mb_images' => $this->_params['dir_url'] .'assets/images/',
+					'dilaz_mb_prefix' => $this->_prefix
 				)));
 				
 				# Webfont styles
 				wp_enqueue_style('fontawesome', DILAZ_MB_URL .'assets/css/font-awesome.min.css', false, '4.5.0');
 				
-				do_action('dilaz_mb_before_main_style_enqueue', $this->prefix, $this->_meta_box, $this->params);
+				do_action('dilaz_mb_before_main_style_enqueue', $this->_prefix, $this->_meta_box, $this->_params);
 				
 				# metabox styles
 				wp_enqueue_style('dilaz-metabox-style', DILAZ_MB_URL .'assets/css/metabox.css', array('thickbox'));
 				
-				do_action('dilaz_mb_after_scripts_enqueue', $this->prefix, $this->_meta_box);
+				do_action('dilaz_mb_after_scripts_enqueue', $this->_prefix, $this->_meta_box);
 			}
 		}
 		
@@ -172,7 +171,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		 *
 		 * @return array
 		 */
-		function meta_box_groups() {
+		function metaBoxGroups() {
 			$meta_groups = array();
 			foreach ($this->_meta_box as $key => $val) {
 				if (isset($val['type'])) {
@@ -193,7 +192,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		 *
 		 * @return array
 		 */
-		function meta_box_content() {
+		function metaBoxContent() {
 			
 			$parent       = 0;
 			$tab          = 0;
@@ -227,11 +226,11 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		
 		# Metabox tab menu items
 		# =============================================================================================
-		function meta_box_menu() {
+		function metaBoxMenu() {
 			
 			$parent          = 0;
 			$menu_items      = array();
-			$meta_box_groups = $this->meta_box_groups();
+			$meta_box_groups = $this->metaBoxGroups();
 			
 			if (!empty($meta_box_groups)) {
 				foreach ($meta_box_groups as $key => $val) {
@@ -254,9 +253,9 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		
 		# Metabox tab menu items output
 		# =============================================================================================
-		function meta_box_menu_output($meta_box_id) {
+		function metaBoxMenuOutput($meta_box_id) {
 			
-			$menu_items = $this->meta_box_menu();
+			$menu_items = $this->metaBoxMenu();
 			
 			$menu = '';
 			
@@ -287,9 +286,9 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		
 		# Metabox option sets array
 		# =============================================================================================
-		function metabox_sets() {
+		function metaboxSets() {
 			
-			$meta_groups = $this->meta_box_groups();
+			$meta_groups = $this->metaBoxGroups();
 			
 			$box_items = array();
 			
@@ -309,9 +308,9 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		
 		# Metabox pages - pages where metaboxes should be shown
 		# =============================================================================================
-		function meta_box_pages() {
+		function metaBoxPages() {
 			
-			$metabox_sets = $this->metabox_sets();
+			$metabox_sets = $this->metaboxSets();
 			
 			$pages = array();
 			
@@ -324,10 +323,10 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		
 		# Check if metabox has fields
 		# =============================================================================================
-		function has_field($field_types) {
+		function hasField($field_types) {
 			
-			$pages = $this->meta_box_pages();
-			$box_content = $this->meta_box_content();
+			$pages = $this->metaBoxPages();
+			$box_content = $this->metaBoxContent();
 			
 			# Add meta box for multiple post types
 			foreach ($pages as $page) {
@@ -352,10 +351,10 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		
 		# Check if metabox has field args
 		# =============================================================================================
-		function has_field_arg($field_arg_key, $field_arg_val) {
+		function hasFieldArg($field_arg_key, $field_arg_val) {
 			
-			$pages       = $this->meta_box_pages();
-			$box_content = $this->meta_box_content();
+			$pages       = $this->metaBoxPages();
+			$box_content = $this->metaBoxContent();
 			
 			# Add meta box for multiple post types
 			foreach ($pages as $page) {
@@ -382,10 +381,10 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		
 		# Add metabox fields to a page
 		# =============================================================================================
-		function add_meta_box() {
+		function addMetaBox() {
 			
-			$pages     = $this->meta_box_pages();
-			$box_items = $this->metabox_sets();
+			$pages     = $this->metaBoxPages();
+			$box_items = $this->metaboxSets();
 			
 			foreach ($box_items as $box_item_key => $box_item) {
 				
@@ -394,14 +393,14 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				
 				# Add meta box for multiple post types
 				foreach ((array)$box_item['pages'] as $page_key => $page) {
-					add_meta_box( $box_item['id'], $box_item['title'], array(&$this, 'show_meta_box'), $page, $box_item['context'], $box_item['priority'], array($box_item['id']) );
+					add_meta_box( $box_item['id'], $box_item['title'], array(&$this, 'showMetaBox'), $page, $box_item['context'], $box_item['priority'], array($box_item['id']) );
 				}
 			}
 		}
 		
 		# Show meta boxes
 		# =============================================================================================
-		function show_meta_box($page, $id) {
+		function showMetaBox($page, $id) {
 			
 			global $post, $pages;
 			
@@ -417,7 +416,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					# Tabs Navigation
 					$meta_box_id = isset($id['id']) ? $id['id'] : '';
 					if ($meta_box_id != '') {
-						echo $this->meta_box_menu_output($meta_box_id);
+						echo $this->metaBoxMenuOutput($meta_box_id);
 					}
 					
 				echo '</div>';	
@@ -427,7 +426,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				
 					if ($meta_box_id != '') {
 						
-						$meta_box_content = $this->meta_box_content();
+						$meta_box_content = $this->metaBoxContent();
 						
 						$counter = 0;
 						
@@ -518,11 +517,11 @@ if (!class_exists('Dilaz_Meta_Box')) {
 							$post_object = get_post($post->ID, ARRAY_A);
 							if ($post_object['post_type'] == 'dilaz_event_txns') {
 								
-								if ((!get_post_meta($post->ID, $this->prefix .'event_txn_event_id', true) || !get_post_meta($post->ID, $this->prefix .'event_txn_event_id', true)) && $field['hide_key'] == 'event_txn' && $field['hide_val'] == 1) {
+								if ((!get_post_meta($post->ID, $this->_prefix .'event_txn_event_id', true) || !get_post_meta($post->ID, $this->_prefix .'event_txn_event_id', true)) && $field['hide_key'] == 'event_txn' && $field['hide_val'] == 1) {
 									$hide = 'data-dilaz-hide="hidden"';
 								}
 								
-								if ((!get_post_meta($post->ID, $this->prefix .'event_txn_pkg_id', true) || !get_post_meta($post->ID, $this->prefix .'event_txn_pkg_id', true)) && $field['hide_key'] == 'pkg_txn' && $field['hide_val'] == 1) {
+								if ((!get_post_meta($post->ID, $this->_prefix .'event_txn_pkg_id', true) || !get_post_meta($post->ID, $this->_prefix .'event_txn_pkg_id', true)) && $field['hide_key'] == 'pkg_txn' && $field['hide_val'] == 1) {
 									$hide = 'data-dilaz-hidden="yes"';
 								}
 							}
@@ -601,42 +600,43 @@ if (!class_exists('Dilaz_Meta_Box')) {
 							switch ($field['type']) {
 								
 								case 'metabox_tab'       : break;
-								case 'text'              : DilazMetaboxFields::_text($field); break;
-								case 'multitext'         : DilazMetaboxFields::_multitext($field); break;
-								case 'password'          : DilazMetaboxFields::_password($field); break;
-								case 'hidden'            : DilazMetaboxFields::_hidden($field); break;
-								case 'paragraph'         : DilazMetaboxFields::_paragraph($field); break;
-								case 'url'               : DilazMetaboxFields::_url($field); break;
-								case 'email'             : DilazMetaboxFields::_email($field); break;
-								case 'number'            : DilazMetaboxFields::_number($field); break;
-								case 'repeatable'        : DilazMetaboxFields::_repeatable($field); break;
-								case 'stepper'           : DilazMetaboxFields::_stepper($field); break;
-								case 'code'              : DilazMetaboxFields::_code($field); break;
-								case 'textarea'          : DilazMetaboxFields::_textarea($field); break;
-								case 'editor'            : DilazMetaboxFields::_editor($field); break;
-								case 'radio'             : DilazMetaboxFields::_radio($field); break;
-								case 'checkbox'          : DilazMetaboxFields::_checkbox($field); break;
-								case 'multicheck'        : DilazMetaboxFields::_multicheck($field); break;
-								case 'select'            : DilazMetaboxFields::_select($field); break;
-								case 'multiselect'       : DilazMetaboxFields::_multiselect($field); break;
-								case 'queryselect'       : DilazMetaboxFields::_queryselect($field); break;
-								case 'timezone'          : DilazMetaboxFields::_timezone($field); break;
-								case 'radioimage'        : DilazMetaboxFields::_radioimage($field); break;
-								case 'color'             : DilazMetaboxFields::_color($field); break;
-								case 'multicolor'        : DilazMetaboxFields::_multicolor($field); break;
-								case 'date'              : DilazMetaboxFields::_date($field); break;
-								case 'date_from_to'      : DilazMetaboxFields::_date_from_to($field); break;
-								case 'month'             : DilazMetaboxFields::_month($field); break;
-								case 'month_from_to'     : DilazMetaboxFields::_month_from_to($field); break;
-								case 'time'              : DilazMetaboxFields::_time($field); break;
-								case 'time_from_to'      : DilazMetaboxFields::_time_from_to($field); break;
-								case 'date_time'         : DilazMetaboxFields::_date_time($field); break;
-								case 'date_time_from_to' : DilazMetaboxFields::_date_time_from_to($field); break;
-								case 'slider'            : DilazMetaboxFields::_slider($field); break;
-								case 'range'             : DilazMetaboxFields::_range($field); break;
-								case 'upload'            : DilazMetaboxFields::_upload($field); break;
-								case 'buttonset'         : DilazMetaboxFields::_buttonset($field); break;
-								case 'switch'            : DilazMetaboxFields::_switch($field); break;
+								case 'text'              : DilazMetaboxFields::fieldText($field); break;
+								case 'multitext'         : DilazMetaboxFields::fieldMultiText($field); break;
+								case 'password'          : DilazMetaboxFields::fieldPassword($field); break;
+								case 'hidden'            : DilazMetaboxFields::fieldHidden($field); break;
+								case 'paragraph'         : DilazMetaboxFields::fieldParagraph($field); break;
+								case 'codeoutput'        : DilazMetaboxFields::fieldCodeOutput($field); break;
+								case 'url'               : DilazMetaboxFields::fieldUrl($field); break;
+								case 'email'             : DilazMetaboxFields::fieldEmail($field); break;
+								case 'number'            : DilazMetaboxFields::fieldNumber($field); break;
+								case 'repeatable'        : DilazMetaboxFields::fieldRepeatable($field); break;
+								case 'stepper'           : DilazMetaboxFields::fieldStepper($field); break;
+								case 'code'              : DilazMetaboxFields::fieldCode($field); break;
+								case 'textarea'          : DilazMetaboxFields::fieldTextarea($field); break;
+								case 'editor'            : DilazMetaboxFields::fieldEditor($field); break;
+								case 'radio'             : DilazMetaboxFields::fieldRadio($field); break;
+								case 'checkbox'          : DilazMetaboxFields::fieldCheckbox($field); break;
+								case 'multicheck'        : DilazMetaboxFields::fieldMultiCheck($field); break;
+								case 'select'            : DilazMetaboxFields::fieldSelect($field); break;
+								case 'multiselect'       : DilazMetaboxFields::fieldMultiSelect($field); break;
+								case 'queryselect'       : DilazMetaboxFields::fieldQuerySelect($field); break;
+								case 'timezone'          : DilazMetaboxFields::fieldTimezone($field); break;
+								case 'radioimage'        : DilazMetaboxFields::fieldRadioImage($field); break;
+								case 'color'             : DilazMetaboxFields::fieldColor($field); break;
+								case 'multicolor'        : DilazMetaboxFields::fieldMultiColor($field); break;
+								case 'date'              : DilazMetaboxFields::fieldDate($field); break;
+								case 'date_from_to'      : DilazMetaboxFields::fieldDateFromTo($field); break;
+								case 'month'             : DilazMetaboxFields::fieldMonth($field); break;
+								case 'month_from_to'     : DilazMetaboxFields::fieldMonthFromTo($field); break;
+								case 'time'              : DilazMetaboxFields::fieldtime($field); break;
+								case 'time_from_to'      : DilazMetaboxFields::fieldTimeFromTo($field); break;
+								case 'date_time'         : DilazMetaboxFields::fieldDateTime($field); break;
+								case 'date_time_from_to' : DilazMetaboxFields::fieldDateTimeFromTo($field); break;
+								case 'slider'            : DilazMetaboxFields::fieldSlideRange($field); break;
+								case 'range'             : DilazMetaboxFields::fieldRange($field); break;
+								case 'upload'            : DilazMetaboxFields::fieldUpload($field); break;
+								case 'buttonset'         : DilazMetaboxFields::fieldButtonset($field); break;
+								case 'switch'            : DilazMetaboxFields::fieldSwitch($field); break;
 								case $field['type']      : do_action('dilaz_mb_field_'. $field['type'] .'_hook', $field); break; # add custom field types via this hook
 								
 							}
@@ -684,7 +684,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		
 		# Sanitize meta field values
 		# =============================================================================================
-		function sanitize_meta($type, $input, $field = '') {
+		function sanitizeMeta($type, $input, $field = '') {
 			
 			switch ($type) {
 			
@@ -877,28 +877,81 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			
 		}
 		
-		# Delete removed meta options from DB
-		# =============================================================================================
-		function delete_removed_meta($post_id) {
+		/**
+		 * Get metabox field ids from options file
+		 *
+		 * @since 2.4
+		 *
+		 * @return array|bool false if option is not set or option file does not exist
+		 */
+		public function getMetaboxFieldIdsFromFile() {
 			
-			global $wpdb;
+			$option_file = $this->_params['files'][2];
 			
-			# filter all meta keys that have the unique meta prefix identifier
-			$where = $wpdb->prepare("pm.meta_key LIKE '%s' AND pm.post_id = '%s'", '%'. $this->prefix .'%', $post_id);
-			
-			# return all filtered meta data
-			$saved_meta = $wpdb->get_results("SELECT * FROM {$wpdb->postmeta} pm WHERE {$where}", ARRAY_A);
-			
-			# build all meta keys into an array
-			$saved_meta_array = array();
-			if (!empty($saved_meta)) {
-				foreach ($saved_meta as $key => $meta) {
-					$saved_meta_array[] = $meta['meta_key'];
+			if (is_file($option_file)) {
+				
+				$prefix = $this->_prefix;
+				
+				include $option_file;
+				
+				$field_ids = array();
+				
+				foreach ($dilaz_meta_boxes as $key => $val) {
+					
+					if (!isset($val['type'])) continue;
+					
+					$metabox_set_id = sanitize_key($val['id']);
+					
+					if (isset($val['type'])) {
+						if ($val['type'] == 'metabox_set') continue;
+						if ($val['type'] == 'metabox_tab') continue;
+					}
+					$field_ids[] = $metabox_set_id;
 				}
+				
+				return array_unique($field_ids);
+			} else {
+				return false;
 			}
+		}
+		
+		/**
+		 * Save/Update metabox ids in options table
+		 * The 'ids' are used to delete removed metabox fields
+		 *
+		 * @since 2.4
+		 *
+		 * @return void
+		 */
+		public function saveMetaboxFieldIdsOption() {
+			$option_fields = $this->getMetaboxFieldIds();
+			update_option($this->_prefix.'metabox_fields', $option_fields);
+		}
+		
+		/**
+		 * Get saved metabox ids
+		 * The 'ids' are used to delete removed metabox fields
+		 *
+		 * @since 2.4
+		 *
+		 * @return array|bool false if nothing found
+		 */
+		public function getMetaboxFieldIdsOption() {
+			$fieldIdsOption = get_option($this->_prefix.'metabox_fields');
+			return !empty($fieldIdsOption) && $fieldIdsOption ? $fieldIdsOption : '';
+		}
+		
+		/**
+		 * Get metabox ids
+		 *
+		 * @since 2.4
+		 *
+		 * @return array metabox field ids
+		 */
+		public function getMetaboxFieldIds() {
 			
 			# get all meta box option fields
-			$meta_box_content = $this->meta_box_content();
+			$meta_box_content = $this->metaBoxContent();
 			
 			# build all meta keys into an array
 			$field_meta_array = array();
@@ -909,6 +962,32 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					}
 				}
 			}
+			
+			return array_unique($field_meta_array);
+		}
+		
+		# Delete removed meta options from DB
+		# =============================================================================================
+		function deleteRemovedMeta($post_id) {
+			
+			global $wpdb;
+			
+			$meta_box_fields = $this->getMetaboxFieldIdsOption();
+			$saved_meta_array = isset($meta_box_fields) && $meta_box_fields != '' ? $meta_box_fields : array();
+			
+			# get all meta box option fields
+			$meta_box_content = $this->metaBoxContent();
+			
+			# build all meta keys into an array
+			$field_meta_array = array();
+			if (!empty($meta_box_content)) {
+				foreach ($meta_box_content as $key => $metabox_set) {
+					foreach ($metabox_set['fields'] as $field_key => $field) {
+						$field_meta_array[] = $field['id'];
+					}
+				}
+			}
+			$field_meta_array = $this->getMetaboxFieldIds();
 			
 			# get removed meta option fields
 			$removed_data = array_diff($saved_meta_array, $field_meta_array);
@@ -923,7 +1002,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		
 		# Save data when post is edited
 		# =============================================================================================
-		function save_meta_box($post_id) {
+		function saveMetaBox($post_id) {
 			
 			# verify nonce - Security
 			if (!isset($_POST['wp_meta_box_nonce']) || !wp_verify_nonce($_POST['wp_meta_box_nonce'], basename(__FILE__))) {
@@ -952,16 +1031,19 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			do_action('dilaz_mb_before_save_post', $post_id);
 			
 			# save metabox data
-			$meta_box_content = $this->meta_box_content();
+			$meta_box_content = $this->metaBoxContent();
 			if (!empty($meta_box_content)) {
 				foreach ($meta_box_content as $key => $metabox_set) {
 					foreach ($metabox_set['fields'] as $field_key => $field) {
+						
+						# ignore 'codeoutput' field
+						if ($field['type'] == 'codeoutput') continue;
 						
 						$old = get_post_meta($post_id, $field['id'], true);
 						$new = isset( $_POST[$field['id']] ) ? $_POST[$field['id']] : null;
 						
 						# sanitized option
-						$sanitized_meta = $this->sanitize_meta($field['type'], $new, $field);
+						$sanitized_meta = $this->sanitizeMeta($field['type'], $new, $field);
 						
 						if ($new != $old && false !== $new && $field['type'] != 'checkbox') {
 							update_post_meta($post_id, $field['id'], $sanitized_meta);
@@ -974,7 +1056,8 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				}
 			}
 			
-			$this->delete_removed_meta($post_id);
+			$this->deleteRemovedMeta($post_id);
+			$this->saveMetaboxFieldIdsOption();
 			
 			# after save action hook
 			do_action('dilaz_mb_after_save_post', $post_id);

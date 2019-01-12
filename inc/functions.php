@@ -721,4 +721,6 @@ if (!class_exists('DilazMetaboxFunction')) {
 			return $output;
 		}
 	}
+	
+	new DilazMetaboxFunction;
 }

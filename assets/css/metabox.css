@@ -501,6 +501,13 @@
 }
 
 /*--------------------------------------------------------------*/
+/* Select 2
+/*--------------------------------------------------------------*/
+.select2-container--default .select2-search--inline .select2-search__field {
+    width: 100% !important;
+}
+
+/*--------------------------------------------------------------*/
 /* Color
 /*--------------------------------------------------------------*/
 .dilaz-metabox .dilaz-picker {
@@ -1065,8 +1072,18 @@ input.dilaz-mb-switch {
 .dilaz-mb-field-paragraph {
 	padding-bottom: 0 !important
 }
-.dilaz-mb-field-paragraph .description {
-	display: none
+
+/*--------------------------------------------------------------*/
+/* Code Output
+/*--------------------------------------------------------------*/
+.dilaz-mb-field-codeoutput .header .description {
+	margin-bottom: 0
+}
+.dilaz-mb-codeoutput {
+	background: #f0f0f0;
+	padding: 10px 10px 10px;
+	border: 1px solid #dcdcdc;
+	line-height: 18px;
 }
 
 /*--------------------------------------------------------------*/
