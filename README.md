@@ -7,7 +7,7 @@ Feel free to use this metaboxes plugin in your __premium__ and __commercial__ pr
 1. Download and install [Dilaz Metaboxes](https://github.com/Rodgath/Dilaz-Metaboxes-Plugin/archive/master.zip) plugin
 2. Download [Dilaz Metaboxes Options](https://github.com/Rodgath/Dilaz-Metaboxes-Options) and add it into your WordPress project. 
 
-## Example of how to use Dilaz Panel in a theme
+## Example of how to use Dilaz Metaboxes in a theme
 Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b) to see a useful example on how to integrate this *dilaz metaboxes plugin* into your WordPress theme development project.
 
 ## Features
