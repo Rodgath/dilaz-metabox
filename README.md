@@ -11,9 +11,9 @@ Feel free to use this metaboxes plugin in your __premium__ and __commercial__ pr
 Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b) to see a useful example on how to integrate this *dilaz metaboxes plugin* into your WordPress theme development project.
 
 ## Features
-* Extendability - Easy to update or create new functionality 
-* Easy updating - Your settings will not be part of core files
-* AddOns availability - AddOns created by other developers
+* __Extendability__ - Easy to update or create new functionality 
+* __Easy updating__ - Your settings will not be part of core files
+* __AddOns availability__ - AddOns created by other developers
 
 ## Metabox Fields
 * Text
