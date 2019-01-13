@@ -260,7 +260,7 @@ var DilazMetaboxScript = new function() {
 						$fileOutput += '<input type="hidden" name="'+ $fileId +'[]" id="file_'+ $fileId +'" class="dilaz-mb-file-id upload" value="'+ id +'">';
 						$fileOutput += '<div class="filename '+ $fileType +'">'+ title +'</div>';
 						$fileOutput += '<span class="sort ui-sortable-handle"></span>';
-						$fileOutput += '<a href="#" class="remove" title="Remove"><i class="fa fa-close"></i></a>';
+						$fileOutput += '<a href="#" class="dilaz-mb-remove-file" title="Remove"><i class="fa fa-close"></i></a>';
 						
 						switch ( type ) {
 							case 'image':
@@ -321,14 +321,14 @@ var DilazMetaboxScript = new function() {
 	 * Remove file
 	 */
 	$t.removeFile = function() {
-		$doc.find('.dilaz-mb-media-file').on('click', '.remove', function(e) {
+		$doc.on('click', '.dilaz-mb-remove-file', function(e) {
 			
 			e.preventDefault();
 			
 			var $this = $(this);
 			
 			$this.siblings('input').attr('value', '');
-			$this.parent('.dilaz-mb-media-file').slideUp(200);
+			$this.parent('.dilaz-mb-media-file').slideUp(500);
 			
 			setTimeout(function() {
 				$this.parent('.dilaz-mb-media-file').remove();
@@ -374,7 +374,7 @@ var DilazMetaboxScript = new function() {
 	}
 	
 	/**
-	 * jQuery add-on for checking multiple classes in an element
+	 * jQuery add-on for checking existence of multiple classes in an element
 	 */
 	$t.hasClasses = function() {
 		for (var i = 0; i < arguments.length; i++) {

@@ -1240,7 +1240,7 @@ if (!class_exists('DilazMetaboxFields')) {
 							
 							$output .= '<div class="filename '. $file_type .'">'. $attachment->post_title .'</div>';
 							
-							$media_remove = '<a href="#" class="remove" title="'. __('Remove', 'dilaz-metabox') .'"><i class="fa fa-close"></i></a>';					
+							$media_remove = '<a href="#" class="dilaz-mb-remove-file" title="'. __('Remove', 'dilaz-metabox') .'"><i class="fa fa-close"></i></a>';					
 							
 							switch ($file_type) {
 								

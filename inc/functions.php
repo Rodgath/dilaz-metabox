@@ -55,7 +55,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 *
 		 * @return json.data
 		 */
-		function query_select() {
+		public function query_select() {
 			
 			global $wpdb;
 			
@@ -140,7 +140,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 *
 		 * @return json.data
 		 */
-		function get_post_titles() {
+		public function get_post_titles() {
 			
 			$result = array();
 			

@@ -353,7 +353,7 @@
 	opacity: .6;
 	top: 50%;
 }
-.dilaz-metabox .dilaz-mb-media-file .remove {
+.dilaz-metabox .dilaz-mb-media-file .dilaz-mb-remove-file {
 	width: 18px;
 	height: 18px;
 	line-height: 16px;
@@ -415,7 +415,7 @@
 	float: left !important;
 	display: inline-block !important;
 }
-.dilaz-metabox .dilaz-mb-media-file .remove:hover {
+.dilaz-metabox .dilaz-mb-media-file .dilaz-mb-remove-file:hover {
 	background: #c60600;
 }
 .dilaz-metabox .dilaz-mb-media-file .media {

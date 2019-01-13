@@ -4,7 +4,7 @@
  * Plugin URI:	http://webdilaz.com/plugins/dilaz-metabox/
  * Description:	Create custom metaboxes for WordPress themes and plugins.
  * Author:		WebDilaz Team
- * Version:		2.4.2
+ * Version:		2.4.3
  * Author URI:	http://webdilaz.com/
  * License:		GPL-2.0+
  * License URI:	http://www.gnu.org/licenses/gpl-2.0.txt
@@ -15,7 +15,7 @@
 ||
 || @package		Dilaz Metabox
 || @subpackage	Metabox
-|| @version		2.4.2
+|| @version		2.4.3
 || @since		Dilaz Metabox 2.0
 || @author		WebDilaz Team, http://webdilaz.com
 || @copyright	Copyright (C) 2017, WebDilaz LTD
@@ -114,7 +114,7 @@ if (!class_exists('DilazMetabox')) {
 		 * 
 		 */
 		function __construct($metabox_args) {
-
+			
 			do_action('dilaz_metabox_before_load');
 			
 			$this->args      = $metabox_args;
@@ -137,7 +137,7 @@ if (!class_exists('DilazMetabox')) {
 		 * @since	1.0
 		 * @return	void
 		 */
-		function metaboxClass() {
+		public function metaboxClass() {
 			if (!class_exists('Dilaz_Meta_Box'))
 				require_once DILAZ_MB_DIR .'inc/metabox-class.php';
 			
@@ -157,7 +157,7 @@ if (!class_exists('DilazMetabox')) {
 		 * @since 1.0
 		 * @return void
 		 */
-		function init() {
+		public function init() {
 
 			do_action('dilaz_metabox_before_init');
 			
@@ -180,7 +180,7 @@ if (!class_exists('DilazMetabox')) {
 		 * @since	1.0
 		 * @return	array
 		 */
-		function parameters() {
+		public function parameters() {
 			return $this->_params;
 		}
 		
@@ -191,7 +191,7 @@ if (!class_exists('DilazMetabox')) {
 		 * @since 1.0
 		 * @return void
 		 */
-		function constants() {
+		public function constants() {
 			@define('DILAZ_MB_URL', plugin_dir_url(__FILE__));
 			@define('DILAZ_MB_DIR', plugin_dir_path(__FILE__));
 			@define('DILAZ_MB_IMAGES', DILAZ_MB_URL .'assets/images/');
@@ -204,7 +204,7 @@ if (!class_exists('DilazMetabox')) {
 		 * @since 1.0
 		 * @return void
 		 */
-		function includes() {
+		public function includes() {
 			
 			do_action('dilaz_metabox_after_includes');
 			
