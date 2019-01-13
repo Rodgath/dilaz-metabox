@@ -14,6 +14,8 @@ Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b) to se
 * __Extendability__ - Easy to update or create new functionality 
 * __Easy updating__ - Your settings will not be part of core files
 * __AddOns availability__ - AddOns created by other developers
+* __Custom Post Types__ - It works with any custom post type
+* __Plugins and Themes__ - Can be used with any WordPress theme or plugin
 
 ## Metabox Fields
 * Text
