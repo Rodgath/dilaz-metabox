@@ -1,10 +1,14 @@
 # Dilaz Metaboxes
 WordPress metaboxes for themes and plugins.
 
-Feel free to use these metabox options in your __premium__ and __commercial__ projects.
+Feel free to use this metaboxes plugin in your __premium__ and __commercial__ projects.
 
 ## How to use
-See this [metabox example](https://github.com/Rodgath/Dilaz-Metaboxes-Options-Sample) on how to integrate this metaboxes plugin into your WordPress development project.
+1. Download and install [Dilaz Metaboxes](https://github.com/Rodgath/Dilaz-Metaboxes-Plugin/archive/master.zip) plugin
+2. Download [Dilaz Metaboxes Options](https://github.com/Rodgath/Dilaz-Metaboxes-Options) and add it into your WordPress project. 
+
+## Example of how to use Dilaz Panel in a theme
+Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b) to see a useful example on how to integrate this *dilaz metaboxes plugin* into your WordPress theme development project.
 
 ## Features
 * Extendability - Easy to update or create new functionality 
@@ -52,22 +56,17 @@ See this [metabox example](https://github.com/Rodgath/Dilaz-Metaboxes-Options-Sa
 
 ## File Structure
 ```
-your-directory/your-metaboxes-folder/    # → Root of your metaboxes
-├── assets/                              # → Assets
-│   ├── css/                             # → Stylesheets
-│   ├── fonts/                           # → Fonts
-│   ├── images/                          # → Images
-│   └── js/                              # → JavaScripts
-├── inc/                                 # → Includes
-│   ├── config-sample.php                # → Sample config file - Rename to config.php
-│   ├── fields.php                       # → Metabox fields (never edit)
-│   ├── functions.php                    # → Metabox functions (never edit)
-│   └── metabox-class.php                # → Metabox class (never edit)
-├── options/                             # → Metabox options
-│   ├── custom-options-sample.php        # → Sample custom options - Rename to custom-options.php
-│   ├── default-options.php              # → Default options (never edit)
-│   └── options-sample.php               # → Sample options file - Rename to options.php
-└── metabox.php                          # → metabox access (never edit)
+wp-includes/plugins/dilaz-metaboxes/  # → Root of your metaboxes
+├── assets/                           # → Assets
+│   ├── css/                          # → Stylesheets
+│   ├── fonts/                        # → Fonts
+│   ├── images/                       # → Images
+│   └── js/                           # → JavaScripts
+├── inc/                              # → Includes
+│   ├── fields.php                    # → Metabox fields (never edit)
+│   ├── functions.php                 # → Metabox functions (never edit)
+│   └── metabox-class.php             # → Metabox class (never edit)
+└── dilaz-metabox.php                 # → metabox access (never edit)
 ```
 
 
