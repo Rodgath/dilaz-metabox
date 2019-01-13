@@ -1,4 +1,4 @@
-# Dilaz-Metaboxes
+# Dilaz Metaboxes
 WordPress metaboxes for themes and plugins.
 
 Feel free to use these metabox options in your __premium__ and __commercial__ projects.
