@@ -58,7 +58,7 @@ Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b) to se
 
 ## File Structure
 ```
-wp-includes/plugins/dilaz-metaboxes/  # → Root of your metaboxes
+wp-content/plugins/dilaz-metaboxes/  # → Root of your metaboxes
 ├── assets/                           # → Assets
 │   ├── css/                          # → Stylesheets
 │   ├── fonts/                        # → Fonts
