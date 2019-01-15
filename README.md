@@ -1,14 +1,14 @@
-# Dilaz Metaboxes
-WordPress metaboxes for themes and plugins.
+# Dilaz Metabox
+WordPress custom metabox fields for themes and plugins.
 
-Feel free to use this metaboxes plugin in your __premium__ and __commercial__ projects.
+Feel free to use this metabox plugin in your __premium__ and __commercial__ projects.
 
 ## How to use
 1. Download and install [Dilaz Metabox](https://github.com/Rodgath/Dilaz-Metabox-Plugin/archive/master.zip) plugin
 2. Download [Dilaz Metabox Options](https://github.com/Rodgath/Dilaz-Metabox-Options) and add it into your WordPress project. 
 
-## Example of how to use Dilaz Metaboxes in a theme
-Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b) to see a useful example on how to integrate this *dilaz metaboxes plugin* into your WordPress theme development project.
+## Example of how to use Dilaz Metabox in a theme
+Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b) to see a useful example on how to integrate this *dilaz metabox plugin* into your WordPress theme development project.
 
 ## Features
 * __Extendability__ - Easy to update or create new functionality 
