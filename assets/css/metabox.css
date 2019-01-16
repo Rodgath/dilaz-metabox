@@ -1169,6 +1169,10 @@ input:checked + .radio:before {
 	     -o-transform: rotate(-45deg);
 	        transform: rotate(-45deg)
 }
+.dilaz-mb-wp5-wrapper .checkbox:before {
+	width: 10px;
+	height: 6px;
+}
 input:focus + .checkbox:before,
 input.focus + .checkbox:before {
 	border-color:#8BC34A;
@@ -1688,4 +1692,17 @@ input.focus + .radio:before {
 	border-right: 8px solid #34495E;
 	border-top: 8px solid transparent;
 	border-bottom: 8px solid transparent;
+}
+
+/*--------------------------------------------------------------*/
+/* Metabox wrapper for WP 5+
+/*--------------------------------------------------------------*/
+.dilaz-mb-wp5-wrapper {
+	border: 1px solid #e5e5e5 !important;
+	border-bottom: 0 !important;
+	margin-top: 15px !important;
+	margin-bottom: 20px !important;
+}
+.edit-post-meta-boxes-area .postbox.dilaz-mb-wp5-wrapper > .inside {
+	padding: 0
 }

@@ -35,13 +35,15 @@ var DilazMetaboxScript = new function() {
 	 * Tabs Content min-Height
 	 */
 	$t.tabMinHeight = function() {
-		$('.dilaz-metabox').each(function() {
-			
-			var $this      = $(this),
-				$navHeight = $this.find('.dilaz-mb-tabs-nav').height(),
-				$content   = $this.find('.dilaz-mb-tabs-content');
+		$(window).load(function() {
+			$('.dilaz-metabox').each(function() {
 				
-			$content.css({'min-height':$navHeight+20});
+				var $this      = $(this),
+					$navHeight = $this.find('.dilaz-mb-tabs-nav').height(),
+					$content   = $this.find('.dilaz-mb-tabs-content');
+					
+				$content.css({'min-height':$navHeight+20});
+			});
 		});
 	}
 	
@@ -49,8 +51,16 @@ var DilazMetaboxScript = new function() {
 	 * Tabs
 	 */
 	$t.tabs = function() {
-		$('.dilaz-metabox').closest('.postbox').addClass('dilaz-mb-wrapper');
-		$('.dilaz-metabox').find('.dilaz-mb-tabs-nav-item:first-of-type, .dilaz-meta-tab:first-of-type').addClass('active');
+		
+		var dilazMetabox = $('.dilaz-metabox');
+		
+		dilazMetabox.closest('.postbox').addClass('dilaz-mb-wrapper');
+		
+		if (dilazMetabox.hasClass('dilaz-mb-wp5')) {
+			dilazMetabox.closest('.postbox').addClass('dilaz-mb-wp5-wrapper');
+		}
+		
+		dilazMetabox.find('.dilaz-mb-tabs-nav-item:first-of-type, .dilaz-meta-tab:first-of-type').addClass('active');
 		
 		$('.dilaz-mb-tabs').on('click', '.dilaz-mb-tabs-nav-item', function() {
 			
@@ -350,7 +360,7 @@ var DilazMetaboxScript = new function() {
 			if ($multiple) {
 				$this.sortable({
 					opacity : 0.6,
-					revert : true,
+					revert : false,
 					handle : '.sort',
 					cursor : 'move',
 					// axis: 'y',
@@ -518,7 +528,7 @@ var DilazMetaboxScript = new function() {
 	$t.repeatableField = function() {
 		$('.dilaz-mb-repeatable').sortable({
 			opacity: 0.6,
-			revert: true,
+			revert: false,
 			handle: '.sort-repeatable',
 			cursor: 'move',
 			axis: 'y',
