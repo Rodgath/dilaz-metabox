@@ -94,17 +94,29 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				
 				# stepper scripts
 				if ($this->hasField('stepper')) {
-					wp_enqueue_script('dilaz-mb-stepper', DILAZ_MB_URL .'assets/js/stepper.min.js', array('jquery'), '', true);
-					wp_enqueue_script('dilaz-mb-stepperscript', DILAZ_MB_URL .'assets/js/stepper-script.js', array('dilaz-mb-select2'), '', true);
+					
+					# file version based on last update
+					$dilaz_mb_stepper_js_ver       = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/stepper.min.js' ));
+					$dilaz_mb_stepperscript_js_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/stepper-script.js' ));
+					
+					wp_enqueue_script('dilaz-mb-stepper', DILAZ_MB_URL .'assets/js/stepper.min.js', array('jquery'), $dilaz_mb_stepper_js_ver, true);
+					wp_enqueue_script('dilaz-mb-stepperscript', DILAZ_MB_URL .'assets/js/stepper-script.js', array('dilaz-mb-select2'), $dilaz_mb_stepperscript_js_ver, true);
 				}
 				
 				# select 2 scripts
 				if ($this->hasField(array('select', 'queryselect', 'timezone'))) {
 					if ($this->hasFieldArg('select2', 'select2single') || $this->hasFieldArg('select2', 'select2multiple')) {
-						wp_enqueue_style('dilaz-mb-select2', DILAZ_MB_URL .'assets/css/select2.min.css', false, '4.0.3', false);
-						wp_enqueue_script('dilaz-mb-select2', DILAZ_MB_URL .'assets/js/select2.min.js', array('jquery'), '4.0.3', true);
-						wp_enqueue_script('dilaz-mb-select2-sortable', DILAZ_MB_URL .'assets/js/select2.sortable.js', array('dilaz-mb-select2'), '', true);
-						wp_enqueue_script('dilaz-mb-select2script', DILAZ_MB_URL .'assets/js/select2-script.js', array('dilaz-mb-select2'), '', true);
+						
+						# file version based on last update
+						$dilaz_mb_select2_css_ver         = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/css/select2.min.css' ));
+						$dilaz_mb_select2_js_ver          = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/select2.min.js' ));
+						$dilaz_mb_select2_sortable_js_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/select2.sortable.js' ));
+						$dilaz_mb_select2script_js_ver    = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/select2-script.js' ));
+						
+						wp_enqueue_style('dilaz-mb-select2', DILAZ_MB_URL .'assets/css/select2.min.css', false, $dilaz_mb_select2_css_ver, false);
+						wp_enqueue_script('dilaz-mb-select2', DILAZ_MB_URL .'assets/js/select2.min.js', array('jquery'), $dilaz_mb_select2_js_ver, true);
+						wp_enqueue_script('dilaz-mb-select2-sortable', DILAZ_MB_URL .'assets/js/select2.sortable.js', array('dilaz-mb-select2'), $dilaz_mb_select2_sortable_js_ver, true);
+						wp_enqueue_script('dilaz-mb-select2script', DILAZ_MB_URL .'assets/js/select2-script.js', array('dilaz-mb-select2'), $dilaz_mb_select2script_js_ver, true);
 					}
 				}
 				
@@ -112,7 +124,11 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				if ($this->hasField('color')) {
 					wp_enqueue_style('wp-color-picker');
 					wp_enqueue_script('wp-color-picker');
-					wp_enqueue_script('dilaz-mb-coloe-script', DILAZ_MB_URL .'assets/js/color-script.js', array('wp-color-picker'), '', true);
+					
+					# file version based on last update
+					$dilaz_mb_color_script_js_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/color-script.js' ));
+					
+					wp_enqueue_script('dilaz-mb-color-script', DILAZ_MB_URL .'assets/js/color-script.js', array('wp-color-picker'), $dilaz_mb_color_script_js_ver, true);
 				}
 				
 				# datepicker scripts
@@ -123,27 +139,42 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				
 				# date scripts
 				if ($this->hasField(array('date', 'date_from_to'))) {
-					wp_enqueue_script('dilaz-mb-date-script', DILAZ_MB_URL .'assets/js/date-script.js', array('jquery-ui-datepicker'), '', true);
+					
+					# file version based on last update
+					$dilaz_mb_date_script_js_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/date-script.js' ));
+					
+					wp_enqueue_script('dilaz-mb-date-script', DILAZ_MB_URL .'assets/js/date-script.js', array('jquery-ui-datepicker'), $dilaz_mb_date_script_js_ver, true);
 				}
 				
 				# monthpicker scripts
 				if ($this->hasField(array('month', 'month_from_to'))) {
-					wp_enqueue_script('dilaz-mb-monthpicker', DILAZ_MB_URL .'assets/js/jquery-ui-monthpicker.min.js', array('jquery-ui-datepicker'), '', true);
-					wp_enqueue_script('dilaz-mb-date-script', DILAZ_MB_URL .'assets/js/date-script.js', array('dilaz-mb-monthpicker'), '', true);
+					
+					# file version based on last update
+					$dilaz_mb_monthpicker_js_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/jquery-ui-monthpicker.min.js' ));
+					$dilaz_mb_date_script_js_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/date-script.js' ));
+					
+					wp_enqueue_script('dilaz-mb-monthpicker', DILAZ_MB_URL .'assets/js/jquery-ui-monthpicker.min.js', array('jquery-ui-datepicker'), $dilaz_mb_monthpicker_js_ver, true);
+					wp_enqueue_script('dilaz-mb-date-script', DILAZ_MB_URL .'assets/js/date-script.js', array('dilaz-mb-monthpicker'), $dilaz_mb_date_script_js_ver, true);
 				}
 				
 				# datepicker & timepicker scripts
 				if ($this->hasField(array('time', 'time_from_to', 'datetime', 'date_time_from_to'))) {
 					wp_enqueue_style('jquery-ui-datepicker');
-					wp_enqueue_script('dilaz-mb-timepicker', DILAZ_MB_URL .'assets/js/jquery-ui-timepicker.min.js', array('jquery-ui-datepicker', 'jquery-ui-slider'), '', true);
-					wp_enqueue_script('dilaz-mb-date-script', DILAZ_MB_URL .'assets/js/date-script.js', array('dilaz-mb-timepicker'), '', true);
+					
+					# file version based on last update
+					$dilaz_mb_timepicker_js_ver  = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/jquery-ui-timepicker.min.js' ));
+					$dilaz_mb_date_script_js_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/date-script.js' ));
+					
+					wp_enqueue_script('dilaz-mb-timepicker', DILAZ_MB_URL .'assets/js/jquery-ui-timepicker.min.js', array('jquery-ui-datepicker', 'jquery-ui-slider'), $dilaz_mb_timepicker_js_ver, true);
+					wp_enqueue_script('dilaz-mb-date-script', DILAZ_MB_URL .'assets/js/date-script.js', array('dilaz-mb-timepicker'), $dilaz_mb_date_script_js_ver, true);
 				}
 				
 				# doWhen script
 				wp_enqueue_script('dilaz-dowhen-script', DILAZ_MB_URL .'assets/js/jquery.dowhen.js');
 				
 				# metabox scripts
-				wp_enqueue_script('dilaz-mb-script', DILAZ_MB_URL .'assets/js/metabox.js', array('jquery-ui-slider'), '', true);
+				$dilaz_mb_script_js_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/metabox.js' )); # file version based on last update
+				wp_enqueue_script('dilaz-mb-script', DILAZ_MB_URL .'assets/js/metabox.js', array('jquery-ui-slider'), $dilaz_mb_script_js_ver, true);
 				
 				# translation
 				wp_localize_script('dilaz-mb-script', 'dilaz_mb_lang', apply_filters('dilaz_mb_localized_data', array(
@@ -152,12 +183,14 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				)));
 				
 				# Webfont styles
-				wp_enqueue_style('fontawesome', DILAZ_MB_URL .'assets/css/font-awesome.min.css', false, '4.5.0');
+				$fontawesome_css_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/css/font-awesome.min.css' )); # file version based on last update
+				wp_enqueue_style('fontawesome', DILAZ_MB_URL .'assets/css/font-awesome.min.css', false, $fontawesome_css_ver);
 				
 				do_action('dilaz_mb_before_main_style_enqueue', $this->_prefix, $this->_meta_box, $this->_params);
 				
 				# metabox styles
-				wp_enqueue_style('dilaz-metabox-style', DILAZ_MB_URL .'assets/css/metabox.css', array('thickbox'));
+				$dilaz_mb_style_css_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/css/metabox.css' )); # file version based on last update
+				wp_enqueue_style('dilaz-metabox-style', DILAZ_MB_URL .'assets/css/metabox.css', array('thickbox'), $dilaz_mb_style_css_ver);
 				
 				do_action('dilaz_mb_after_scripts_enqueue', $this->_prefix, $this->_meta_box);
 			}
