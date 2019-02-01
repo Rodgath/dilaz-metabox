@@ -183,8 +183,8 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				)));
 				
 				# Webfont styles
-				$fontawesome_css_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/css/font-awesome.min.css' )); # file version based on last update
-				wp_enqueue_style('fontawesome', DILAZ_MB_URL .'assets/css/font-awesome.min.css', false, $fontawesome_css_ver);
+				$meterial_css_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/css/materialdesignicons.min.css' )); # file version based on last update
+				wp_enqueue_style('material-webfont', DILAZ_MB_URL .'assets/css/materialdesignicons.min.css', false, $meterial_css_ver);
 				
 				do_action('dilaz_mb_before_main_style_enqueue', $this->_prefix, $this->_meta_box, $this->_params);
 				
@@ -301,9 +301,9 @@ if (!class_exists('Dilaz_Meta_Box')) {
 							foreach ($val['children'] as $child) {
 								
 								if (isset($child['icon']) && ($child['icon'] != '')) {
-									$icon = '<i class="fa '. esc_attr($child['icon']) .'"></i>';
+									$icon = '<span class="mdi mdi-18px '. esc_attr($child['icon']) .'"></span>';
 								} else {
-									$icon = '<i class="fa fa-cog"></i>';
+									$icon = '<span class="mdi mdi-18px mdi-settings"></span>';
 								}
 								
 								$menu .= '<li id="" class="dilaz-mb-tabs-nav-item">'. $icon .''. esc_html($child['title']) .'</li>';

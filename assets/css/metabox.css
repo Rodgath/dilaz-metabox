@@ -715,9 +715,16 @@
 	background: #ededed;
 	color: #4d4f54;
 }
-.dilaz-mb-tabs-nav li i {
-	margin-right: 10px;
-	margin-left: 2px
+.dilaz-mb-tabs-nav li .mdi {
+	float: left;
+	display: inline-block;
+	width: 18px;
+	height: 36px;
+	line-height: 36px;
+	vertical-align: middle;
+	text-align: center;
+	margin: 0;
+	margin-right: 6px;
 }
 .dilaz-mb-tabs-nav li {
 	position: relative;
