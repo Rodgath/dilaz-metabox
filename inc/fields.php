@@ -712,7 +712,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			
 			$default_color = isset($std) ?  $std : '';
 			
-			$output .= '<input class="dilaz-mb-color '. $class .'" type="text" name="'.  esc_attr($id) .'" id="'.  esc_attr($id) .'" value="'. $meta .'" size="8" data-default-color="'. $default_color .'" />'. $suffix .' '. $desc2 .'';
+			$output .= '<input class="dilaz-mb-color '. $class .'" type="text" name="'.  esc_attr($id) .'" id="'.  esc_attr($id) .'" value="'. $meta .'" size="8" data-default-color="'. $default_color .'" data-alpha="true" />'. $suffix .' '. $desc2 .'';
 			
 			echo $output;
 		}
@@ -743,7 +743,7 @@ if (!class_exists('DilazMetaboxFields')) {
 					
 					$output .= '<div class="dilaz-mb-multi-color">';
 					$output .= '<strong>'. $color_name .'</strong><br />';
-					$output .= '<input class="dilaz-mb-color '. $class .'" type="text" name="'.  esc_attr($id) .'['. esc_attr($key) .']" id="'.  esc_attr($id) .'" value="'. $saved_color .'" data-default-color="'. $default_color .'" />';
+					$output .= '<input class="dilaz-mb-color '. $class .'" type="text" name="'.  esc_attr($id) .'['. esc_attr($key) .']" id="'.  esc_attr($id) .'" value="'. $saved_color .'" data-default-color="'. $default_color .'" data-alpha="true" />';
 					$output .= '</div>';
 				}
 				$output .= '<br />'. $suffix .' '. $desc2 .'';

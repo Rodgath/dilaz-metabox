@@ -4,7 +4,7 @@
  * Plugin URI:	http://webdilaz.com/plugins/dilaz-metabox/
  * Description:	Create custom metaboxes for WordPress themes and plugins.
  * Author:		WebDilaz Team
- * Version:		2.5.2
+ * Version:		2.5.3
  * Author URI:	http://webdilaz.com/
  * License:		GPL-2.0+
  * License URI:	http://www.gnu.org/licenses/gpl-2.0.txt

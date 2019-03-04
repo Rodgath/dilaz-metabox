@@ -127,7 +127,9 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					
 					# file version based on last update
 					$dilaz_mb_color_script_js_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/color-script.js' ));
+					$dilaz_mb_color_alpha_js_ver  = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/wp-color-picker-alpha.min.js' ));
 					
+					wp_enqueue_script('dilaz-ma-color-alpha', DILAZ_MB_URL .'assets/js/wp-color-picker-alpha.min.js', array('wp-color-picker'), $dilaz_mb_color_alpha_js_ver, true);
 					wp_enqueue_script('dilaz-mb-color-script', DILAZ_MB_URL .'assets/js/color-script.js', array('wp-color-picker'), $dilaz_mb_color_script_js_ver, true);
 				}
 				
@@ -473,20 +475,20 @@ if (!class_exists('Dilaz_Meta_Box')) {
 							if (isset($field['type']) && $field['type'] == 'metabox_set') continue;
 							
 							# Set up blank or default values for empty fields
-							if ( !isset( $field['id'] ) ) $field['id'] = '';
-							if ( !isset( $field['type'] ) ) $field['type'] = '';
-							if ( !isset( $field['name'] ) ) $field['name'] = '';
-							if ( !isset( $field['std'] ) ) $field['std'] = '';
-							if ( !isset( $field['args'] ) ) $field['args'] = '';
-							if ( !isset( $field['state'] ) ) $field['state'] = '';
-							if ( !isset( $field['class'] ) ) $field['class'] = '';
-							if ( !isset( $field['req_id'] ) ) $field['req_id'] = '';
-							if ( !isset( $field['req_value'] ) ) $field['req_value'] = '';
-							if ( !isset( $field['req_args'] ) ) $field['req_args'] = '';
-							if ( !isset( $field['req_cond'] ) ) $field['req_cond'] = '';
+							if ( !isset( $field['id'] ) )         $field['id'] = '';
+							if ( !isset( $field['type'] ) )       $field['type'] = '';
+							if ( !isset( $field['name'] ) )       $field['name'] = '';
+							if ( !isset( $field['std'] ) )        $field['std'] = '';
+							if ( !isset( $field['args'] ) )       $field['args'] = '';
+							if ( !isset( $field['state'] ) )      $field['state'] = '';
+							if ( !isset( $field['class'] ) )      $field['class'] = '';
+							if ( !isset( $field['req_id'] ) )     $field['req_id'] = '';
+							if ( !isset( $field['req_value'] ) )  $field['req_value'] = '';
+							if ( !isset( $field['req_args'] ) )   $field['req_args'] = '';
+							if ( !isset( $field['req_cond'] ) )   $field['req_cond'] = '';
 							if ( !isset( $field['req_action'] ) ) $field['req_action'] = '';
-							if ( !isset( $field['hide_key'] ) ) $field['hide_key'] = '';
-							if ( !isset( $field['hide_val'] ) ) $field['hide_val'] = '';
+							if ( !isset( $field['hide_key'] ) )   $field['hide_key'] = '';
+							if ( !isset( $field['hide_val'] ) )   $field['hide_val'] = '';
 							
 							# Desc setup
 							$field['desc']   = isset($field['desc']) && $field['desc'] !== '' ? '<span class="description">'. esc_html($field['desc']) .'</span>' : '';
@@ -718,8 +720,19 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			echo '</div><!-- /.dilaz-metabox -->';
 		}
 		
-		# Sanitize meta field values
-		# =============================================================================================
+		
+		/**
+		 * Sanitize meta field values
+		 *
+		 * @since 1.0
+		 * @since 2.5.3 Sanitize RGB/RGBA/HSL/HSLA colors
+		 *
+		 * @param string $type  field type
+		 * @param mixed  $input field entry value
+		 * @param string $field $dilaz_meta_boxes field arguments keys
+		 * 
+		 * @return mixed|void
+		 */
 		function sanitizeMeta($type, $input, $field = '') {
 			
 			switch ($type) {
@@ -832,14 +845,27 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					break;
 					
 				case 'color':
-					return sanitize_hex_color($input);
+					if ( FALSE !== stripos( $input, 'rgb' ) ) {
+						$output = DilazMetaboxFunction::sanitize_rgb_color($input);
+					} else if ( FALSE !== stripos( $input, 'hsl' ) ) {
+						$output = DilazMetaboxFunction::sanitize_hsl_color($input);
+					} else {
+						$output = sanitize_hex_color($input);
+					}
+					return $output;
 					break;
 					
 				case 'multicolor':
 					$output = '';
 					foreach ((array)$input as $k => $v) {
 						if (isset($field['options'][$k])) {
-							$output[$k] = sanitize_hex_color($v);
+							if ( FALSE !== stripos( $v, 'rgb' ) ) {
+								$output[$k] = DilazMetaboxFunction::sanitize_rgb_color($v);
+							} else if ( FALSE !== stripos( $v, 'hsl' ) ) {
+								$output[$k] = DilazMetaboxFunction::sanitize_hsl_color($v);
+							} else {
+								$output[$k] = sanitize_hex_color($v);
+							}
 						}
 					}
 					return $output;
@@ -849,7 +875,13 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					$output = array();
 					foreach ((array)$input as $k => $v) {
 						if (isset($field['options'][$k]) && $k == 'color') {
-							$output[$k] = sanitize_hex_color($v);
+							if ( FALSE !== stripos( $v, 'rgb' ) ) {
+								$output[$k] = DilazMetaboxFunction::sanitize_rgb_color($v);
+							} else if ( FALSE !== stripos( $v, 'hsl' ) ) {
+								$output[$k] = DilazMetaboxFunction::sanitize_hsl_color($v);
+							} else {
+								$output[$k] = sanitize_hex_color($v);
+							}
 						} else {
 							$output[$k] = $v;
 						}
@@ -863,7 +895,13 @@ if (!class_exists('Dilaz_Meta_Box')) {
 						if (isset($field['options'][$k]) && $k == 'image') {
 							$output[$k] = absint($v);
 						} else if (isset($field['options'][$k]) && $k == 'color') {
-							$output[$k] = sanitize_hex_color($v);
+							if ( FALSE !== stripos( $v, 'rgb' ) ) {
+								$output[$k] = DilazMetaboxFunction::sanitize_rgb_color($v);
+							} else if ( FALSE !== stripos( $v, 'hsl' ) ) {
+								$output[$k] = DilazMetaboxFunction::sanitize_hsl_color($v);
+							} else {
+								$output[$k] = sanitize_hex_color($v);
+							}
 						} else if (isset($field['options'][$k]) && ($k == 'repeat' || $k == 'size' || $k == 'position' || $k == 'attachment' || $k == 'origin')) {
 							$output[$k] = is_array($v) ? array_map('sanitize_text_field', $v) : sanitize_text_field($v);
 						}

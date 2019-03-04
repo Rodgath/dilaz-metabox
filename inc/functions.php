@@ -309,6 +309,46 @@ if (!class_exists('DilazMetaboxFunction')) {
 		
 		
 		/**
+		 * Sanitizes a rgb/rgba color.
+		 *
+		 * @since 2.5.3
+		 *
+		 * @param  string      $color
+		 * @return string|void
+		 */
+		public static function sanitize_rgb_color( $color ) {
+			
+			if ( '' === $color ) {
+				return '';
+			}
+			
+			if ( preg_match('/^rgba?\(((\d{1,2}|1\d\d|2([0-4]\d|5[0-5]))\s*,\s*){2}((\d{1,2}|1\d\d|2([0-4]\d|5[0-5]))\s*)(,\s*(0\.\d+|1))?\)$/', $color ) ) {
+				return $color;
+			}
+		}
+		
+		
+		/**
+		 * Sanitizes a hsl/hsla color.
+		 *
+		 * @since 2.5.3
+		 *
+		 * @param  string      $color
+		 * @return string|void
+		 */
+		public static function sanitize_hsl_color( $color ) {
+			
+			if ( '' === $color ) {
+				return '';
+			}
+			
+			if ( preg_match('/^hsla?\(\s*((\d{1,2}|[1-2]\d{2}|3([0-5]\d|60)))\s*,\s*((\d{1,2}|100)\s*%)\s*,\s*((\d{1,2}|100)\s*%)(,\s*(0\.\d+|1))?\)$/', $color ) ) {
+				return $color;
+			}
+		}
+		
+		
+		/**
 		 * Default option vars
 		 *
 		 * @since 1.0
