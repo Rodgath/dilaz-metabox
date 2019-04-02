@@ -3,13 +3,13 @@
 || Metabox JS
 || --------------------------------------------------------------------------------------------
 ||
-|| @package		Dilaz Metabox
-|| @subpackage	Metabox
-|| @since		Dilaz Metabox 1.0
-|| @author		WebDilaz Team, http://webdilaz.com, http://themedilaz.com
-|| @copyright	Copyright (C) 2017, WebDilaz LTD
-|| @link		http://webdilaz.com/metaboxes
-|| @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+|| @package    Dilaz Metabox
+|| @subpackage Metabox
+|| @since      Dilaz Metabox 1.0
+|| @author     WebDilaz Team, http://webdilaz.com, http://themedilaz.com
+|| @copyright  Copyright (C) 2017, WebDilaz LTD
+|| @link       http://webdilaz.com/metaboxes
+|| @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 || 
 */
 

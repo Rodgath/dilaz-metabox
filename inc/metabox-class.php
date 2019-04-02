@@ -745,13 +745,13 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					break;
 					
 				case 'multitext':
-					$output = '';
+					$output = [];
 					foreach ((array)$input as $k => $v) {
 						if (isset($field['options'][$k])) {
 							$output[$k] = sanitize_text_field($v);
 						}
 					}
-					return $output;
+					return !empty($output) ? $output : '';
 					break;
 					
 				case 'paragraph':
@@ -792,22 +792,22 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					break;
 					
 				case 'multiselect':
-					$output = '';
+					$output = [];
 					foreach ((array)$input as $k => $v) {
 						if (isset($field['options'][$v])) {
 							$output[] = $v;
 						}
 					}
-					return $output;
+					return !empty($output) ? $output : '';
 					break;
 					
 				case 'queryselect':
 				case 'range':
-					$output = '';
+					$output = [];
 					foreach ((array)$input as $k => $v) {
 						$output[$k] = absint($v);
 					}
-					return $output;
+					return !empty($output) ? $output : '';
 					break;
 					
 				case 'timezone':
@@ -823,7 +823,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					break;
 					
 				case 'multicheck':
-					$output = '';
+					$output = [];
 					foreach ((array)$input as $k => $v) {
 						if (isset($field['options'][$k]) && $v == true) {
 							$output[$k] = true;
@@ -831,17 +831,17 @@ if (!class_exists('Dilaz_Meta_Box')) {
 							$output[$k] = false;
 						}
 					}
-					return $output;
+					return !empty($output) ? $output : '';
 					break;
 					
 				case 'repeatable':
-					$output = '';
+					$output = [];
 					foreach ((array)$input as $key => $value) {
 						foreach ($value as $k => $v) {
 							$output[$key][$k] = sanitize_text_field($v);
 						}
 					}
-					return $output;
+					return !empty($output) ? $output : '';
 					break;
 					
 				case 'color':
@@ -856,7 +856,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					break;
 					
 				case 'multicolor':
-					$output = '';
+					$output = [];
 					foreach ((array)$input as $k => $v) {
 						if (isset($field['options'][$k])) {
 							if ( FALSE !== stripos( $v, 'rgb' ) ) {
@@ -868,7 +868,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 							}
 						}
 					}
-					return $output;
+					return !empty($output) ? $output : '';
 					break;
 					
 				case 'font':
@@ -906,7 +906,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 							$output[$k] = is_array($v) ? array_map('sanitize_text_field', $v) : sanitize_text_field($v);
 						}
 					}
-					return $output;
+					return !empty($output) ? $output : '';
 					break;
 					
 				case 'upload':
@@ -932,7 +932,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					foreach ((array)$input as $k => $v) {
 						$output[$k] = strtotime($v);
 					}
-					return $output;
+					return !empty($output) ? $output : '';
 					break;
 					
 				# sanitize custom field types via this filter hook

@@ -4,13 +4,13 @@
 || Dilaz Metabox Functions
 || --------------------------------------------------------------------------------------------
 ||
-|| @package		Dilaz Metabox
-|| @subpackage	Functions
-|| @since		Dilaz Metabox 1.0
-|| @author		WebDilaz Team, http://webdilaz.com
-|| @copyright	Copyright (C) 2017, WebDilaz LTD
-|| @link		http://webdilaz.com/metaboxes
-|| @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+|| @package    Dilaz Metabox
+|| @subpackage Functions
+|| @since      Dilaz Metabox 1.0
+|| @author     WebDilaz Team, http://webdilaz.com
+|| @copyright  Copyright (C) 2017, WebDilaz LTD
+|| @link       http://webdilaz.com/metaboxes
+|| @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 || 
 */
 
@@ -33,9 +33,9 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 *
 		 * @since 2.1
 		 *
-		 * @param  string prefix metabox options prefix
+		 * @param string prefix metabox options prefix
 		 *
-		 * @return json.data
+		 * @return string
 		 */
 		public static function preparePrefix($prefix) {
 			return rtrim($prefix, '_') . '_';
@@ -176,7 +176,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 * @param string $value	value of the array
 		 * @since 1.0
 		 *
-		 * @return integer
+		 * @return integer|bool
 		 */
 		public static function find_array_key_by_value($array, $field, $value) {
 			foreach ($array as $key => $array_item) {
@@ -197,7 +197,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 * @param string $insert_position 'before' or 'after' or 'last', default: before
 		 * @since 1.0
 		 *
-		 * @return	array
+		 * @return array|bool
 		 */
 		public static function insert_array_adjacent_to_key($array, $data, $key_offset, $insert_position = 'before') {
 			
@@ -262,7 +262,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 * @param string $insert_position 'before' or 'after'
 		 * @since 1.0
 		 *
-		 * @return array
+		 * @return array|void
 		 */
 		public static function insert_field($meta_boxes, $metabox_set_id, $before_field_id, $insert_data, $insert_position) {
 			
@@ -353,7 +353,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string  $var option variable name
+		 * @param string $var option variable name
 		 *
 		 * @return mixed
 		 */
