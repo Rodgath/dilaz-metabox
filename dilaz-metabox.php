@@ -4,7 +4,7 @@
  * Plugin URI:	http://webdilaz.com/plugins/dilaz-metabox/
  * Description:	Create custom metaboxes for WordPress themes and plugins.
  * Author:		WebDilaz Team
- * Version:		2.5.4
+ * Version:		2.5.5
  * Author URI:	http://webdilaz.com/
  * License:		GPL-2.0+
  * License URI:	http://www.gnu.org/licenses/gpl-2.0.txt
@@ -15,7 +15,7 @@
 ||
 || @package		Dilaz Metabox
 || @subpackage	Metabox
-|| @version		2.5.4
+|| @version		2.5.5
 || @since		Dilaz Metabox 2.0
 || @author		WebDilaz Team, http://webdilaz.com
 || @copyright	Copyright (C) 2017, WebDilaz LTD
@@ -31,6 +31,11 @@ defined('ABSPATH') || exit;
  * DilazMetabox functions
  */
 require_once plugin_dir_path(__FILE__) .'inc/functions.php';
+
+/**
+ * DilazMetabox defaults
+ */
+require_once plugin_dir_path(__FILE__) .'inc/defaults.php';
 
 
 /**
