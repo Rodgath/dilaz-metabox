@@ -297,15 +297,14 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			if (!empty($menu_items) && sizeof($menu_items) > 0) {		
 				foreach ($menu_items as $key => $val) {				
 					if ($meta_box_id == $val['id']) {
-						
 						if (isset($val['children']) && sizeof($val['children']) > 0) {
 							$menu .= '<ul class="dilaz-mb-tabs-nav">';
 							foreach ($val['children'] as $child) {
 								
 								if (isset($child['icon']) && ($child['icon'] != '')) {
-									$icon = '<span class="mdi mdi-18px '. esc_attr($child['icon']) .'"></span>';
+									$icon = '<span class="mdi '. esc_attr($child['icon']) .'"></span>';
 								} else {
-									$icon = '<span class="mdi mdi-18px mdi-settings"></span>';
+									$icon = '<span class="mdi mdi-settings"></span>';
 								}
 								
 								$menu .= '<li id="" class="dilaz-mb-tabs-nav-item">'. $icon .''. esc_html($child['title']) .'</li>';
