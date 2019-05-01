@@ -909,7 +909,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					break;
 					
 				case 'upload':
-					$output = '';
+					$output = [];
 					foreach ((array)$input as $k => $v) {
 						$output[] = absint($v);
 					}
