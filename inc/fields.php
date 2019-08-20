@@ -1243,7 +1243,7 @@ if (!class_exists('DilazMetaboxFields')) {
 								$attachment = get_post($attachment_id);
 								
 								/* get file extension */
-								$file_ext = pathinfo($attachment->guid, PATHINFO_EXTENSION);	
+								$file_ext = is_object($attachment) ? pathinfo($attachment->guid, PATHINFO_EXTENSION) : pathinfo($attachment_url, PATHINFO_EXTENSION);
 								
 								/* get file type */
 								$file_type = wp_ext2type($file_ext);
