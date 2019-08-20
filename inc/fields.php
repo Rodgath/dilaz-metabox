@@ -1251,7 +1251,7 @@ if (!class_exists('DilazMetaboxFields')) {
 								/* get file type */
 								$file_type = wp_ext2type($file_ext);
 								
-								$output .= '<div class="filename '. $file_type .'">'. $attachment->post_title .'</div>';
+								$output .= '<div class="filename '. $file_type .'">'. $file_title .'</div>';
 								
 								$media_remove = '<a href="#" class="dilaz-mb-remove-file" title="'. __('Remove', 'dilaz-metabox') .'"><span class="mdi mdi-window-close"></span></a>';					
 								
