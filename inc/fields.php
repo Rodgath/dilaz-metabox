@@ -1218,6 +1218,11 @@ if (!class_exists('DilazMetaboxFields')) {
 				if ($meta != '' && is_array($meta)) {
 					foreach ($meta as $key => $file_data) {
 						
+						if ( $key == 'url' || (isset($file_data['url']) && $file_data['url'] != '') ) {
+							
+							$attachment_url = is_array($file_data) && isset($file_data['url']) ? $file_data['url'] : (!empty($file_data) ? $file_data : '');
+							$attachment_id  = isset($file_data['id']) && $file_data['id'] != '' ? attachment_url_to_postid($attachment_url) : '';
+						
 						if ($attachment_id) {
 							$file = wp_get_attachment_image_src($attachment_id, 'thumbnail'); $file = $file[0];
 							$file_full = wp_get_attachment_image_src($attachment_id, 'full'); $file_full = $file_full[0];
