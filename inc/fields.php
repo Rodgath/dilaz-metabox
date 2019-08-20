@@ -1205,11 +1205,11 @@ if (!class_exists('DilazMetaboxFields')) {
 					break;
 			}
 			
-			$output .= '<div class="dilaz-mb-file-upload '. $class .'">';
+			$output .= '<input type="'. (!$is_file_multiple ? "text" : "hidden") .'" name="'. esc_attr($id) .'[url][]" id="file_url_'. esc_attr($id) .'" class="dilaz-mb-input dilaz-mb-text dilaz-mb-file-url upload" value="'. $the_file_url .'" size="0" rel="" placeholder="Choose file" />';
 			
 			$upload_button_text  = (isset($args['upload_button_text']) && $args['upload_button_text'] != '') ? sanitize_text_field($args['upload_button_text']) : sprintf(__('Upload %s file', 'dilaz-metabox'), $file_type);
 			
-			$output .= '<input type="button" id="upload-'. esc_attr($id) .'" class="dilaz-mb-file-upload-button button" value="'. $upload_button_text .'" rel="'. $post->ID .'" '. $data_file_type.' '. $data_file_specific .' '. $data_file_multiple .' '. $data_frame_title .' '. $data_frame_b_txt .' />';
+			$output .= '<input type="button" id="upload-'. esc_attr($id) .'" class="dilaz-mb-file-upload-button button" value="'. $upload_button_text .'" rel="'. $post->ID .'" '. $data_file_type.' '. $data_file_specific .' '. $data_file_multiple .' '. $data_frame_title .' '. $data_frame_b_txt .' '. $data_file_thumb .' />';
 			
 				$output .= '<div class="dilaz-mb-file-wrapper" data-file-id="'. esc_attr($id) .'" '. $data_file_multiple .'>';
 				
