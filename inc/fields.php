@@ -1216,7 +1216,7 @@ if (!class_exists('DilazMetaboxFields')) {
 				$output .= '<input type="hidden" name="'. esc_attr($id) .'[id][]" id="file_id_'. esc_attr($id) .'" class="dilaz-panel-file-id upload" value="" size="0" rel="" />';
 				
 				if ($meta != '' && is_array($meta)) {
-					foreach ($meta as $key => $attachment_id) {
+					foreach ($meta as $key => $file_data) {
 						
 						if ($attachment_id) {
 							$file = wp_get_attachment_image_src($attachment_id, 'thumbnail'); $file = $file[0];
