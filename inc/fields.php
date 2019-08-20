@@ -1235,7 +1235,8 @@ if (!class_exists('DilazMetaboxFields')) {
 								
 								$output .= '<input type="hidden" name="'. esc_attr($id) .'[url][]" id="file_url_'. esc_attr($id) .'" class="dilaz-mb-input dilaz-mb-text dilaz-mb-file-url upload" value="'. $attachment_url .'" size="0" rel="" placeholder="Choose file" />';
 					
-								$output .= '<input type="hidden" name="'. esc_attr($id) .'[]" id="file_'. esc_attr($id) .'" class="dilaz-mb-file-id upload" value="'. $attachment_id .'" size="30" rel"" />';
+								$output .= '<input type="hidden" name="'. esc_attr($id) .'[id][]" id="file_id_'. esc_attr($id) .'" class="dilaz-mb-file-id upload" value="'. $attachment_id .'" size="30" rel"" />';
+								
 								$output .= sizeof($meta) > 1 ? '<span class="sort"></span>' : '';
 								
 								/* get attachment data */
