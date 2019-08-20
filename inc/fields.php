@@ -1149,7 +1149,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			
 			$show_thumb         = isset($args['show_thumb']) && $args['show_thumb'] == FALSE ? 'false' : 'true';
 			$data_file_thumb    = 'data-file-thumb="'. $show_thumb .'"';
-			$is_file_multiple   = isset($args['multiple']) && $args['multiple'] == TRUE ? TRUE : FALSE;			
+			$is_file_multiple   = isset($args['multiple']) && $args['multiple'] == TRUE ? TRUE : FALSE;				
 			$data_file_multiple = $is_file_multiple ? 'data-file-multiple="true"' : '';
 			$file_type          = (isset($args['file_type']) && $args['file_type'] != '') ? strtolower($args['file_type']) : 'image';
 			$data_file_type     = $file_type != '' ? 'data-file-type="'. $file_type .'"' : 'data-file-type="image"';
@@ -1205,8 +1205,6 @@ if (!class_exists('DilazMetaboxFields')) {
 					break;
 			}
 			
-			$output .= '<div class="dilaz-mb-file-upload '. $class .'">';
-			
 			$output .= '<input type="'. (!$is_file_multiple ? "text" : "hidden") .'" name="'. esc_attr($id) .'[url][]" id="file_url_'. esc_attr($id) .'" class="dilaz-mb-input dilaz-mb-text dilaz-mb-file-url upload" value="'. $the_file_url .'" size="0" rel="" placeholder="Choose file" />';
 			
 			$upload_button_text  = (isset($args['upload_button_text']) && $args['upload_button_text'] != '') ? sanitize_text_field($args['upload_button_text']) : sprintf(__('Upload %s file', 'dilaz-metabox'), $file_type);
@@ -1215,9 +1213,9 @@ if (!class_exists('DilazMetaboxFields')) {
 			
 				$output .= '<div class="dilaz-mb-file-wrapper" data-file-id="'. esc_attr($id) .'" '. $data_file_multiple .'>';
 				
-				$output .= '<input type="hidden" name="'. esc_attr($id) .'[id][]" id="file_id_'. esc_attr($id) .'" class="dilaz-mb-file-id upload" value="" size="0" rel="" />';
+				$output .= '<input type="hidden" name="'. esc_attr($id) .'[id][]" id="file_id_'. esc_attr($id) .'" class="dilaz-panel-file-id upload" value="" size="0" rel="" />';
 				
-				if ($meta != '') {
+				if ($meta != '' && is_array($meta)) {
 					foreach ($meta as $key => $attachment_id) {
 						
 						if ($attachment_id) {
@@ -1232,8 +1230,7 @@ if (!class_exists('DilazMetaboxFields')) {
 							
 							$output .= '<div class="dilaz-mb-media-file '. $file_type .' '. ($attachment_id != '' ? '' : 'empty') .'" id="file-'. esc_attr($id) .'">';
 				
-							$output .= '<input type="hidden" name="'. esc_attr($id) .'[]" id="file_'. esc_attr($id) .'" class="dilaz-mb-file-id upload" value="'. 
-							$attachment_id .'" size="30" rel"" />';
+							$output .= '<input type="hidden" name="'. esc_attr($id) .'[]" id="file_'. esc_attr($id) .'" class="dilaz-mb-file-id upload" value="'. $attachment_id .'" size="30" rel"" />';
 							$output .= sizeof($meta) > 1 ? '<span class="sort"></span>' : '';
 							
 							/* get attachment data */
