@@ -1223,72 +1223,75 @@ if (!class_exists('DilazMetaboxFields')) {
 							$attachment_url = is_array($file_data) && isset($file_data['url']) ? $file_data['url'] : (!empty($file_data) ? $file_data : '');
 							$attachment_id  = isset($file_data['id']) && $file_data['id'] != '' ? attachment_url_to_postid($attachment_url) : '';
 						
-						if (!empty($attachment_url)) {
+							if (!empty($attachment_url)) {
+									
+									if (FALSE !== get_post_status($attachment_id)) {
+										$file = wp_get_attachment_image_src($attachment_id, 'thumbnail'); $file = $file[0];
+									} else {
+										$file = $attachment_url;
+									}
 								
-								if (FALSE !== get_post_status($attachment_id)) {
-									$file = wp_get_attachment_image_src($attachment_id, 'thumbnail'); $file = $file[0];
-								} else {
-									$file = $attachment_url;
+								$output .= '<div class="dilaz-mb-media-file '. $file_type .' '. ($attachment_id != '' ? '' : 'empty') .'" id="file-'. esc_attr($id) .'">';
+								
+								$output .= '<input type="hidden" name="'. esc_attr($id) .'[url][]" id="file_url_'. esc_attr($id) .'" class="dilaz-mb-input dilaz-mb-text dilaz-mb-file-url upload" value="'. $attachment_url .'" size="0" rel="" placeholder="Choose file" />';
+					
+								$output .= '<input type="hidden" name="'. esc_attr($id) .'[]" id="file_'. esc_attr($id) .'" class="dilaz-mb-file-id upload" value="'. $attachment_id .'" size="30" rel"" />';
+								$output .= sizeof($meta) > 1 ? '<span class="sort"></span>' : '';
+								
+								/* get attachment data */
+								$attachment = get_post($attachment_id);
+								
+								/* get file extension */
+								$file_ext = pathinfo($attachment->guid, PATHINFO_EXTENSION);	
+								
+								/* get file type */
+								$file_type = wp_ext2type($file_ext);
+								
+								$output .= '<div class="filename '. $file_type .'">'. $attachment->post_title .'</div>';
+								
+								$media_remove = '<a href="#" class="dilaz-mb-remove-file" title="'. __('Remove', 'dilaz-metabox') .'"><span class="mdi mdi-window-close"></span></a>';					
+								
+								switch ($file_type) {
+									
+									case ('image') :
+										$output .= ($file_ext) ? '<img src="'. $file .'" class="dilaz-mb-file-preview file-image" alt="" />'. $media_remove : '';
+										break;
+									
+									case ('audio') :
+										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/audio.png" class="dilaz-mb-file-preview file-audio" alt="" />'. $media_remove : '';
+										break;
+									
+									case ('video') :
+										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/video.png" class="dilaz-mb-file-preview file-video" alt="" />'. $media_remove : '';
+										break;
+									
+									case ('document') :
+										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/document.png" class="dilaz-mb-file-preview file-document" alt="" />'. $media_remove : '';
+										break;
+									
+									case ('spreadsheet') :
+										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/spreadsheet.png" class="dilaz-mb-file-preview file-spreadsheet" alt="" />'. $media_remove : '';
+										break;
+									
+									case ('interactive') :
+										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/interactive.png" class="dilaz-mb-file-preview file-interactive" alt="" />'. $media_remove : '';
+										break;
+										
+									case ('text') :
+										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/text.png" class="dilaz-mb-file-preview file-text" alt="" />'. $media_remove : '';
+										break;
+										
+									case ('archive') :
+										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/archive.png" class="dilaz-mb-file-preview file-archive" alt="" />'. $media_remove : '';
+										break;
+										
+									case ('code') :	
+										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/code.png" class="dilaz-mb-file-preview file-code" alt="" />'. $media_remove : '';
+										break;	
+										
 								}
-							
-							$output .= '<div class="dilaz-mb-media-file '. $file_type .' '. ($attachment_id != '' ? '' : 'empty') .'" id="file-'. esc_attr($id) .'">';
-				
-							$output .= '<input type="hidden" name="'. esc_attr($id) .'[]" id="file_'. esc_attr($id) .'" class="dilaz-mb-file-id upload" value="'. $attachment_id .'" size="30" rel"" />';
-							$output .= sizeof($meta) > 1 ? '<span class="sort"></span>' : '';
-							
-							/* get attachment data */
-							$attachment = get_post($attachment_id);
-							
-							/* get file extension */
-							$file_ext = pathinfo($attachment->guid, PATHINFO_EXTENSION);	
-							
-							/* get file type */
-							$file_type = wp_ext2type($file_ext);
-							
-							$output .= '<div class="filename '. $file_type .'">'. $attachment->post_title .'</div>';
-							
-							$media_remove = '<a href="#" class="dilaz-mb-remove-file" title="'. __('Remove', 'dilaz-metabox') .'"><span class="mdi mdi-window-close"></span></a>';					
-							
-							switch ($file_type) {
-								
-								case ('image') :
-									$output .= ($file_ext) ? '<img src="'. $file .'" class="dilaz-mb-file-preview file-image" alt="" />'. $media_remove : '';
-									break;
-								
-								case ('audio') :
-									$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/audio.png" class="dilaz-mb-file-preview file-audio" alt="" />'. $media_remove : '';
-									break;
-								
-								case ('video') :
-									$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/video.png" class="dilaz-mb-file-preview file-video" alt="" />'. $media_remove : '';
-									break;
-								
-								case ('document') :
-									$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/document.png" class="dilaz-mb-file-preview file-document" alt="" />'. $media_remove : '';
-									break;
-								
-								case ('spreadsheet') :
-									$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/spreadsheet.png" class="dilaz-mb-file-preview file-spreadsheet" alt="" />'. $media_remove : '';
-									break;
-								
-								case ('interactive') :
-									$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/interactive.png" class="dilaz-mb-file-preview file-interactive" alt="" />'. $media_remove : '';
-									break;
-									
-								case ('text') :
-									$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/text.png" class="dilaz-mb-file-preview file-text" alt="" />'. $media_remove : '';
-									break;
-									
-								case ('archive') :
-									$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/archive.png" class="dilaz-mb-file-preview file-archive" alt="" />'. $media_remove : '';
-									break;
-									
-								case ('code') :	
-									$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/code.png" class="dilaz-mb-file-preview file-code" alt="" />'. $media_remove : '';
-									break;	
-									
+								$output .= '</div><!-- .dilaz-mb-media-file -->'; // end .dilaz-mb-media-file
 							}
-							$output .= '</div><!-- .dilaz-mb-media-file -->'; // end .dilaz-mb-media-file
 						}
 					}
 				}
