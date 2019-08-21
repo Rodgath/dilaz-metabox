@@ -345,6 +345,10 @@
 	max-width: 100%;
 	float: left;
 }
+[data-file-thumb="false"] + .dilaz-mb-file-wrapper .dilaz-mb-media-file img {
+	min-width: auto;
+	min-height: auto;
+}
 .dilaz-mb-media-file:not(.image) {
 	background: #f5f5f5
 }
