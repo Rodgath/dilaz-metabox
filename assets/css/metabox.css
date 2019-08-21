@@ -135,9 +135,9 @@
 	color: #464646;
 	-webkit-transition: background 0.3s;
 	   -moz-transition: background 0.3s;
-		-ms-transition: background 0.3s;
-		 -o-transition: background 0.3s;
-			transition: background 0.3s;
+	    -ms-transition: background 0.3s;
+	     -o-transition: background 0.3s;
+	        transition: background 0.3s;
 }
 .dilaz-metabox ul.sortable li > span {
 	display: inline-block;
@@ -176,9 +176,9 @@
 	/*text-transform: uppercase;*/
 	-webkit-transition: all 0.3s;
 	   -moz-transition: all 0.3s;
-		-ms-transition: all 0.3s;
-		 -o-transition: all 0.3s;
-			transition: all 0.3s;
+	    -ms-transition: all 0.3s;
+	     -o-transition: all 0.3s;
+	        transition: all 0.3s;
 }
 .dilaz-metabox ul.sortable li > span.criteria-button:hover,
 .dilaz-metabox ul.sortable li > span.del-keyvalopts:hover,
@@ -199,9 +199,9 @@
 	font-size: 9px;
 	-webkit-transition: all 0.3s;
 	   -moz-transition: all 0.3s;
-		-ms-transition: all 0.3s;
-		 -o-transition: all 0.3s;
-			transition: all 0.3s;
+	    -ms-transition: all 0.3s;
+	     -o-transition: all 0.3s;
+	        transition: all 0.3s;
 }
 .slideshow_remove:hover, 
 .bg_slideshow_remove:hover {
