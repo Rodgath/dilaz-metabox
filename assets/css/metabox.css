@@ -299,7 +299,7 @@
 .sort-repeatable {
 	vertical-align:bottom !important;
 	position: relative;
-	bottom: -2px;
+	bottom: 2px;
 }
 .sort-repeatable .dashicons-move {
 	vertical-align: baseline;
@@ -1296,7 +1296,7 @@ input.focus + .radio:before {
 	position: relative;
 	font: 14px/1.55 Roboto,Arial,Helvetica,sans-serif;
 	border: 1px solid #ddd;
-	z-index: 9999;
+	z-index: 99999 !important;
 	text-align: center;
 	color: #666;
 	-webkit-box-shadow: 0 0 4px rgba(0,0,0,.1);
