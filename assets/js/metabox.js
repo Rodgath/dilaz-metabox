@@ -270,7 +270,9 @@ var DilazMetaboxScript = new function() {
 						var $fileOutput = '';
 						
 						$fileOutput += '<div class="dilaz-mb-media-file '+ $fileType +'  '+ (id != '' ? '' : 'empty') +'" id="file-'+ $fileId +'">';
-						$fileOutput += '<input type="hidden" name="'+ $fileId +'[]" id="file_'+ $fileId +'" class="dilaz-mb-file-id upload" value="'+ id +'">';
+						$fileOutput += '<input type="hidden" name="'+ $fileId +'[url][]" id="file_url_'+ $fileId +'" class="dilaz-mb-file-url upload" value="'+ src +'">';
+						$fileOutput += '<input type="hidden" name="'+ $fileId +'[id][]" id="file_id_'+ $fileId +'" class="dilaz-mb-file-id upload" value="'+ id +'">';
+						
 						$fileOutput += '<div class="filename '+ $fileType +'">'+ title +'</div>';
 						$fileOutput += '<span class="sort ui-sortable-handle"></span>';
 						$fileOutput += '<a href="#" class="dilaz-mb-remove-file" title="Remove"><span class="mdi mdi-window-close"></span></a>';
