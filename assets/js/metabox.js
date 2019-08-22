@@ -257,7 +257,13 @@ var DilazMetaboxScript = new function() {
 							id      = attachment.id,
 							title   = attachment.attributes.title,
 							caption = attachment.attributes.caption;
-							
+						
+						/* Add file source URL when file is selected */
+						if (false == $fileMultiple) {
+							$fileUpload.find('.dilaz-mb-file-url').val(src);
+							$mediaPreview.remove();
+						}
+						
 						$fileWrapper.find('.dilaz_metabox_title_bg_image').val(title);
 						$fileWrapper.find('.dilaz_metabox_caption_bg_image').val(caption);
 						
