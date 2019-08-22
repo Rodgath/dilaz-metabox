@@ -245,13 +245,10 @@ var DilazMetaboxScript = new function() {
 						var type = attachment.attributes.type;
 						
 						if (type == 'image') {
-							
-							/* if uploaded image is smaller than default thumbnail(250 by 250)
-							then get the full image url */
 							if (attachment.attributes.sizes.thumbnail !== undefined) {
-								var image_src = attachment.attributes.sizes.thumbnail.url;
+								var image_src = $fileThumb ? attachment.attributes.sizes.thumbnail.url : attachment.attributes.url;
 							} else {
-								var image_src = attachment.attributes.url;
+								var image_src = $fileThumb ? attachment.attributes.sizes.thumbnail.url : attachment.attributes.url;
 							}
 						}
 						
