@@ -256,8 +256,7 @@ var DilazMetaboxScript = new function() {
 						var src     = attachment.attributes.url,
 							id      = attachment.id,
 							title   = attachment.attributes.title,
-							caption = attachment.attributes.caption,
-							type    = attachment.attributes.type;
+							caption = attachment.attributes.caption;
 							
 						$fileWrapper.find('.dilaz_metabox_title_bg_image').val(title);
 						$fileWrapper.find('.dilaz_metabox_caption_bg_image').val(caption);
