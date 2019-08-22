@@ -203,6 +203,7 @@ var DilazMetaboxScript = new function() {
 					$fileMime          = $self.data('file-mime') || '',
 					$fileSpecific      = $self.data('file-specific') || false,
 					$fileMultiple      = $self.data('file-multiple') || false,
+					$fileThumb         = $self.data('file-thumb') || false,
 					$fileType          = $self.data('file-type') || '',
 					$frameTitle        = $self.data('frame-title') || '',
 					$frameButtonText   = $self.data('frame-button-text') || '',
