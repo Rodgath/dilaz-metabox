@@ -318,11 +318,7 @@ var DilazMetaboxScript = new function() {
 						
 						$fileOutput += '</div>';
 						
-						if ($fileMultiple == true) {
-							$fileWrapper.append($fileOutput);
-						} else {
-							$fileWrapper.html($fileOutput);
-						}
+						$fileWrapper.append($fileOutput);
 					});
 				});
 				
