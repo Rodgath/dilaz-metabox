@@ -20,8 +20,8 @@ var DilazMetaboxScript = new function() {
 	/**
 	 * Global Variables
 	 */
-	var $t = this,
-	    $ = jQuery.noConflict(),
+	var $t   = this,
+	    $    = jQuery.noConflict(),
 		$doc = $(document);
 	
 	/**
