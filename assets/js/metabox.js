@@ -39,7 +39,7 @@ var DilazMetaboxScript = new function() {
 			$('.dilaz-metabox').each(function() {
 				
 				var $this      = $(this),
-					$navHeight = $this.find('.dilaz-mb-tabs-nav').height(),
+				    $navHeight = $this.find('.dilaz-mb-tabs-nav').height(),
 					$content   = $this.find('.dilaz-mb-tabs-content');
 					
 				$content.css({'min-height':$navHeight+20});
