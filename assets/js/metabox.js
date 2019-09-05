@@ -21,8 +21,8 @@ var DilazMetaboxScript = new function() {
 	 * Global Variables
 	 */
 	var $t   = this,
-	    $    = jQuery.noConflict(),
-	    $doc = $(document);
+		$    = jQuery.noConflict(),
+		$doc = $(document);
 	
 	/**
 	 * DoWhen start
@@ -107,10 +107,11 @@ var DilazMetaboxScript = new function() {
 	$t.switchAndButtonset = function() {
 		$('.dilaz-mb-tabs-content').on('click', '.dilaz-mb-switch, .dilaz-mb-button-set', function() {
 			
-			var $this = $(this);
+			var	$this = $(this),
+				$thisPar = $this.parent();
 			
-			$this.parent().addClass('selected');
-			$this.parent().siblings().removeClass('selected');
+			$thisPar.addClass('selected');
+			$thisPar.siblings().removeClass('selected');
 		});
 	}
 	
@@ -120,7 +121,7 @@ var DilazMetaboxScript = new function() {
 	$t.uiSliderField = function() {
 		$('.dilaz-mb-slider').each(function() {
 			
-			var $this = $(this),
+			var	$this = $(this),
 				$min  = parseInt($this.data('min')),
 				$max  = parseInt($this.data('max')),
 				$step = parseInt($this.data('step')),
