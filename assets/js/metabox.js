@@ -20,10 +20,9 @@ var DilazMetaboxScript = new function() {
 	/**
 	 * Global Variables
 	 */
-	var 
-		$t   = this,
-		$    = jQuery.noConflict(),
-		$doc = $(document);
+	var $t   = this,
+	    $    = jQuery.noConflict(),
+	    $doc = $(document);
 	
 	/**
 	 * DoWhen start
@@ -39,9 +38,9 @@ var DilazMetaboxScript = new function() {
 		$(window).load(function() {
 			$('.dilaz-metabox').each(function() {
 				
-				var $this      = $(this),
-				    $navHeight = $this.find('.dilaz-mb-tabs-nav').height(),
-				    $content   = $this.find('.dilaz-mb-tabs-content');
+				var	$this      = $(this),
+					$navHeight = $this.find('.dilaz-mb-tabs-nav').height(),
+					$content   = $this.find('.dilaz-mb-tabs-content');
 					
 				$content.css({'min-height':$navHeight+20});
 			});
