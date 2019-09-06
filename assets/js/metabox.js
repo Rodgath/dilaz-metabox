@@ -152,7 +152,7 @@ var DilazMetaboxScript = new function() {
 	$t.uiRangeField = function() {
 		$('.dilaz-mb-range').each(function() {
 			
-			var $this      = $(this),
+			var	$this      = $(this),
 				$minVal    = parseInt($this.data('min-val')),
 				$maxVal    = parseInt($this.data('max-val')),
 				$min       = parseInt($this.data('min')),
