@@ -194,7 +194,7 @@ var DilazMetaboxScript = new function() {
 				
 				var options, attachment;
 				
-				var $self              = $(event.target),
+				var	$self              = $(event.target),
 					$fileUpload        = $self.closest('.dilaz-mb-file-upload'),
 					$fileWrapper       = $fileUpload.find('.dilaz-mb-file-wrapper'),
 					$fileWrapperParent = $fileUpload.parent(),
