@@ -356,7 +356,7 @@ var DilazMetaboxScript = new function() {
 	$t.fileSorting = function() {
 		$('.dilaz-mb-file-wrapper').each(function() {
 			
-			var $this = $(this),
+			var	$this = $(this),
 				$multiple = $this.data('file-multiple');
 				
 			if ($multiple) {
