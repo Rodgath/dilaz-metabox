@@ -1226,7 +1226,8 @@ if (!class_exists('DilazMetaboxFields')) {
 							if (!empty($attachment_url)) {
 									
 									if (FALSE !== get_post_status($attachment_id)) {
-										$file = wp_get_attachment_image_src($attachment_id, 'thumbnail'); $file = $file[0];
+										$image_size = $show_thumb == 'true' ? 'thumbnail' : 'large';
+										$file = wp_get_attachment_image_src($attachment_id, $image_size); $file = $file[0];
 									} else {
 										$file = $attachment_url;
 									}
