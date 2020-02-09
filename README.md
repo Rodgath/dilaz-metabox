@@ -58,8 +58,6 @@ Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b-Theme)
 * Button & Buttonset
 * Switch Buttons
 
-![alt text](https://github.com/Rodgath/DilazResources/blob/master/Dilaz-Metabox-Plugins/sc.png "Logo Title Text 1")
-
 ## File Structure
 ```
 wp-content/plugins/dilaz-metaboxes/  # → Root of your metaboxes
