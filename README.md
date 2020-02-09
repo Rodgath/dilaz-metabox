@@ -57,6 +57,7 @@ Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b-Theme)
 * File Upload - *Image, Audio, Video, Document, Spreadsheet, Interactive, Text, Archive, Code*
 * Button & Buttonset
 * Switch Buttons
+
 ![alt text](https://github.com/Rodgath/DilazResources/blob/master/Dilaz-Metabox-Plugins/sc.png "Logo Title Text 1")
 
 ## File Structure
