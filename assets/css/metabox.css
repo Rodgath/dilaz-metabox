@@ -1280,6 +1280,82 @@ input.focus + .radio:before {
 }
 
 /*--------------------------------------------------------------*/
+/* Fonts
+/*--------------------------------------------------------------*/
+.dilaz-mb-font {
+	display: inline-block;
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+.dilaz-mb-font .face,
+.dilaz-mb-font .size,
+.dilaz-mb-font .height,
+.dilaz-mb-font .style,
+.dilaz-mb-font .case,
+.dilaz-mb-font .color {
+	margin: 4px 4px 5px 0;
+}
+.dilaz-mb-font .face {
+	width: 160px
+}
+.dilaz-mb-font .size,
+.dilaz-mb-font .height {
+	width: 70px
+}
+.dilaz-mb-font:last-child {
+	margin-right: 0
+}
+.dilaz-mb-section-font .wp-picker-container {
+	margin-top: 5px;
+}
+.dilaz-mb-section-font .wp-color-result {
+	vertical-align: baseline
+}
+.dilaz-mb-font [id*="-size"],
+.dilaz-mb-font [id*="-height"] {
+	margin-top: 3px;
+	vertical-align: middle;
+	background: #e5e5e5;
+}
+.dilaz-mb-font [id*="-size"] input,
+.dilaz-mb-font [id*="-height"] input {
+	border: 0;
+	vertical-align: middle
+}
+.dilaz-mb-font [id*="-size"] .unit,
+.dilaz-mb-font [id*="-height"] .unit {
+	display: inline-block;
+	color: #656565;
+	padding: 0 7px 3px;
+}
+.dilaz-mb-font .select2-container {
+	margin-top: 3px;
+}
+.dilaz-mb-font.font-preview {
+	display: block;
+	overflow: hidden
+}
+.dilaz-mb-font.font-preview .content {
+	margin-top: 10px;
+	background: #fbfbfb;
+	max-width: 100%;
+	padding: 7px 10px;
+	border: 1px solid #e0e0e0;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    padding: 5px 5px 0;
+    width: 100%;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    margin-right: 5px;
+    margin-top: 0;
+    padding: 0 5px 3px 4px;
+}
+.select2-container .select2-selection--multiple {
+    min-height: 28px;
+}
+
+/*--------------------------------------------------------------*/
 /* Paragraph
 /*--------------------------------------------------------------*/
 .dilaz-mb-paragraph {
