@@ -204,6 +204,32 @@ class DilazMetaboxDefaults {
 		return $font_family_stacks;
 	}
 	
+	
+	/**
+	 * Font family defaults
+	 *
+	 * @since 2.5.7
+	 *
+	 * @return array
+	 */
+	public static function _font_family_defaults() {
+		$font_family = array(
+			''          => '',
+			'arial'     => 'Arial',
+			'verdana'   => 'Verdana, Geneva',
+			'trebuchet' => 'Trebuchet',
+			'georgia'   => 'Georgia',
+			'times'     => 'Times New Roman',
+			'tahoma'    => 'Tahoma, Geneva',
+			'palatino'  => 'Palatino',
+			'helvetica' => 'Helvetica',
+		);
+		$font_family = apply_filters('dilaz_mb_font_family_defaults', $font_family);
+		$font_family = array_map('sanitize_text_field', $font_family);
+		return $font_family;
+	}
+	
+	
 	/**
 	 * Font family all
 	 *
