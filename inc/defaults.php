@@ -35,41 +35,41 @@ class DilazMetaboxDefaults {
 			'image'  => '', 
 			'repeat' => array(
 				''          => '',
-				'no-repeat' => __('No Repeat', 'dilaz-panel'),
-				'repeat'    => __('Repeat All', 'dilaz-panel'),
-				'repeat-x'  => __('Repeat Horizontally', 'dilaz-panel'),
-				'repeat-y'  => __('Repeat Vertically', 'dilaz-panel'),
-				'inherit'   => __('Inherit', 'dilaz-panel'),
+				'no-repeat' => __('No Repeat', 'dilaz-metabox'),
+				'repeat'    => __('Repeat All', 'dilaz-metabox'),
+				'repeat-x'  => __('Repeat Horizontally', 'dilaz-metabox'),
+				'repeat-y'  => __('Repeat Vertically', 'dilaz-metabox'),
+				'inherit'   => __('Inherit', 'dilaz-metabox'),
 			), 
 			'size' => array(
 				''        => '',
-				'cover'   => __('Cover', 'dilaz-panel'),
-				'contain' => __('Contain', 'dilaz-panel'),
-				'inherit' => __('Inherit', 'dilaz-panel'),
+				'cover'   => __('Cover', 'dilaz-metabox'),
+				'contain' => __('Contain', 'dilaz-metabox'),
+				'inherit' => __('Inherit', 'dilaz-metabox'),
 			), 
 			'position' => array(
 				''              => '',
-				'top left'      => __('Top Left', 'dilaz-panel'),
-				'top center'    => __('Top Center', 'dilaz-panel'),
-				'top right'     => __('Top Right', 'dilaz-panel'),
-				'center left'   => __('Center Left', 'dilaz-panel'),
-				'center center' => __('Center Center', 'dilaz-panel'),
-				'center right'  => __('Center Right', 'dilaz-panel'),
-				'bottom left'   => __('Bottom Left', 'dilaz-panel'),
-				'bottom center' => __('Bottom Center', 'dilaz-panel'),
-				'bottom right'  => __('Bottom Right', 'dilaz-panel')
+				'top left'      => __('Top Left', 'dilaz-metabox'),
+				'top center'    => __('Top Center', 'dilaz-metabox'),
+				'top right'     => __('Top Right', 'dilaz-metabox'),
+				'center left'   => __('Center Left', 'dilaz-metabox'),
+				'center center' => __('Center Center', 'dilaz-metabox'),
+				'center right'  => __('Center Right', 'dilaz-metabox'),
+				'bottom left'   => __('Bottom Left', 'dilaz-metabox'),
+				'bottom center' => __('Bottom Center', 'dilaz-metabox'),
+				'bottom right'  => __('Bottom Right', 'dilaz-metabox')
 			),
 			'attachment' => array(
 				''        => '',
-				'fixed'   => __('Fixed', 'dilaz-panel'),
-				'scroll'  => __('Scroll', 'dilaz-panel'),
-				'inherit' => __('Inherit', 'dilaz-panel'),
+				'fixed'   => __('Fixed', 'dilaz-metabox'),
+				'scroll'  => __('Scroll', 'dilaz-metabox'),
+				'inherit' => __('Inherit', 'dilaz-metabox'),
 			), 
 			'origin' => array(
 				''            => '',
-				'content-box' => __('Content Box', 'dilaz-panel'),
-				'border-box'  => __('Border Box', 'dilaz-panel'),
-				'padding-box' => __('Padding Box', 'dilaz-panel'),
+				'content-box' => __('Content Box', 'dilaz-metabox'),
+				'border-box'  => __('Border Box', 'dilaz-metabox'),
+				'padding-box' => __('Padding Box', 'dilaz-metabox'),
 			), 
 			'color'  => '', 
 		);
@@ -109,7 +109,7 @@ class DilazMetaboxDefaults {
 	public static function _getGoogleFonts() {
 		
 		$g_fonts_array = array();
-		$get_g_fonts = file_get_contents(dirname(__FILE__).'/google-fonts.json');
+		$get_g_fonts = file_get_contents(dirname(__FILE__).'/google-fonts-min.json');
 		if ($get_g_fonts !== false && !empty($get_g_fonts)) {
 			$g_fonts_array = json_decode($get_g_fonts, true);
 			foreach ((array)$g_fonts_array as $font => &$atts) {
@@ -157,7 +157,7 @@ class DilazMetaboxDefaults {
 		$font_defaults = array(
 			'family' => 'verdana', 
 			'subset' => '', 
-			'size'   => 'normal', 
+			'weight' => 'normal', 
 			'size'   => '14', 
 			'height' => '16', 
 			'style'  => '', 
@@ -171,24 +171,48 @@ class DilazMetaboxDefaults {
 	
 	
 	/**
-	 * Font family defaults
+	 * Stacks for font family defaults 
+	 *
+	 * @since 2.5.7
+	 *
+	 * @return array
+	 */
+	public static function _font_family_defaults_stacks() {
+		$font_family_stacks = array(
+			''                => '',
+			'arial'           => 'Arial, Helvetica Neue, Helvetica, sans-serif',
+			'calibri'         => 'Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif',
+			'consolas'        => 'Consolas, monaco, monospace',
+			'courier-new'     => 'Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace',
+			'georgia'         => 'Georgia, Times, Times New Roman, serif',
+			'helvetica'       => 'Helvetica Neue, Helvetica, Arial, sans-serif',
+			'lucida-grande'   => 'Lucida Grande, Lucida Sans Unicode, Lucida Sans, Geneva, Verdana, sans-serif',
+			'palatino'        => 'Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif',
+			'tahoma'          => 'Tahoma, Verdana, Segoe, sans-serif',
+			'times-new-roman' => 'TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif',
+			'trebuchet'       => 'Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif',
+			'verdana'         => 'Verdana, Geneva, sans-serif;',
+		);
+		$font_family_stacks = apply_filters('dilaz_mb_font_family_defaults_stacks', $font_family_stacks);
+		$font_family_stacks = array_map('sanitize_text_field', $font_family_stacks);
+		$font_family_stacks = array_unique($font_family_stacks);
+		foreach ($font_family_stacks as $key => $value) {
+			if (!empty($value)) {
+				$font_family_stacks[$value] = $value;
+			}
+		}
+		return $font_family_stacks;
+	}
+	
+	/**
+	 * Font family all
 	 *
 	 * @since 2.5.5
 	 *
 	 * @return array
 	 */
 	public static function _font_family() {
-		$font_family = wp_parse_args(DilazMetaboxDefaults::_googleFonts(), array(
-			''          => '',
-			'arial'     => 'Arial',
-			'verdana'   => 'Verdana, Geneva',
-			'trebuchet' => 'Trebuchet',
-			'georgia'   => 'Georgia',
-			'times'     => 'Times New Roman',
-			'tahoma'    => 'Tahoma, Geneva',
-			'palatino'  => 'Palatino',
-			'helvetica' => 'Helvetica',
-		));
+		$font_family = wp_parse_args(DilazMetaboxDefaults::_googleFonts(), DilazMetaboxDefaults::_font_family_defaults());
 		$font_family = apply_filters('dilaz_mb_font_family', $font_family);
 		$font_family = array_map('sanitize_text_field', $font_family);
 		return $font_family;
@@ -204,29 +228,29 @@ class DilazMetaboxDefaults {
 	 */
 	public static function _font_subset() {
 		$font_subset = array(
-			''             => '',
-			'arabic'       => 'arabic',
-			'bengali'      => 'bengali',
-			'cyrillic'     => 'cyrillic',
+			''      => '',
+			'arabic' => 'arabic',
+			'bengali' => 'bengali',
+			'cyrillic' => 'cyrillic',
 			'cyrillic-ext' => 'cyrillic-ext',
-			'devanagari'   => 'devanagari',
-			'greek'        => 'greek',
-			'greek-ext'    => 'greek-ext',
-			'gujarati'     => 'gujarati',
-			'gurmukhi'     => 'gurmukhi',
-			'hebrew'       => 'hebrew',
-			'kannada'      => 'kannada',
-			'khmer'        => 'khmer',
-			'latin'        => 'latin',
-			'latin-ext'    => 'latin-ext',
-			'malayalam'    => 'malayalam',
-			'myanmar'      => 'myanmar',
-			'oriya'        => 'oriya',
-			'sinhala'      => 'sinhala',
-			'tamil'        => 'tamil',
-			'telugu'       => 'telugu',
-			'thai'         => 'thai',
-			'vietnamese'   => 'vietnamese',
+			'devanagari' => 'devanagari',
+			'greek' => 'greek',
+			'greek-ext' => 'greek-ext',
+			'gujarati' => 'gujarati',
+			'gurmukhi' => 'gurmukhi',
+			'hebrew' => 'hebrew',
+			'kannada' => 'kannada',
+			'khmer' => 'khmer',
+			'latin' => 'latin',
+			'latin-ext' => 'latin-ext',
+			'malayalam' => 'malayalam',
+			'myanmar' => 'myanmar',
+			'oriya' => 'oriya',
+			'sinhala' => 'sinhala',
+			'tamil' => 'tamil',
+			'telugu' => 'telugu',
+			'thai' => 'thai',
+			'vietnamese' => 'vietnamese',
 		);
 		$font_subset = apply_filters('dilaz_mb_font_subset', $font_subset);
 		$font_subset = array_map('sanitize_text_field', $font_subset);
@@ -274,15 +298,15 @@ class DilazMetaboxDefaults {
 	public static function _font_weights() {
 		$font_weights = array(
 			''        => '',
-			'100'     => 'Ultra-Light 100',
-			'200'     => 'Light 200',
-			'300'     => 'Book 300',
+			'100'     => 'Thin 100',
+			'200'     => 'ExtraLight 200',
+			'300'     => 'Light 300',
 			'400'     => 'Normal 400',
 			'500'     => 'Medium 500',
-			'600'     => 'Semi-Bold 600',
+			'600'     => 'SemiBold 600',
 			'700'     => 'Bold 700',
-			'800'     => 'Extra-Bold 800',
-			'900'     => 'Ultra-Bold 900',
+			'800'     => 'ExtraBold 800',
+			'900'     => 'UltraBold 900',
 			'normal'  => 'Normal',
 			'lighter' => 'Lighter',
 			'bold'    => 'Bold',
@@ -337,21 +361,6 @@ class DilazMetaboxDefaults {
 		$font_cases = apply_filters('dilaz_mb_font_cases', $font_cases);
 		$font_cases = array_map('sanitize_text_field', $font_cases);
 		return $font_cases;
-	}
-	
-	
-	/**
-	 * Integer range defaults
-	 *
-	 * @since 2.5.5
-	 *
-	 * @return array
-	 */
-	public static function _int_range($min, $max) {
-		$ints = range($min, $max);
-		$ints = apply_filters('dilaz_mb_int_range', $ints);
-		$ints = array_map('absint', $ints);
-		return $ints;
 	}
 	
 }
