@@ -62,6 +62,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 		 */
 		function adminInit() {
 			require_once DILAZ_MB_DIR .'inc/fields.php';
+			require_once DILAZ_MB_DIR .'inc/defaults.php';
 		}
 		
 		
@@ -180,6 +181,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				
 				# translation
 				wp_localize_script('dilaz-mb-script', 'dilaz_mb_lang', apply_filters('dilaz_mb_localized_data', array(
+					'dilaz_mb_url' => DILAZ_MB_URL,
 					'dilaz_mb_images' => $this->_params['dir_url'] .'assets/images/',
 					'dilaz_mb_prefix' => $this->_prefix
 				)));
@@ -661,6 +663,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 								case 'radioimage'        : DilazMetaboxFields::fieldRadioImage($field); break;
 								case 'color'             : DilazMetaboxFields::fieldColor($field); break;
 								case 'multicolor'        : DilazMetaboxFields::fieldMultiColor($field); break;
+								case 'font'              : DilazMetaboxFields::fieldFont($field); break;
 								case 'date'              : DilazMetaboxFields::fieldDate($field); break;
 								case 'date_from_to'      : DilazMetaboxFields::fieldDateFromTo($field); break;
 								case 'month'             : DilazMetaboxFields::fieldMonth($field); break;
@@ -804,7 +807,27 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				case 'range':
 					$output = [];
 					foreach ((array)$input as $k => $v) {
-						$output[$k] = absint($v);
+						
+						/* 
+						 * Save as strin using "sanitize_text_field"; makes it easy for meta queries
+						 * 
+						 * Example 1 - Hard to run meta queries using SQL LIKE operator because both array keys and values are numeric
+						 * a:1:{i:0;i:3;}  -- 'i' for 'integer', no quotes
+						 * 
+						 * Example 2 - Easy to run meta queries using SQL LIKE operator  because array values are strings
+						 * a:1:{i:0;s:1:"3";} // 's' for 'string', also note the double quotes
+						 * 
+						 * Ex. 2 meta query example 
+						 *	'meta_query' => array( 
+						 * 		array( 
+						 *			'key'     => 'my_meta_key', 
+						 *			'value'   =>  '"3"', 
+						 *			'compare' => 'LIKE' 
+						 *		) 
+						 *	)
+						 * 
+						 */
+						$output[$k] = sanitize_text_field($v); // 
 					}
 					return !empty($output) ? $output : '';
 					break;
@@ -888,6 +911,22 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					return $output;
 					break;
 					
+				case 'font':
+					$output = array();
+					foreach ((array)$input as $k => $v) {
+						if ( ( isset($field['options'][$k]) && ($k == 'size' || $k == 'height') ) /* || $set_option */ ) {
+							$output[$k] = is_int($v) ? absint($v) : '';
+						} else if (isset($field['options'][$k]) && $k == 'color') {
+							$output[$k] = sanitize_hex_color($v);
+						} else if (isset($field['options'][$k]) && $k == 'subset') {
+							$output[$k] = is_array($v) ? array_map('sanitize_text_field', $v) : sanitize_text_field($v);
+						} else {
+							$output[$k] = sanitize_text_field($v);
+						} 
+					}
+					return !empty($output) ? $output : '';
+					break;
+					
 				case 'background':
 					$output = array();
 					foreach ((array)$input as $k => $v) {
@@ -909,11 +948,42 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					break;
 					
 				case 'upload':
-					$output = [];
-					foreach ((array)$input as $k => $v) {
-						$output[] = absint($v);
+					$output = array();
+					$file_data = array();
+					
+					if (is_array($input)) {
+						foreach ((array)$input as $key => $value) {
+							foreach ((array)$value as $k => $v) {
+								$file_data[$k][$key] = $v;
+							}
+						}
+						
+						foreach ($file_data as $k => $v) {
+							$file_data[$k]['id'] = (empty($v['id']) && !empty($v['url'])) ? attachment_url_to_postid($v['url']) : absint($v['id']);
+							$file_data[$k]['url'] = (empty($v['url']) && !empty($v['id'])) ? wp_get_attachment_url($v['id']) : esc_url($v['url']);
+						}
+						
+						if (sizeof($file_data) > 1) {
+							
+							/* Lets delete the first item because its always empty for multiple files upload */
+							unset($file_data[0]); 
+							
+							/**
+							 * 'array_filter' used to remove zero-value entries
+							 * 'array_values' used to reindex the array and start from zero
+							 */
+							$file_data = array_values(array_filter($file_data));
+						} else {
+							return $file_data; 
+						}
+						
+					} else if (!is_array($input)) {
+						$file_data[0]['id']  = !empty($input) ? attachment_url_to_postid($input) : '';
+						$file_data[0]['url'] = !empty($input) ? esc_url($input) : '';
 					}
-					return is_array($output) ? array_unique($output) : $output;
+					
+					$output = $file_data;
+					return $output; 
 					break;
 					
 				case 'date':
@@ -1114,6 +1184,17 @@ if (!class_exists('Dilaz_Meta_Box')) {
 						
 						# sanitized option
 						$sanitized_meta = $this->sanitizeMeta($field['type'], $new, $field);
+						
+						# Set any saved Google fonts to be loaded
+						if ('font' == $field['type']) {
+							
+							$google_arr = get_post_meta($post_id, 'saved_google_fonts', true);
+							$google_arr = is_array($google_arr) ? $google_arr : [];
+							
+							$google_arr[$field['id']] = $sanitized_meta;
+							
+							update_post_meta($post_id, 'saved_google_fonts', $google_arr);
+						}
 						
 						if ($new != $old && false !== $new && $field['type'] != 'checkbox') {
 							update_post_meta($post_id, $field['id'], $sanitized_meta);
