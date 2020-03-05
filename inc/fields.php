@@ -753,6 +753,195 @@ if (!class_exists('DilazMetaboxFields')) {
 		}
 		
 		/**
+		 * Font
+		 *
+		 * @since  2.5.7
+		 * @access public
+		 *
+		 * @param  array $field Field arguments
+		 * @return html  $output
+		 */
+		public static function fieldFont($field) {
+			
+			extract($field);
+			
+			$output = '';
+			
+			$font_defaults = DilazMetaboxDefaults::_font();
+			$saved_fonts   = wp_parse_args($meta, $font_defaults);
+			
+			$fontUnit = isset($args['unit']) ? (string)$args['unit'] : 'px';
+			$std      = isset($std) && is_array($std) ? array_map('sanitize_text_field', $std) : array();
+			
+			/* font family */
+			if (isset($options['family']) && $options['family'] !== FALSE) {
+				$output .= '<div class="dilaz-mb-font">';
+					$output .= '<strong>'. __('Font Family', 'dilaz-metabox') .'</strong><br />';
+					$output .= '<select id="'. esc_attr($id) .'-family" name="'. esc_attr($id) .'[family]" class="family select2single" data-width="230px">';
+					$font_families = is_array($options['family']) ? $options['family'] : DilazMetaboxDefaults::_font_family();						
+					foreach ($font_families as $key => $font_family) {
+						if (isset($saved_fonts['family']) && !empty($saved_fonts['family']) && $saved_fonts['family'] !== FALSE) {
+							$selected_family = selected(strtolower($saved_fonts['family']), strtolower($key), FALSE);
+						} else {
+							$selected_family = isset($std['family']) && stripos($key, $std['family']) !== FALSE ? selected(strtolower($std['family']), strtolower($key), FALSE) : '';
+						}
+						$output .= '<option value="'. $key .'" '. $selected_family .'>'. $font_family .'</option>';
+					}
+					$output .= '</select>';
+				$output .= '</div>';
+			}
+			
+			/* font weight */
+			if (isset($options['weight']) && $options['weight'] !== FALSE) {
+				$output .= '<div class="dilaz-mb-font">';
+					$output .= '<strong>'. __('Font Weight', 'dilaz-metabox') .'</strong><br />';
+					$output .= '<select id="'. esc_attr($id) .'-weight" name="'. esc_attr($id) .'[weight]" class="weight select2single" data-width="130px">';
+					$font_weights = is_array($options['weight']) ? $options['weight'] : DilazMetaboxDefaults::_font_weights();
+					foreach ($font_weights as $key => $font_weight) {
+						if (isset($saved_fonts['weight']) && !empty($saved_fonts['weight']) && $saved_fonts['weight'] !== FALSE) {
+							$selected_weight = selected(strtolower($saved_fonts['weight']), strtolower($key), FALSE);
+						} else {
+							$selected_weight = isset($std['weight']) && stripos($key, $std['weight']) !== FALSE ? selected(strtolower($std['weight']), strtolower($key), FALSE) : '';
+						}
+						$output .= '<option value="'. $key .'" '. $selected_weight .'>'. $font_weight .'</option>';
+					}
+					$output .= '</select>';
+				$output .= '</div>';
+			}
+			
+			/* font style */
+			if (isset($options['style']) && $options['style'] !== FALSE) {
+				$output .= '<div class="dilaz-mb-font">';
+					$output .= '<strong>'. __('Font Style', 'dilaz-metabox') .'</strong><br />';
+					$output .= '<select id="'. esc_attr($id) .'-style" name="'. esc_attr($id) .'[style]" class="style select2single" data-width="110px">';
+					$font_styles = is_array($options['style']) ? $options['style'] : DilazMetaboxDefaults::_font_styles();
+					foreach ($font_styles as $key => $font_style) {
+						if (isset($saved_fonts['style']) && !empty($saved_fonts['style']) && $saved_fonts['style'] !== FALSE) {
+							$selected_style = selected(strtolower($saved_fonts['style']), strtolower($key), FALSE);
+						} else {
+							$selected_style = isset($std['style']) && stripos($key, $std['style']) !== FALSE ? selected(strtolower($std['style']), strtolower($key), FALSE) : '';
+						}
+						$output .= '<option value="'. $key .'" '. $selected_style .'>'. $font_style .'</option>';
+					}
+					$output .= '</select>';
+				$output .= '</div>';
+			}
+			
+			/* font case - text transform */
+			if (isset($options['case']) && $options['case'] !== FALSE) {
+				$output .= '<div class="dilaz-mb-font">';
+					$output .= '<strong>'. __('Font Case', 'dilaz-metabox') .'</strong><br />';
+					$output .= '<select id="'. esc_attr($id) .'-case" name="'. esc_attr($id) .'[case]" class="case select2single" data-width="110px">';
+					$font_cases = is_array($options['case']) ? $options['case'] : DilazMetaboxDefaults::_font_cases();
+					foreach ($font_cases as $key => $font_case) {
+						if (isset($saved_fonts['case']) && !empty($saved_fonts['case']) && $saved_fonts['case'] !== FALSE) {
+							$selected_case = selected(strtolower($saved_fonts['case']), strtolower($key), FALSE);
+						} else {
+							$selected_case = isset($std['case']) && stripos($key, $std['case']) !== FALSE ? selected(strtolower($std['case']), strtolower($key), FALSE) : '';
+						}
+						$output .= '<option value="'. $key .'" '. $selected_case .'>'. $font_case .'</option>';
+					}
+					$output .= '</select>';
+				$output .= '</div>';
+			}
+			
+			/* font stack backup */
+			if (isset($options['backup']) && $options['backup'] !== FALSE) {
+				$output .= '<div class="dilaz-mb-font">';
+					$output .= '<strong>'. __('Font Backup Stack', 'dilaz-metabox') .'</strong><br />';
+					$output .= '<select id="'. esc_attr($id) .'-backup" name="'. esc_attr($id) .'[backup]" class="backup select2single" data-width="230px">';
+					$font_backups = is_array($options['backup']) ? $options['backup'] : DilazMetaboxDefaults::_font_family_defaults_stacks();						
+					foreach ($font_backups as $key => $font_backup) {
+						if (isset($saved_fonts['backup']) && !empty($saved_fonts['backup']) && $saved_fonts['backup'] !== FALSE) {
+							$selected_backup = selected($saved_fonts['backup'], $key, FALSE);
+						} else {
+							$selected_backup = isset($std['backup']) && stripos($key, $std['backup']) !== FALSE ? selected($std['backup'], $key, FALSE) : '';
+						}
+						$output .= '<option value="'. $key .'" '. $selected_backup .'>'. $font_backup .'</option>';
+					}
+					$output .= '</select>';
+				$output .= '</div>';
+			}
+			
+			/* font size */
+			if (isset($options['size']) && $options['size'] !== FALSE) {
+				$output .= '<div class="dilaz-mb-font">';
+					$output .= '<strong>'. __('Font Size', 'dilaz-metabox') .'</strong><br />';
+					$output .= '<div id="'. esc_attr($id) .'-size">';
+						if (isset($saved_fonts['size']) && $saved_fonts['size'] > 0) {
+							$font_size = intval($saved_fonts['size']);
+						} else if (isset($std['size']) && $std['size'] > 0) {
+							$font_size = intval($std['size']);
+						} else if (isset($font_defaults['size']) && $font_defaults['size'] > 0) {
+							$font_size = intval($font_defaults['size']);
+						} else {
+							$font_size = 14;
+						}
+						$output .= '<input type="text" class="f-size '. esc_attr($id) .'-size" name="'. esc_attr($id) .'[size]" value="'. $font_size .'" size="3" />';
+						$output .= '<span class="unit">'. $fontUnit .'</span>';
+					$output .= '</div>';
+				$output .= '</div>';
+			}
+			
+			/* line height */
+			if (isset($options['height']) && $options['height'] !== FALSE) {
+				$output .= '<div class="dilaz-mb-font">';
+					$output .= '<strong>'. __('Line Height', 'dilaz-metabox') .'</strong><br />';
+					$output .= '<div id="'. esc_attr($id) .'-height">';
+						if (isset($saved_fonts['height']) && $saved_fonts['height'] > 0 && $saved_fonts['height'] !== FALSE) {
+							$font_height = intval($saved_fonts['height']);
+						} else if (isset($std['height']) && $std['height'] > 0) {
+							$font_height = intval($std['height']);
+						} else if (isset($font_defaults['height']) && $font_defaults['height'] > 0) {
+							$font_height = intval($font_defaults['height']);
+						} else {
+							$font_height = 16;
+						}
+						$output .= '<input type="text" class="f-height '. esc_attr($id) .'-height" name="'. esc_attr($id) .'[height]" value="'. $font_height .'" size="3" />';
+						$output .= '<span class="unit">'. $fontUnit .'</span>';
+					$output .= '</div>';
+				$output .= '</div>';
+			}
+			
+			/* font color */
+			if (isset($options['color']) && $options['color'] !== FALSE) {
+				$output .= '<div class="dilaz-mb-font">';
+					$output .= '<strong>'. __('Color', 'dilaz-metabox') .'</strong><br />';
+					if (isset($saved_fonts['color']) && $saved_fonts['color'] != '' && $saved_fonts['color'] !== FALSE) {
+						$font_color = sanitize_hex_color($saved_fonts['color']);
+					} else if (isset($std['color']) && $std['color'] != '') {
+						$font_color = sanitize_hex_color($std['color']);
+					} else if (isset($font_defaults['color']) && $font_defaults['color'] > 0) {
+						$font_color = sanitize_hex_color($font_defaults['color']);
+					} else {
+						$font_color = '#333';
+					}
+					$output .= '<input id="'. esc_attr($id) .'-color" name='. esc_attr($id) .'[color]" class="dilaz-mb-color color" type="text" value="'. $font_color .'" data-default-color="'. $font_color .'" />';
+				$output .= '</div>';
+			}
+			
+			/* font subset */
+			if (isset($options['subset']) && $options['subset'] !== FALSE) {
+				$output .= '<div class="dilaz-mb-font">';
+					$output .= '<strong>'. __('Font Subset', 'dilaz-metabox') .'</strong><br />';
+					$output .= '<select id="'. esc_attr($id) .'-subset" name="'. esc_attr($id) .'[subset][]" class="subset select2multiple" data-width="320px" multiple="multiple">';
+					$font_subsets = is_array($options['subset']) ? $options['subset'] : DilazMetaboxDefaults::_font_subset();						
+					foreach ($font_subsets as $key => $font_subset) {
+						$selected_subset = is_array($saved_fonts['subset']) ? (isset($std['subset']) && in_array($key, $saved_fonts['subset']) ? 'selected="selected"' : '') : '';
+						$output .= '<option value="'. $key .'" '. $selected_subset .'>'. $font_subset .'</option>';
+					}
+					$output .= '</select>';
+				$output .= '</div>';
+			}
+			
+			$output .= '<div class="dilaz-mb-font font-preview" style="display:none">';
+				$output .= '<div class="content">1 2 3 4 5 6 7 8 9 0 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z</div>';
+			$output .= '</div>';
+			
+			echo $output;
+		}
+		
+		/**
 		 * Date
 		 *
 		 * @since  1.0
@@ -1207,7 +1396,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			
 			$output .= '<div class="dilaz-mb-file-upload '. $class .'">';
 			
-			$output .= '<input type="'. (!$is_file_multiple ? "text" : "hidden") .'" name="'. esc_attr($id) .'[url][]" id="file_url_'. esc_attr($id) .'" class="dilaz-mb-input dilaz-mb-text dilaz-mb-file-url upload" value="'. $the_file_url .'" size="0" rel="" placeholder="Choose file" />';
+			// $output .= '<input type="'. (!$is_file_multiple ? "text" : "hidden") .'" name="'. esc_attr($id) .'[url][]" id="file_url_'. esc_attr($id) .'" class="dilaz-mb-input dilaz-mb-text dilaz-mb-file-url upload" value="'. $the_file_url .'" size="0" rel="" placeholder="Choose file" />';
 			
 			$upload_button_text  = (isset($args['upload_button_text']) && $args['upload_button_text'] != '') ? sanitize_text_field($args['upload_button_text']) : sprintf(__('Upload %s file', 'dilaz-metabox'), $file_type);
 			
