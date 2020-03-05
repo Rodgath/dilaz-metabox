@@ -683,10 +683,10 @@ if (!class_exists('DilazMetaboxFields')) {
 				$selected = $meta == $key ? ' dilaz-image-selector-img-selected' : '';
 				$checked = $meta == $key ? ' checked="checked"' : '';
 				$output .= '<div class="dilaz-image-select-wrapper">';
-					$output .= '<input class="dilaz-image-selector" type="radio" name="'. esc_attr($id) .'" id="'. esc_attr($id .'_'. $key) .'" class="'. $class .'" value="'. $key .'" '. $checked .' />';
+					$output .= '<input class="dilaz-image-selector '. $class .'" type="radio" name="'. esc_attr($id) .'" id="'. esc_attr($id .'_'. $key) .'" value="'. $key .'" '. $checked .' />';
 					$output .= '<img src="'. esc_url($val) .'" alt="'. $key .'" class="dilaz-image-selector-img '. $selected .'" onclick="document.getElementById(\''. esc_attr($id .'_'. $key) .'\').checked=true;" />';
-				$output .= '<span class="inset"></span>';
-				$output .= '<span class="check"><i class="fa fa-check"></i></span>';
+					$output .= '<span class="inset"></span>';
+					$output .= '<span class="check"><i class="fa fa-check"></i></span>';
 				$output .= '</div>';
 			}
 
@@ -1149,7 +1149,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			
 			$show_thumb         = isset($args['show_thumb']) && $args['show_thumb'] == FALSE ? 'false' : 'true';
 			$data_file_thumb    = 'data-file-thumb="'. $show_thumb .'"';
-			$is_file_multiple   = isset($args['multiple']) && $args['multiple'] == TRUE ? TRUE : FALSE;				
+			$is_file_multiple   = isset($args['multiple']) && $args['multiple'] == TRUE ? TRUE : FALSE;			
 			$data_file_multiple = $is_file_multiple ? 'data-file-multiple="true"' : '';
 			$file_type          = (isset($args['file_type']) && $args['file_type'] != '') ? strtolower($args['file_type']) : 'image';
 			$data_file_type     = $file_type != '' ? 'data-file-type="'. $file_type .'"' : 'data-file-type="image"';
@@ -1205,6 +1205,8 @@ if (!class_exists('DilazMetaboxFields')) {
 					break;
 			}
 			
+			$output .= '<div class="dilaz-mb-file-upload '. $class .'">';
+			
 			$output .= '<input type="'. (!$is_file_multiple ? "text" : "hidden") .'" name="'. esc_attr($id) .'[url][]" id="file_url_'. esc_attr($id) .'" class="dilaz-mb-input dilaz-mb-text dilaz-mb-file-url upload" value="'. $the_file_url .'" size="0" rel="" placeholder="Choose file" />';
 			
 			$upload_button_text  = (isset($args['upload_button_text']) && $args['upload_button_text'] != '') ? sanitize_text_field($args['upload_button_text']) : sprintf(__('Upload %s file', 'dilaz-metabox'), $file_type);
@@ -1213,7 +1215,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			
 				$output .= '<div class="dilaz-mb-file-wrapper" data-file-id="'. esc_attr($id) .'" '. $data_file_multiple .'>';
 				
-				$output .= '<input type="hidden" name="'. esc_attr($id) .'[id][]" id="file_id_'. esc_attr($id) .'" class="dilaz-panel-file-id upload" value="" size="0" rel="" />';
+				$output .= '<input type="hidden" name="'. esc_attr($id) .'[id][]" id="file_id_'. esc_attr($id) .'" class="dilaz-mb-file-id upload" value="" size="0" rel="" />';
 				
 				if ($meta != '' && is_array($meta)) {
 					foreach ($meta as $key => $file_data) {
@@ -1223,6 +1225,14 @@ if (!class_exists('DilazMetaboxFields')) {
 							$attachment_url = is_array($file_data) && isset($file_data['url']) ? $file_data['url'] : (!empty($file_data) ? $file_data : '');
 							$attachment_id  = isset($file_data['id']) && $file_data['id'] != '' ? attachment_url_to_postid($attachment_url) : '';
 						
+							// if ($attachment_id) {
+								// $file = wp_get_attachment_image_src($attachment_id, 'thumbnail'); $file = $file[0];
+								// $file_full = wp_get_attachment_image_src($attachment_id, 'full'); $file_full = $file_full[0];
+							// } else {
+								// $file = '';
+								// $file_full = '';
+							// }
+							
 							if (!empty($attachment_url)) {
 									
 									if (FALSE !== get_post_status($attachment_id)) {
