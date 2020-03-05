@@ -241,7 +241,7 @@ var DilazMetaboxScript = new function() {
 						return;
 					
 					/* loop through the selected files */
-					selection.each( function(attachment) {
+					selection.each(function(attachment) {
 						
 						var type = attachment.attributes.type;
 						
@@ -525,6 +525,215 @@ var DilazMetaboxScript = new function() {
 	}
 	
 	/**
+	 * Set Cookie
+	 * @since Dilaz Metabox 2.5.7
+	 */
+	$t.setCookie = function(c_name, value, exdays) {
+		var exdate = new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value = escape(value)+((exdays==null) ? "" : ("; expires="+exdate.toUTCString()));
+		document.cookie = c_name + "=" + c_value;
+	}
+	
+	/**
+	 * Get Cookie
+	 * @since Dilaz Metabox 2.5.7
+	 */
+	$t.getCookie = function(c_name) {
+		var i, x, y, ARRcookies=document.cookie.split(";");
+		for (i = 0; i < ARRcookies.length; i++) {
+			x = ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+			y = ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+			x = x.replace(/^\s+|\s+$/g, "");
+			if (x == c_name) {
+				return unescape(y);
+			}
+		}
+	}
+	
+	/**
+	 * Get JSON
+	 * @since Dilaz Metabox 2.5.7
+	 */
+	$t.getJSON = function(file, callback) {
+		
+		$.getJSON(file).done(function(jasonData) {
+			callback(jasonData);
+		}).error(function() {
+			
+			var $alertJsonError = $t.getCookie('DilazMBAlertJsonError') || '';
+			
+			/* prevent multiple alert popups */
+			if ($alertJsonError != 'yes') {
+				$t.setCookie('DilazMBAlertJsonError', 'yes', (1/(24*60*60)) * 10); // cookie expires after 10 seconds
+				alert('DilazMetabox Error: Please check your JSON file.');
+			}
+		});
+	}
+	
+	/**
+	 * Get Google fonts from JSON file
+	 * @since Dilaz Metabox 2.5.7
+	 */
+	$t.updateGoogleFonts = function(sectionId, fontFamily, fontWeight, fontStyle, fontSubset) {
+	
+		var	$linkId    = sectionId+'-'+fontFamily.replace(/ /g, '-').toLowerCase(),
+			$links     = document.getElementsByTagName('link'),
+			fontURLarr = [],
+			fontURL    = '';
+		
+		/* if Google Font resource link exists, delete it so that it can be updated */
+		for (var i = 0; i < $links.length; i++) {
+			if ($links[i].id == $linkId) {
+				$links[i].remove();
+			}
+		}
+		
+		fontURLarr.push('https://fonts.googleapis.com/css?family=');
+		fontURLarr.push(fontFamily.replace(/ /g, '+'));
+		
+		/* import Google Fonts */
+		$t.getJSON(dilaz_mb_lang.dilaz_mb_url +'inc/google-fonts-min.json', function(jasonData) {
+			// console.log(Object.keys(jasonData).length);
+			// console.log(jasonData);
+			// console.log(jasonData[fontFamily]);
+			// console.log(jasonData[fontFamily].variants);
+			// console.log(jasonData[fontFamily].subsets);
+			
+			/* Check if its a Google font selected */
+			if (jasonData[fontFamily] !== undefined) {
+				
+				var	fontVariants    = jasonData[fontFamily].variants,
+					checkFontStyle  = JSON.stringify(fontVariants).indexOf(fontStyle) > -1,
+					checkFontWeight = JSON.stringify(fontVariants).indexOf(fontWeight) > -1,
+					fontSubsets     = jasonData[fontFamily].subsets,
+					checkFontSubset = JSON.stringify(fontSubsets).indexOf(fontSubset) > -1;
+					
+				if (checkFontStyle || checkFontWeight) {
+					var theStyle  = (checkFontStyle) ? fontStyle : '',
+						theWeight = (checkFontWeight) ? fontWeight : '';
+					if (theStyle !== '' || theWeight !== '') {
+						fontURLarr.push(':');
+						fontURLarr.push(theStyle+theWeight);
+					}
+				}
+				
+				if (checkFontSubset && fontSubset !== '') {
+					fontURLarr.push('&subset=');
+					fontURLarr.push(fontSubset);
+				}
+				
+				fontURL += fontURLarr.join('');
+				
+				if ($("link[href*='" + fontFamily + "']").length === 0) {
+					
+					var $headerLinkOutput = '';
+					
+					$headerLinkOutput += '<!-- Code snippet to speed up Google Fonts rendering: googlefonts.3perf.com -->';
+					$headerLinkOutput += '<link rel="dns-prefetch" href="https://fonts.gstatic.com">';
+					$headerLinkOutput += '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">';
+					$headerLinkOutput += '<link rel="preload" id="'+$linkId+'" href="'+fontURL+'" as="fetch" crossorigin="anonymous">';
+					$headerLinkOutput += '<script type="text/javascript"> !function(e,n,t){"use strict";var o="'+fontURL+'",r="__3perf_googleFonts_'+$linkId+'";function c(e){(n.head||n.body).appendChild(e)}function a(){var e=n.createElement("link");e.href=o,e.rel="stylesheet",c(e)}function f(e){if(!n.getElementById(r)){var t=n.createElement("style");t.id=r,c(t)}n.getElementById(r).innerHTML=e}e.FontFace&&e.FontFace.prototype.hasOwnProperty("display")?(t[r]&&f(t[r]),fetch(o).then(function(e){return e.text()}).then(function(e){return e.replace(/@font-face {/g,"@font-face{font-display:swap;")}).then(function(e){return t[r]=e}).then(f).catch(a)):a()}(window,document,localStorage); </script>';
+					
+					$('head>link:last').after($headerLinkOutput);
+					
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Font preview
+	 * @since Dilaz Metabox 2.5.7
+	 */
+	$t.fontPreview = function() {
+		$('.dilaz-mb-field-font').each(function() {
+			
+			var	$this         = $(this),
+				$fFamily      = $this.find('.family'),
+				$fSubset      = $this.find('.subset'),
+				$fWeight      = $this.find('.weight'),
+				$fStyle       = $this.find('.style'),
+				$fCase        = $this.find('.case'),
+				$fSize        = $this.find('.f-size'),
+				$fHeight      = $this.find('.f-height'),
+				$metaboxColor = $this.find('.dilaz-mb-color'),
+				$resultColor  = $this.find('.wp-color-result'),
+				$fPreview     = $this.find('.font-preview'),
+				$fContent     = $fPreview.find('.content'),
+				$fColor       = $resultColor.css('background-color'),
+				$bgColor      = $t.bgColorBasedOnTextColor($fColor, '#fbfbfb', '#222'),
+				$fSectionId   = $this.closest('.dilaz-mb-field').attr('id');
+				
+			/* show preview */
+			$fPreview.show();
+			
+			/* render already set values */
+			$fContent.css({
+				'font-family'      : $fFamily.val(),
+				'font-weight'      : $fWeight.val(),
+				'font-style'       : $fStyle.val(),
+				'text-transform'   : $fCase.val(),
+				'font-size'        : $fSize.val() +'px',
+				'line-height'      : $fHeight.val() +'px',
+				'color'            : $fColor,
+				'background-color' : $bgColor,
+			});
+			
+			/**
+			 * show Google Font in preview if its saved
+			 */
+			$t.updateGoogleFonts($fSectionId, $fFamily.val(), $fWeight.val(), $fStyle.val(), $fSubset.val());
+			
+			$fFamily.on('change', function() {
+				var $familyVal = $fFamily.val();
+				var $defaultFonts = 'arial verdana trebuchet georgia times tahoma palatino helvetica';
+				$fContent.css({'font-family':$familyVal});
+				if ($defaultFonts.indexOf($familyVal) == -1) {
+					$t.updateGoogleFonts($fSectionId, $fFamily.val(), $fWeight.val(), $fStyle.val(), $fSubset.val());
+				}
+			});
+			
+			$fSubset.on('change', function() {
+				$fContent.css({'font-subset':$fSubset.val()});
+				$t.updateGoogleFonts($fSectionId, $fFamily.val(), $fWeight.val(), $fStyle.val(), $fSubset.val());
+			});
+			
+			$fWeight.on('change', function() {
+				$fContent.css({'font-weight':$fWeight.val()});
+				$t.updateGoogleFonts($fSectionId, $fFamily.val(), $fWeight.val(), $fStyle.val(), $fSubset.val());
+			});
+			
+			$fStyle.on('change', function() {
+				$fContent.css({'font-style':$fStyle.val()});
+				$t.updateGoogleFonts($fSectionId, $fFamily.val(), $fWeight.val(), $fStyle.val(), $fSubset.val());
+			});
+			
+			$fCase.on('change', function() {
+				$fContent.css({'text-transform':$fCase.val()});
+			});
+			
+			$fSize.on('keyup', function() {
+				$fContent.css({'font-size':$fSize.val() +'px'});
+			});
+			
+			$fHeight.on('keyup', function() {
+				$fContent.css({'line-height':$fHeight.val() +'px'});
+			});
+			
+			$metaboxColor.wpColorPicker({
+				change: function(event, ui) {
+					var textColor = ui.color.toString();
+					$fContent.css({
+						'color': textColor, 
+						'background-color': $t.bgColorBasedOnTextColor(textColor, '#fbfbfb', '#222')
+					});
+				}
+			});
+		});
+	}
+	
+	/**
 	 * Repeatable field - sortable
 	 */
 	$t.repeatableField = function() {
@@ -620,6 +829,126 @@ var DilazMetaboxScript = new function() {
 	}
 	
 	/**
+	 * check if color is HEX, RGB, RGBA, HSL, HSLA
+	 * 
+	 * @since Dilaz Metabox 2.5.7
+	 * @link  https://stackoverflow.com/a/32685393
+	 */
+	$t.checkColor = function(color) {
+		
+		/* check HEX */
+		var isHex = /^#(?:[A-Fa-f0-9]{3}){1,2}$/i.test(color);
+		if (isHex) { return 'hex'; }
+		
+		/* check RGB */
+		var isRgb = /^rgb[(](?:\s*0*(?:\d\d?(?:\.\d+)?(?:\s*%)?|\.\d+\s*%|100(?:\.0*)?\s*%|(?:1\d\d|2[0-4]\d|25[0-5])(?:\.\d+)?)\s*(?:,(?![)])|(?=[)]))){3}[)]$/i.test(color);
+		if (isRgb) { return 'rgb'; }
+		
+		/* check RGBA */
+		var isRgba = /^^rgba[(](?:\s*0*(?:\d\d?(?:\.\d+)?(?:\s*%)?|\.\d+\s*%|100(?:\.0*)?\s*%|(?:1\d\d|2[0-4]\d|25[0-5])(?:\.\d+)?)\s*,){3}\s*0*(?:\.\d+|1(?:\.0*)?)\s*[)]$/i.test(color);
+		if (isRgba) { return 'rgba'; }
+		
+		/* check HSL */
+		var isHsl = /^hsl[(]\s*0*(?:[12]?\d{1,2}|3(?:[0-5]\d|60))\s*(?:\s*,\s*0*(?:\d\d?(?:\.\d+)?\s*%|\.\d+\s*%|100(?:\.0*)?\s*%)){2}\s*[)]$/i.test(color);
+		if (isHsl) { return 'hsl'; }
+		
+		/* check HSLA */
+		var isHsla = /^hsla[(]\s*0*(?:[12]?\d{1,2}|3(?:[0-5]\d|60))\s*(?:\s*,\s*0*(?:\d\d?(?:\.\d+)?\s*%|\.\d+\s*%|100(?:\.0*)?\s*%)){2}\s*,\s*0*(?:\.\d+|1(?:\.0*)?)\s*[)]$/i.test(color);
+		if (isHsla) { return 'hsla'; }
+		
+	}
+	
+	/**
+	 * RGB to HEX
+	 * 
+	 * @since Dilaz Metabox 2.5.7
+	 */
+	$t.rgbToHex = function(red, green, blue) {
+		var rgb = blue | (green << 8) | (red << 16);
+		return '#' + (0x1000000 + rgb).toString(16).slice(1);
+	}
+	
+	/**
+	 * HEX to RGB
+	 * 
+	 * @since Dilaz Metabox 2.5.7
+	 * @return Object|String
+	 */
+	$t.hexToRgb = function(hex) {
+		/* Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF") */
+		var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+		hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+			return r + r + g + g + b + b;
+		});
+
+		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+		return result ? {
+			r: parseInt(result[1], 16),
+			g: parseInt(result[2], 16),
+			b: parseInt(result[3], 16)
+		} : null;
+	}
+	
+	/**
+	 * HEX to RGBA
+	 * 
+	 * @since Dilaz Metabox 2.5.7
+	 * @return Object|String
+	 */
+	$t.hexToRgba = function(hex, opacity) {
+		
+		/* Set 'opacity' default parameter */
+		if (!opacity) opacity = 1;
+		
+		if ($t.checkColor(hex) != 'hex') return null; 
+		
+		/* convert the hex to RGB */
+		var hexToRgb = $t.hexToRgb(hex);
+		
+		if (typeof opacity != 'undefined') {
+			return $.extend(hexToRgb, {'o':opacity});
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Background color based on text color
+	 * @since Dilaz Metabox 2.5.7
+	 */
+	$t.bgColorBasedOnTextColor = function(textColor, lightColor, darkColor) {
+		
+		var	checkColor = $t.checkColor(textColor),
+			rgb = null;
+			
+		if (checkColor == 'hex') {
+			var hexToRgb = $t.hexToRgb(textColor);
+			if (typeof(hexToRgb) === 'object' && hexToRgb != null) {
+				var red   = hexToRgb.hasOwnProperty('r') ? hexToRgb.r : 0,
+					green = hexToRgb.hasOwnProperty('g') ? hexToRgb.g : 0,
+					blue  = hexToRgb.hasOwnProperty('b') ? hexToRgb.b : 0,
+					rgb   = 'rgb('+red+', '+green+', '+blue+')';
+			}
+		} else if (checkColor == 'rgb') {
+			var rgb = textColor;
+		}
+		
+		if (rgb == null) return null;
+		
+		// var matches = rgb.match(/rgb\((\d+),\s?(\d+),\s?(\d+)\)/);
+		var matches = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+		
+		if (!matches) return null;
+		
+		if (matches != null && matches.length && matches.length > 3) {
+			var c = 'rgb(' + matches[1] + ',' + matches[2] + ',' + matches[3] + ')';
+			var o = Math.round(((parseInt(matches[1], 10) * 299) + (parseInt(matches[2], 10) * 587) + (parseInt(matches[3], 10) * 114)) / 1000);
+			
+			return (o > 125) ? darkColor : lightColor;
+		}
+	}
+	
+	/**
 	 * Init
 	 *
 	 */
@@ -640,6 +969,7 @@ var DilazMetaboxScript = new function() {
 		$t.radioImageField();
 		$t.postStatusSelect();
 		$t.pageTemplateSelect();
+		$t.fontPreview();
 		$t.repeatableField();
 		$t.addRepeatableField();
 		$t.removeRepeatableField();
