@@ -22,9 +22,19 @@ defined('ABSPATH') || exit;
 if (!class_exists('DilazMetaboxFunction')) {
 	class DilazMetaboxFunction {
 		
+		/**
+		 * Saved Google Fonts
+		 *
+		 * @since  2.5.7
+		 * @var    array
+		 * @access protected
+		 */
+		protected $savedGFonts;
+		
 		function __construct() {
 			add_action('wp_ajax_dilaz_mb_query_select', array($this, 'query_select'));
 			add_action('wp_ajax_dilaz_mb_get_post_titles', array($this, 'get_post_titles'));
+			add_action('wp_head', array($this, 'loadGoogleFonts'));
 		}
 		
 		
@@ -349,6 +359,79 @@ if (!class_exists('DilazMetaboxFunction')) {
 		
 		
 		/**
+		 * Load Google fonts in frontend
+		 * 
+		 * @since 2.5.7
+		 * @return mixed Google fonts head tag code
+		 */
+		public function loadGoogleFonts() {
+			
+			global $wp_query;
+			
+			if ($wp_query->queried_object_id == null) return;
+			
+			$savedGoogleFonts = get_post_meta($wp_query->queried_object_id, 'saved_google_fonts', true);
+			
+			if (empty($savedGoogleFonts)) return FALSE;
+			
+			$families   = array();
+			$subsets    = array();
+			$font_array = array();
+			
+			foreach ($savedGoogleFonts as $key => $font) {
+				
+				if (isset($font['family']) && $font['family'] != '') {
+					
+					$font_array[$font['family']]['family'] = $font['family'];
+					
+					if (isset($font['weight']) && in_array($font['weight'], ['100', '200', '300', '400', '500', '600', '700', '800', '900', '100i', '200i', '300i', '400i', '500i', '600i', '700i', '800i', '900i'])) {
+						$font_style = (isset($font['style']) && $font['style'] != '') ? ($font['style'] == 'italic' ? 'i' : '') : '';
+						$font_array[$font['family']]['weights'][] = $font['weight'] . $font_style;
+					}
+					
+					$font_family = str_replace(' ', '+', $font_array[$font['family']]['family']);
+					
+					if (isset($font_array[$font['family']]['weights'])) {
+						asort($font_array[$font['family']]['weights']);
+						$families[$font_array[$font['family']]['family']] = $font_family . ':' . implode(',', array_unique(array_values($font_array[$font['family']]['weights'])));
+					}
+					
+					if (isset($font['subset']) && $font['subset'] != '' && is_array($font['subset'])) {
+						$subsets = array_merge($subsets, $font['subset']);
+					}
+				}
+				
+			}
+			
+			if (!empty($families)) {
+				
+				$query_args = array(
+					'family'  => implode('|', $families),
+					'display' => 'swap',
+				);
+				
+				if (!empty($subsets)) {
+					$query_args = array_merge($query_args, array('subset' => implode(',', array_values($subsets))));
+				}
+
+				$font_url = add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );
+			
+				?>
+				
+				<!-- Code snippet to speed up Google Fonts rendering: googlefonts.3perf.com -->  
+				<link rel="dns-prefetch" href="https://fonts.gstatic.com"> 
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"> 
+				<link rel="preload" href="<?php echo $font_url; ?>" as="fetch" crossorigin="anonymous">
+				<script type="text/javascript"> !function(e,n,t){"use strict";var o="<?php echo $font_url; ?>",r="__3perf_googleFonts_<?php echo (!empty($this->_optionName) ? $this->_optionName : 'dilaz'); ?>";function c(e){(n.head||n.body).appendChild(e)}function a(){var e=n.createElement("link");e.href=o,e.rel="stylesheet",c(e)}function f(e){if(!n.getElementById(r)){var t=n.createElement("style");t.id=r,c(t)}n.getElementById(r).innerHTML=e}e.FontFace&&e.FontFace.prototype.hasOwnProperty("display")?(t[r]&&f(t[r]),fetch(o).then(function(e){return e.text()}).then(function(e){return e.replace(/@font-face {/g,"@font-face{font-display:swap;")}).then(function(e){return t[r]=e}).then(f).catch(a)):a()}(window,document,localStorage); 
+				</script>
+				<!-- End of code snippet for Google Fonts -->
+				
+				<?php
+			}
+		}
+		
+		
+		/**
 		 * Default option vars
 		 *
 		 * @since 1.0
@@ -473,7 +556,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"CU" => "Cuba",
 						"CY" => "Cyprus",
 						"CZ" => "Czech Republic",
-						"CI" => "Côte d’Ivoire",
+						"CI" => "CÃ´te dâ€™Ivoire",
 						"DK" => "Denmark",
 						"DJ" => "Djibouti",
 						"DM" => "Dominica",
@@ -607,8 +690,8 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"RO" => "Romania",
 						"RU" => "Russia",
 						"RW" => "Rwanda",
-						"RE" => "Réunion",
-						"BL" => "Saint Barthélemy",
+						"RE" => "RÃ©union",
+						"BL" => "Saint BarthÃ©lemy",
 						"SH" => "Saint Helena",
 						"KN" => "Saint Kitts and Nevis",
 						"LC" => "Saint Lucia",
@@ -640,7 +723,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"SE" => "Sweden",
 						"CH" => "Switzerland",
 						"SY" => "Syria",
-						"ST" => "São Tomé and Príncipe",
+						"ST" => "SÃ£o TomÃ© and PrÃ­ncipe",
 						"TW" => "Taiwan",
 						"TJ" => "Tajikistan",
 						"TZ" => "Tanzania",
@@ -677,7 +760,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"YE" => "Yemen",
 						"ZM" => "Zambia",
 						"ZW" => "Zimbabwe",
-						"AX" => "Åland Islands",
+						"AX" => "Ã…land Islands",
 					);
 					break;
 					
