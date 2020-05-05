@@ -1411,7 +1411,7 @@ if (!class_exists('DilazMetaboxFields')) {
 						
 						if ( $key == 'url' || (isset($file_data['url']) && $file_data['url'] != '') ) {
 							
-							$attachment_url = is_array($file_data) && isset($file_data['url']) ? $file_data['url'] : (!empty($file_data) ? $file_data : '');
+							$attachment_url = is_array($file_data) && isset($file_data['url']) ? $file_data['url'] : (!empty($file_data) && !is_array($file_data) ? $file_data : '');
 							$attachment_id  = isset($file_data['id']) && $file_data['id'] != '' ? attachment_url_to_postid($attachment_url) : '';
 						
 							// if ($attachment_id) {
@@ -1433,6 +1433,8 @@ if (!class_exists('DilazMetaboxFields')) {
 								
 								$output .= '<div class="dilaz-mb-media-file '. $file_type .' '. ($attachment_id != '' ? '' : 'empty') .'" id="file-'. esc_attr($id) .'">';
 								
+								var_dump($attachment_url);
+								var_dump($id);
 								$output .= '<input type="hidden" name="'. esc_attr($id) .'[url][]" id="file_url_'. esc_attr($id) .'" class="dilaz-mb-input dilaz-mb-text dilaz-mb-file-url upload" value="'. $attachment_url .'" size="0" rel="" placeholder="Choose file" />';
 					
 								$output .= '<input type="hidden" name="'. esc_attr($id) .'[id][]" id="file_id_'. esc_attr($id) .'" class="dilaz-mb-file-id upload" value="'. $attachment_id .'" size="30" rel"" />';
