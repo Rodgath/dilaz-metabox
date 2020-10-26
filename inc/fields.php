@@ -1411,7 +1411,7 @@ if (!class_exists('DilazMetaboxFields')) {
 						
 						if ( $key == 'url' || (isset($file_data['url']) && $file_data['url'] != '') ) {
 							
-							$attachment_url = is_array($file_data) && isset($file_data['url']) ? $file_data['url'] : (!empty($file_data) && !is_array($file_data) ? $file_data : '');
+							$attachment_url = is_array($file_data) && isset($file_data['url']) ? $file_data['url'] : (!empty($file_data) ? $file_data : '');
 							$attachment_id  = isset($file_data['id']) && $file_data['id'] != '' ? attachment_url_to_postid($attachment_url) : '';
 						
 							// if ($attachment_id) {

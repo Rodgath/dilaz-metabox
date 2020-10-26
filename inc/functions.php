@@ -556,7 +556,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"CU" => "Cuba",
 						"CY" => "Cyprus",
 						"CZ" => "Czech Republic",
-						"CI" => "CÃ´te dâ€™Ivoire",
+						"CI" => "Côte d’Ivoire",
 						"DK" => "Denmark",
 						"DJ" => "Djibouti",
 						"DM" => "Dominica",
@@ -690,8 +690,8 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"RO" => "Romania",
 						"RU" => "Russia",
 						"RW" => "Rwanda",
-						"RE" => "RÃ©union",
-						"BL" => "Saint BarthÃ©lemy",
+						"RE" => "Réunion",
+						"BL" => "Saint Barthélemy",
 						"SH" => "Saint Helena",
 						"KN" => "Saint Kitts and Nevis",
 						"LC" => "Saint Lucia",
@@ -723,7 +723,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"SE" => "Sweden",
 						"CH" => "Switzerland",
 						"SY" => "Syria",
-						"ST" => "SÃ£o TomÃ© and PrÃ­ncipe",
+						"ST" => "São Tomé and Príncipe",
 						"TW" => "Taiwan",
 						"TJ" => "Tajikistan",
 						"TZ" => "Tanzania",
@@ -760,7 +760,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"YE" => "Yemen",
 						"ZM" => "Zambia",
 						"ZW" => "Zimbabwe",
-						"AX" => "Ã…land Islands",
+						"AX" => "Åland Islands",
 					);
 					break;
 					
