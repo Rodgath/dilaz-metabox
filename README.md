@@ -81,3 +81,13 @@ To get a local working copy of the development repository, do:
 
     git clone https://github.com/Rodgath/Dilaz-Metabox-Plugin.git
 
+Alternatively, you can download the latest development version as a tarball
+as follows:
+
+    wget --content-disposition https://github.com/Rodgath/Dilaz-Metabox-Plugin/tarball/master
+
+OR 
+
+    curl -LJO https://github.com/Rodgath/Dilaz-Metabox-Plugin/tarball/master
+    
+    
