@@ -75,5 +75,9 @@ wp-content/plugins/dilaz-metaboxes/  # → Root of your metaboxes
 └── dilaz-metabox.php                 # → metabox access (never edit)
 ```
 
+## Download 
 
+To get a local working copy of the development repository, do:
+
+    git clone https://github.com/Rodgath/Dilaz-Metabox-Plugin.git
 
