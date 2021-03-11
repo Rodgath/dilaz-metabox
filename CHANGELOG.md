@@ -2,6 +2,12 @@
 
 ## Version 2
 
+###### v2.5.7
+```
+= FIXED: Fatal error: Uncaught Error: [] operator not supported for strings in PHP 7.1
+= FIXED: fieldRadioImage: input field has 2 class attributes
+= ADDED: Typography field
+```
 ###### v2.5.6
 ```
 = ADDED - Update checker
