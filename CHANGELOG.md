@@ -2,6 +2,10 @@
 
 ## Version 2
 
+###### v2.5.8
+```
+= UPDATED - changed update checker path
+```
 ###### v2.5.7
 ```
 = FIXED: Fatal error: Uncaught Error: [] operator not supported for strings in PHP 7.1

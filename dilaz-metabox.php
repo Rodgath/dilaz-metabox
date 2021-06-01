@@ -223,7 +223,7 @@ if (!class_exists('DilazMetabox')) {
 require 'inc/update-checker/plugin-update-checker.php';
 
 $dilazMetaboxUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/Rodgath/Dilaz-Metabox-Plugin/',
+	'https://github.com/Rodgath/Dilaz-Metabox/',
 	__FILE__,
 	'dilaz-metabox'
 );
