@@ -3,10 +3,10 @@ WordPress custom metabox fields for themes and plugins.
 
 Feel free to use this metabox plugin in your __premium__ and __commercial__ projects(themes or plugins).
 
-![alt text](https://github.com/Rodgath/DilazResources/blob/master/Dilaz-Metabox-Plugin/main-dilaz-metabox.png "Demo Screenshot")
+![alt text](https://github.com/Rodgath/DilazResources/blob/master/Dilaz-Metabox/main-dilaz-metabox.png "Demo Screenshot")
 
 ## How to use
-1. Download and install [Dilaz Metabox](https://github.com/Rodgath/Dilaz-Metabox-Plugin/archive/master.zip) plugin
+1. Download and install [Dilaz Metabox](https://github.com/Rodgath/Dilaz-Metabox/archive/master.zip) plugin
 2. Download [Dilaz Metabox Options](https://github.com/Rodgath/Dilaz-Metabox-Options) and add it into your WordPress project. 
 
 ## Example of how to use Dilaz Metabox in a theme
@@ -79,15 +79,15 @@ wp-content/plugins/dilaz-metaboxes/  # → Root of your metaboxes
 
 To get a local working copy of the development repository, do:
 
-    git clone https://github.com/Rodgath/Dilaz-Metabox-Plugin.git
+    git clone https://github.com/Rodgath/Dilaz-Metabox.git
 
 Alternatively, you can download the latest development version as a tarball
 as follows:
 
-    wget --content-disposition https://github.com/Rodgath/Dilaz-Metabox-Plugin/tarball/master
+    wget --content-disposition https://github.com/Rodgath/Dilaz-Metabox/tarball/master
 
 OR 
 
-    curl -LJO https://github.com/Rodgath/Dilaz-Metabox-Plugin/tarball/master
+    curl -LJO https://github.com/Rodgath/Dilaz-Metabox/tarball/master
     
     

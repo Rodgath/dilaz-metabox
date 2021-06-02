@@ -9,7 +9,7 @@
 || @since      Dilaz Metabox 1.0
 || @author     Rodgath, https://github.com/Rodgath
 || @copyright  Copyright (C) 2017, Rodgath LTD
-|| @link       https://github.com/Rodgath/Dilaz-Metabox-Plugin
+|| @link       https://github.com/Rodgath/Dilaz-Metabox
 || @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 || 
 */

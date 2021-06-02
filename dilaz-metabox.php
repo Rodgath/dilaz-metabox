@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name:	Dilaz Metabox
- * Plugin URI:	https://github.com/Rodgath/Dilaz-Metabox-Plugin
+ * Plugin URI:	https://github.com/Rodgath/Dilaz-Metabox
  * Description:	Create custom metaboxes for WordPress themes and plugins.
  * Author:		Rodgath
  * Version:		2.5.8
@@ -19,7 +19,7 @@
 || @since		Dilaz Metabox 2.0
 || @author		Rodgath, https://github.com/Rodgath
 || @copyright	Copyright (C) 2017, Rodgath LTD
-|| @link		https://github.com/Rodgath/Dilaz-Metabox-Plugin
+|| @link		https://github.com/Rodgath/Dilaz-Metabox
 || @License		GPL-2.0+
 || @License URI	http://www.gnu.org/licenses/gpl-2.0.txt
 || 
