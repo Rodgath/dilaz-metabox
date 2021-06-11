@@ -10,7 +10,7 @@ Feel free to use this metabox plugin in your __premium__ and __commercial__ proj
 2. Download [Dilaz Metabox Options](https://github.com/Rodgath/Dilaz-Metabox-Options) and add it into your WordPress project. 
 
 ## Example of how to use Dilaz Metabox in a theme
-Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b-Theme) to see a useful example on how to integrate this *dilaz metabox plugin* into your WordPress theme development project.
+Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b-Theme) to see a useful example on how to integrate this *dilaz metabox* into your WordPress theme development project.
 
 ## Features
 * __Fault Tolerant__ - Continues to working effectively even when a component is faulty.
@@ -62,17 +62,17 @@ Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b-Theme)
 
 ## File Structure
 ```
-wp-content/plugins/dilaz-metaboxes/  # → Root of your metaboxes
-├── assets/                           # → Assets
-│   ├── css/                          # → Stylesheets
-│   ├── fonts/                        # → Fonts
-│   ├── images/                       # → Images
-│   └── js/                           # → JavaScripts
-├── inc/                              # → Includes
-│   ├── fields.php                    # → Metabox fields (never edit)
-│   ├── functions.php                 # → Metabox functions (never edit)
-│   └── metabox-class.php             # → Metabox class (never edit)
-└── dilaz-metabox.php                 # → metabox access (never edit)
+wp-content/plugins/dilaz-metaboxes/  # → Dilaz metaboxes root directory
+├── assets/                          # → Assets
+│   ├── css/                         # → Stylesheets
+│   ├── fonts/                       # → Fonts
+│   ├── images/                      # → Images
+│   └── js/                          # → JavaScripts
+├── inc/                             # → Includes
+│   ├── fields.php                   # → Metabox fields (never edit)
+│   ├── functions.php                # → Metabox functions (never edit)
+│   └── metabox-class.php            # → Metabox class (never edit)
+└── dilaz-metabox.php                # → metabox access (never edit)
 ```
 
 ## Download 
