@@ -60,6 +60,10 @@ var DilazMetaboxScript = new function() {
 			dilazMetabox.closest('.postbox').addClass('dilaz-mb-wp5-wrapper');
 		}
 		
+		if (dilazMetabox.hasClass('dilaz-mb-wp6')) {
+			dilazMetabox.closest('.postbox').addClass('dilaz-mb-wp6-wrapper');
+		}
+		
 		dilazMetabox.find('.dilaz-mb-tabs-nav-item:first-of-type, .dilaz-meta-tab:first-of-type').addClass('active');
 		
 		$('.dilaz-mb-tabs').on('click', '.dilaz-mb-tabs-nav-item', function() {

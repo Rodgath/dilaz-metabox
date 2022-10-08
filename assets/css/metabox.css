@@ -1800,3 +1800,10 @@ input.focus + .radio:before {
 .edit-post-meta-boxes-area .postbox.dilaz-mb-wp5-wrapper > .inside {
 	padding: 0
 }
+
+/*--------------------------------------------------------------*/
+/* Metabox wrapper for WP 6+
+/*--------------------------------------------------------------*/
+.dilaz-mb-wp6-wrapper:not(.closed) .postbox-header {
+	border-bottom: 1px solid #e5e5e5 !important;
+}

@@ -445,9 +445,17 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			# Add nonce for security
 			echo '<input type="hidden" name="wp_meta_box_nonce" value="'. wp_create_nonce(basename(__FILE__)) .'" />';
 			
-			$dilaz_mb_wp5_class = version_compare( $GLOBALS['wp_version'], '5', '>' ) ? 'dilaz-mb-wp5' : '';
+			$dilaz_mb_wpx_class = '';
+
+			if ( version_compare( $GLOBALS['wp_version'], '5', '>' ) && version_compare( $GLOBALS['wp_version'], '6', '<' ) ) {
+				$dilaz_mb_wpx_class = 'dilaz-mb-wp5';
+			}
+
+			if ( version_compare( $GLOBALS['wp_version'], '6', '>' ) && version_compare( $GLOBALS['wp_version'], '7', '<' ) ) {
+				$dilaz_mb_wpx_class = 'dilaz-mb-wp6';
+			}
 			
-			echo '<div class="dilaz-metabox '. $dilaz_mb_wp5_class .'">';
+			echo '<div class="dilaz-metabox '. $dilaz_mb_wpx_class .'">';
 			
 				# Vertical Tabs
 				echo '<div class="dilaz-mb-tabs">';
