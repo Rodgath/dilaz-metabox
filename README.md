@@ -3,14 +3,17 @@ WordPress custom metabox fields for themes and plugins.
 
 Feel free to use this metabox plugin in your __premium__ and __commercial__ projects(themes or plugins).
 
-![alt text](https://github.com/Rodgath/DilazResources/blob/master/Dilaz-Metabox/main-dilaz-metabox.png "Demo Screenshot")
+![alt text](https://github.com/Rodgath/DilazResources/blob/master/dilaz-metabox/main-dilaz-metabox.png "Demo Screenshot")
 
 ## How to use
-1. Download and install [Dilaz Metabox](https://github.com/Rodgath/Dilaz-Metabox/archive/master.zip) plugin
-2. Download [Dilaz Metabox Options](https://github.com/Rodgath/Dilaz-Metabox-Options) and add it into your WordPress project *(theme or plugin)*. 
+1. Download and install [Dilaz Metabox](https://github.com/Rodgath/dilaz-metabox/archive/master.zip) plugin
+2. Download [Dilaz Metabox Options](https://github.com/Rodgath/dilaz-metabox-Options) and add it into your WordPress project *(theme or plugin)*. 
 
-## Example of how to use Dilaz Metabox in a theme
-Download and install [n00b Starter Theme](https://github.com/Rodgath/n00b-Theme) to see a useful example on how to integrate this *dilaz metabox* into your WordPress theme development project.
+## Example of how to use Dilaz Panel in a *__theme__*
+Download and install [Dilaz Demo Theme](https://github.com/Rodgath/Dilaz-Demo-Theme) to see a useful example on how to integrate this *dilaz panel* into your WordPress theme development project.
+
+## Example of how to use Dilaz Panel in a *__plugin__*
+Download and install [Dilaz Demo Plugin](https://github.com/Rodgath/Dilaz-Demo-Plugin) to see a useful example on how to integrate this *dilaz panel* into your WordPress theme development project.
 
 ## Features
 * __Fault Tolerant__ - Continues to working effectively even when a component is faulty.
@@ -79,15 +82,15 @@ wp-content/plugins/dilaz-metaboxes/  # → Dilaz metaboxes root directory
 
 To get a local working copy of the development repository, do:
 
-    git clone https://github.com/Rodgath/Dilaz-Metabox.git
+    git clone https://github.com/Rodgath/dilaz-metabox.git
 
 Alternatively, you can download the latest development version as a tarball
 as follows:
 
-    wget --content-disposition https://github.com/Rodgath/Dilaz-Metabox/tarball/master
+    wget --content-disposition https://github.com/Rodgath/dilaz-metabox/tarball/main
 
 OR 
 
-    curl -LJO https://github.com/Rodgath/Dilaz-Metabox/tarball/master
+    curl -LJO https://github.com/Rodgath/dilaz-metabox/tarball/main
     
     
