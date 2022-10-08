@@ -110,13 +110,13 @@ if (!class_exists('Dilaz_Meta_Box')) {
 						
 						# file version based on last update
 						$dilaz_mb_select2_css_ver         = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/css/select2.min.css' ));
-						$dilaz_mb_select2_js_ver          = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/select2.min.js' ));
-						$dilaz_mb_select2_sortable_js_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/select2.sortable.js' ));
+						$dilaz_mb_select2_js_ver          = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/select2/select2.min.js' ));
+						$dilaz_mb_select2_sortable_js_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/select2/select2.sortable.js' ));
 						$dilaz_mb_select2script_js_ver    = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/select2-script.js' ));
 						
 						wp_enqueue_style('dilaz-mb-select2', DILAZ_MB_URL .'assets/css/select2.min.css', false, $dilaz_mb_select2_css_ver, false);
-						wp_enqueue_script('dilaz-mb-select2', DILAZ_MB_URL .'assets/js/select2.min.js', array('jquery'), $dilaz_mb_select2_js_ver, true);
-						wp_enqueue_script('dilaz-mb-select2-sortable', DILAZ_MB_URL .'assets/js/select2.sortable.js', array('dilaz-mb-select2'), $dilaz_mb_select2_sortable_js_ver, true);
+						wp_enqueue_script('dilaz-mb-select2', DILAZ_MB_URL .'assets/js/select2/select2.min.js', array('jquery'), $dilaz_mb_select2_js_ver, true);
+						wp_enqueue_script('dilaz-mb-select2-sortable', DILAZ_MB_URL .'assets/js/select2/select2.sortable.js', array('dilaz-mb-select2'), $dilaz_mb_select2_sortable_js_ver, true);
 						wp_enqueue_script('dilaz-mb-select2script', DILAZ_MB_URL .'assets/js/select2-script.js', array('dilaz-mb-select2'), $dilaz_mb_select2script_js_ver, true);
 					}
 				}
