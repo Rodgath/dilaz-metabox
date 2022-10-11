@@ -1223,7 +1223,7 @@ input.focus + .radio:before {
     position: absolute;
     top: 36px;
     left: 0;
-    width: 235px;
+    width: 236px;
     border: 1px solid #ddd;
     border-bottom: 0;
     padding: 10px 10px 1px;
