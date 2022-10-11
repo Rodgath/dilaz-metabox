@@ -2,6 +2,13 @@
 
 ## Version 2
 
+###### v2.5.81
+```
+= FIXED - Color picker layout
+= FIXED - metabox tabs layout
+= UPDATED - Material design icons to v6.5.95
+= UPDATED - Add compatibility to WordPress 6.x
+```
 ###### v2.5.8
 ```
 = UPDATED - changed update checker path
