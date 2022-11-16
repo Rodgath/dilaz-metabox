@@ -15,7 +15,7 @@
 ||
 || @package		Dilaz Metabox
 || @subpackage	Metabox
-|| @version		2.5.8
+|| @version		2.5.81
 || @since		Dilaz Metabox 2.0
 || @author		Rodgath, https://github.com/Rodgath
 || @copyright	Copyright (C) 2017, Rodgath LTD
