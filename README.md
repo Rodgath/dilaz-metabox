@@ -3,7 +3,7 @@ WordPress custom metabox fields for themes and plugins.
 
 Feel free to use this metabox plugin in your __premium__ and __commercial__ projects(themes or plugins).
 
-![alt text](https://github.com/Rodgath/DilazResources/blob/master/dilaz-metabox/main-dilaz-metabox.png "Demo Screenshot")
+![alt text](https://raw.githubusercontent.com/Rodgath/DilazResources/master/Dilaz-Metabox/main-dilaz-metabox.png "Demo Screenshot")
 
 ## How to use
 1. Download and install [Dilaz Metabox](https://github.com/Rodgath/dilaz-metabox/archive/master.zip) plugin
