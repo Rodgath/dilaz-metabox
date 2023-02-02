@@ -265,7 +265,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$output = '';
 			$output .= '<ul id="'. esc_attr($id) .'" class="dilaz-mb-repeatable '.$class.'" data-ns="'.$not_sortable.'" data-s="'.$sortable.'" data-nr="'.$not_removable.'" data-r="'.$removable.'">';
 				$i = 0;	
-				if ($meta != '') {
+				if ($meta != '' && is_array($meta)) {
 					foreach($meta as $key => $value) {
 						$output .= '<li class="dilaz-mb-repeatable-item">'.($not_sortable > $i ? '' : $sorter);
 							if (is_array($value)) {
