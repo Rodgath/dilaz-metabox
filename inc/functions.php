@@ -284,7 +284,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 			$metabox_content_data = $metabox_content['fields'];
 			
 			/* get array key position */
-			$key_offset = isset($metabox_content_data) ? self::find_array_key_by_value($metabox_content_data, 'id', $before_field_id) : '';
+			$key_offset = isset($metabox_content_data) ? (self::find_array_key_by_value($metabox_content_data, 'id', $before_field_id) || 1) : 1;
 			
 			/* new array after another array has been inserted  */
 			$new_array_modified = isset($metabox_content_data) ? self::insert_array_adjacent_to_key($metabox_content_data, array($insert_data), $key_offset, $insert_position) : $meta_boxes;
@@ -556,7 +556,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"CU" => "Cuba",
 						"CY" => "Cyprus",
 						"CZ" => "Czech Republic",
-						"CI" => "Côte d’Ivoire",
+						"CI" => "Cï¿½te dï¿½Ivoire",
 						"DK" => "Denmark",
 						"DJ" => "Djibouti",
 						"DM" => "Dominica",
@@ -690,8 +690,8 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"RO" => "Romania",
 						"RU" => "Russia",
 						"RW" => "Rwanda",
-						"RE" => "Réunion",
-						"BL" => "Saint Barthélemy",
+						"RE" => "Rï¿½union",
+						"BL" => "Saint Barthï¿½lemy",
 						"SH" => "Saint Helena",
 						"KN" => "Saint Kitts and Nevis",
 						"LC" => "Saint Lucia",
@@ -723,7 +723,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"SE" => "Sweden",
 						"CH" => "Switzerland",
 						"SY" => "Syria",
-						"ST" => "São Tomé and Príncipe",
+						"ST" => "Sï¿½o Tomï¿½ and Prï¿½ncipe",
 						"TW" => "Taiwan",
 						"TJ" => "Tajikistan",
 						"TZ" => "Tanzania",
@@ -760,7 +760,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"YE" => "Yemen",
 						"ZM" => "Zambia",
 						"ZW" => "Zimbabwe",
-						"AX" => "Åland Islands",
+						"AX" => "ï¿½land Islands",
 					);
 					break;
 					
