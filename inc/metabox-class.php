@@ -79,7 +79,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			# only enqueue our scripts/styles specific pages
 			if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' || $hook == 'edit.php' ) {
 				
-				do_action('dilaz_mb_before_scripts_enqueue', $this->_prefix, $this->_meta_box);
+				do_action('dilaz_mb_before_scripts_enqueue', $this->_prefix, $this->_meta_box, $this->_params);
 			
 				# scripts included with WordPress
 				if (function_exists('wp_enqueue_media')) {
