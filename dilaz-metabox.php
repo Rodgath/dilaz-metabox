@@ -43,6 +43,16 @@ require_once plugin_dir_path(__FILE__) .'inc/defaults.php';
  */
 if (!class_exists('DilazMetabox')) {
 	final class DilazMetabox {
+
+		
+		/**
+		 * Metabox arguments
+		 *
+		 * @var array
+		 * @since 2.5.82
+		 */
+		public $args = array();
+
 		
 		/**
 		 * Metabox parameters
