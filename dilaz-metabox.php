@@ -61,6 +61,15 @@ if (!class_exists('DilazMetabox')) {
 		 * @since 2.0
 		 */
 		private $_params = array();
+
+		
+		/**
+		 * All metaboxes
+		 *
+		 * @var array
+		 * @since 2.5.82
+		 */
+		public $metaboxes = array();
 		
 		
 		/**
