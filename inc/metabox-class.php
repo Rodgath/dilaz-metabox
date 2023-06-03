@@ -971,24 +971,25 @@ if (!class_exists('Dilaz_Meta_Box')) {
 							$file_data[$k]['url'] = (empty($v['url']) && !empty($v['id'])) ? wp_get_attachment_url($v['id']) : esc_url($v['url']);
 						}
 						
-						if (sizeof($file_data) > 1) {
+						// if (sizeof($file_data) > 1) {
 							
-							/* Lets delete the first item because its always empty for multiple files upload */
-							unset($file_data[0]); 
+						// 	/* Lets delete the first item because its always empty for multiple files upload */
+						// 	unset($file_data[sizeof($file_data)-1]); 
 							
-							/**
-							 * 'array_filter' used to remove zero-value entries
-							 * 'array_values' used to reindex the array and start from zero
-							 */
-							$file_data = array_values(array_filter($file_data));
-						} else {
-							return $file_data; 
-						}
+						// 	/**
+						// 	 * 'array_filter' used to remove zero-value entries
+						// 	 * 'array_values' used to reindex the array and start from zero
+						// 	 */
+						// 	$file_data = array_values(array_filter($file_data));
+						// } else {
+						// 	return $file_data; 
+						// }
 						
-					} else if (!is_array($input)) {
-						$file_data[0]['id']  = !empty($input) ? attachment_url_to_postid($input) : '';
-						$file_data[0]['url'] = !empty($input) ? esc_url($input) : '';
-					}
+					} 
+          // else if (!is_array($input)) {
+					// 	$file_data[0]['id']  = !empty($input) ? attachment_url_to_postid($input) : '';
+					// 	$file_data[0]['url'] = !empty($input) ? esc_url($input) : '';
+					// }
 					
 					$output = $file_data;
 					return $output; 
