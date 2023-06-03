@@ -1404,7 +1404,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			
 				$output .= '<div class="dilaz-mb-file-wrapper" data-file-id="'. esc_attr($id) .'" '. $data_file_multiple .'>';
 				
-				$output .= '<input type="hidden" name="'. esc_attr($id) .'[id][]" id="file_id_'. esc_attr($id) .'" class="dilaz-mb-file-id upload" value="" size="0" rel="" />';
+				// $output .= '<input type="hidden" name="'. esc_attr($id) .'[id][]" id="file_id_'. esc_attr($id) .'" class="dilaz-mb-file-id upload" value="" size="0" rel="" />';
 				
 				if ($meta != '' && is_array($meta)) {
 					foreach ($meta as $key => $file_data) {
