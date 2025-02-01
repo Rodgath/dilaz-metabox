@@ -276,7 +276,7 @@ if (!class_exists('DilazMetaboxFields')) {
 									if ($label != '') {
 										$output .= '<label for="'.esc_attr($id).'"><strong>'.$label.'</strong></label>';
 									}
-									$output .= '<input type="text" class="'.$k.$i.'" name="'.esc_attr($id).'['.$i.'][]" value="'.$v.'" size="'.$field_size.'" />
+									$output .= '<input type="text" class="'.$k.$i.' dilaz-mb-input" name="'.esc_attr($id).'['.$i.'][]" value="'.$v.'" size="'.$field_size.'" />
 									</div>';
 								}
 							} else {
