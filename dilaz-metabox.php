@@ -100,9 +100,9 @@ if (!class_exists('DilazMetabox')) {
 		 * @see DilazMetabox()
 		 * @return DilazMetabox object - Main instance.
 		 */
-		public static function instance() {
+		public static function instance($metabox_args = array()) {
 			if ( is_null( self::$_instance ) ) {
-				self::$_instance = new self();
+				self::$_instance = new self($metabox_args);
 			}
 			return self::$_instance;
 		}
@@ -137,7 +137,7 @@ if (!class_exists('DilazMetabox')) {
 		 * @param array	$prefix metabox prefix
 		 * 
 		 */
-		function __construct($metabox_args) {
+		function __construct($metabox_args = array()) {
 			
 			do_action('dilaz_metabox_before_load');
 			
