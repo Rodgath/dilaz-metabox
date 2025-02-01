@@ -1196,13 +1196,18 @@ if (!class_exists('Dilaz_Meta_Box')) {
 						
 						# Set any saved Google fonts to be loaded
 						if ('font' == $field['type']) {
-							
-							$google_arr = get_post_meta($post_id, 'saved_google_fonts', true);
-							$google_arr = is_array($google_arr) ? $google_arr : [];
-							
-							$google_arr[$field['id']] = $sanitized_meta;
-							
-							update_post_meta($post_id, 'saved_google_fonts', $google_arr);
+              
+              $g_fonts = DilazMetaboxDefaults::_getGoogleFonts();
+
+              # Save Google fonts only, ignore other fonts
+              if (isset($g_fonts[$sanitized_meta['family']])) {							
+                $google_arr = get_post_meta($post_id, 'saved_google_fonts', true);
+                $google_arr = is_array($google_arr) ? $google_arr : [];
+                
+                $google_arr[$field['id']] = $sanitized_meta;
+                
+                update_post_meta($post_id, 'saved_google_fonts', $google_arr);
+              }
 						}
 						
 						if ($new != $old && false !== $new && $field['type'] != 'checkbox') {

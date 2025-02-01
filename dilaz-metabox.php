@@ -4,7 +4,7 @@
  * Plugin URI:	https://github.com/Rodgath/Dilaz-Metabox
  * Description:	Create custom metaboxes for WordPress themes and plugins.
  * Author:		Rodgath
- * Version:		2.5.81
+ * Version:		2.5.82
  * Author URI:	https://github.com/Rodgath
  * License:		GPL-2.0+
  * License URI:	http://www.gnu.org/licenses/gpl-2.0.txt
@@ -15,7 +15,7 @@
 ||
 || @package		Dilaz Metabox
 || @subpackage	Metabox
-|| @version		2.5.81
+|| @version		2.5.82
 || @since		Dilaz Metabox 2.0
 || @author		Rodgath, https://github.com/Rodgath
 || @copyright	Copyright (C) 2017, Rodgath LTD
@@ -100,9 +100,9 @@ if (!class_exists('DilazMetabox')) {
 		 * @see DilazMetabox()
 		 * @return DilazMetabox object - Main instance.
 		 */
-		public static function instance() {
+		public static function instance($metabox_args = array()) {
 			if ( is_null( self::$_instance ) ) {
-				self::$_instance = new self();
+				self::$_instance = new self($metabox_args);
 			}
 			return self::$_instance;
 		}
@@ -137,7 +137,7 @@ if (!class_exists('DilazMetabox')) {
 		 * @param array	$prefix metabox prefix
 		 * 
 		 */
-		function __construct($metabox_args) {
+		function __construct($metabox_args = array()) {
 			
 			do_action('dilaz_metabox_before_load');
 			
@@ -184,6 +184,8 @@ if (!class_exists('DilazMetabox')) {
 		public function init() {
 
 			do_action('dilaz_metabox_before_init');
+      
+			add_action('wp_head', array($this, 'loadGoogleFonts'));
 			
 			# Load constants
 			$this->constants();
@@ -233,6 +235,79 @@ if (!class_exists('DilazMetabox')) {
 			do_action('dilaz_metabox_after_includes');
 			
 			do_action('dilaz_metabox_before_includes');
+		}
+    
+
+		/**
+		 * Load Google fonts in frontend
+		 * 
+		 * @since 2.5.7
+		 * @return mixed Google fonts head tag code
+		 */
+		public function loadGoogleFonts() {
+			
+			global $wp_query;
+			
+			if ($wp_query->queried_object_id == null) return;
+			
+			$savedGoogleFonts = get_post_meta($wp_query->queried_object_id, 'saved_google_fonts', true);
+			
+			if (empty($savedGoogleFonts)) return FALSE;
+			
+			$families   = array();
+			$subsets    = array();
+			$font_array = array();
+      
+			foreach ($savedGoogleFonts as $key => $font) {
+				
+				if (isset($font['family']) && $font['family'] != '') {
+					
+					$font_array[$font['family']]['family'] = $font['family'];
+					
+					if (isset($font['weight']) && in_array($font['weight'], ['100', '200', '300', '400', '500', '600', '700', '800', '900', '100i', '200i', '300i', '400i', '500i', '600i', '700i', '800i', '900i'])) {
+						$font_style = (isset($font['style']) && $font['style'] != '') ? ($font['style'] == 'italic' ? 'i' : '') : '';
+						$font_array[$font['family']]['weights'][] = $font['weight'] . $font_style;
+					}
+					
+					$font_family = str_replace(' ', '+', $font_array[$font['family']]['family']);
+					
+					if (isset($font_array[$font['family']]['weights'])) {
+						asort($font_array[$font['family']]['weights']);
+						$families[$font_array[$font['family']]['family']] = $font_family . ':' . implode(',', array_unique(array_values($font_array[$font['family']]['weights'])));
+					}
+					
+					if (isset($font['subset']) && $font['subset'] != '' && is_array($font['subset'])) {
+						$subsets = array_merge($subsets, $font['subset']);
+					}
+				}
+				
+			}
+      
+			if (!empty($families)) {
+				
+				$query_args = array(
+					'family'  => implode('|', $families),
+					'display' => 'swap',
+				);
+				
+				if (!empty($subsets)) {
+					$query_args = array_merge($query_args, array('subset' => implode(',', array_values($subsets))));
+				}
+
+				$font_url = add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );
+        
+				?>
+				
+				<!-- Code snippet to speed up Google Fonts rendering: googlefonts.3perf.com -->  
+				<link rel="dns-prefetch" href="https://fonts.gstatic.com"> 
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"> 
+				<link rel="preload" href="<?php echo $font_url; ?>" as="fetch" crossorigin="anonymous">
+				<script type="text/javascript"> !function(e,n,t){"use strict";var o="<?php echo $font_url; ?>",r="__3perf_googleFonts_<?php echo (!empty($this->_prefix) ? $this->_prefix : 'dilaz'); ?>";function c(e){(n.head||n.body).appendChild(e)}function a(){var e=n.createElement("link");e.href=o,e.rel="stylesheet",c(e)}function f(e){if(!n.getElementById(r)){var t=n.createElement("style");t.id=r,c(t)}n.getElementById(r).innerHTML=e}e.FontFace&&e.FontFace.prototype.hasOwnProperty("display")?(t[r]&&f(t[r]),fetch(o).then(function(e){return e.text()}).then(function(e){return e.replace(/@font-face {/g,"@font-face{font-display:swap;")}).then(function(e){return t[r]=e}).then(f).catch(a)):a()}(window,document,localStorage); 
+				</script>
+				<!-- End of code snippet for Google Fonts -->
+				
+				<?php
+			}
 		}
 		
 	}
