@@ -285,7 +285,12 @@ if (!class_exists('DilazMetaboxFunction')) {
 			
 			/* get array key position */
 			$key_offset = isset($metabox_content_data) ? self::find_array_key_by_value($metabox_content_data, 'id', $before_field_id) : false;
-      if ($key_offset === false) return $meta_boxes; // If key not found, return the original array
+      
+      // If key not found, return the original array
+      if ($key_offset === false) {
+        trigger_error("Error: Field ID '$before_field_id' not found in metabox '$metabox_set_id'.", E_USER_WARNING);
+        return $meta_boxes;
+      }
 			
 			/* new array after another array has been inserted  */
 			$new_array_modified = isset($metabox_content_data) ? self::insert_array_adjacent_to_key($metabox_content_data, array($insert_data), $key_offset, $insert_position) : $meta_boxes;
