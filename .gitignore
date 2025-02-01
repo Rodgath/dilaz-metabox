@@ -1,0 +1,28 @@
+# macOS .DS_Store files
+.DS_Store
+
+# Composer PHAR
+composer.phar
+
+# Managed by Composer
+/vendor/
+
+# Composer lock file
+composer.lock
+
+# Ignore log files, databases, env
+*.log
+*.sql
+*.sqlite
+*.env
+
+# Ignore node dependency directories
+node_modules/
+
+# Gulp generated folders
+/build/
+/dist/
+
+# git stuff
+.git/
+.github/
