@@ -193,8 +193,8 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				do_action('dilaz_mb_before_main_style_enqueue', $this->_prefix, $this->_meta_box, $this->_params);
 				
 				# metabox styles
-				$dilaz_mb_style_css_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/css/metabox.css' )); # file version based on last update
-				wp_enqueue_style('dilaz-metabox-style', DILAZ_MB_URL .'assets/css/metabox.css', array('thickbox'), $dilaz_mb_style_css_ver);
+				$dilaz_mb_style_css_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/css/metabox.min.css' )); # file version based on last update
+				wp_enqueue_style('dilaz-metabox-style', DILAZ_MB_URL .'assets/css/metabox.min.css', array('thickbox'), $dilaz_mb_style_css_ver);
 				
 				do_action('dilaz_mb_after_scripts_enqueue', $this->_prefix, $this->_meta_box);
 			}
