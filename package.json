@@ -1,0 +1,19 @@
+{
+  "name": "dilaz-metabox",
+  "version": "2.5.83",
+  "description": "WordPress custom metabox fields for themes and plugins.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^5.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-dart-sass": "^1.1.0",
+    "sass": "^1.83.4"
+  }
+}

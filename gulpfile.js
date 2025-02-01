@@ -1,0 +1,17 @@
+const { src, dest, series, parallel, watch, task } = require('gulp');
+const dartSass = require('sass');    
+const gulpDartSass = require('gulp-dart-sass');
+const concat = require('gulp-concat');
+const cleanCSS = require('gulp-clean-css');
+
+/* Combined CSS job */
+const cssCombined = () => {
+  return src(['assets/css/metabox.scss']) // Using 'src' directly from destructured gulp
+    .pipe(gulpDartSass(dartSass).on('error', gulpDartSass.logError))
+    .pipe(concat('metabox.min.css'))
+    .pipe(cleanCSS())
+    .pipe(dest('assets/css'));
+};
+
+// Default task
+task('default', series(cssCombined));
