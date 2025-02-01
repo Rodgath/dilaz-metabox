@@ -2,6 +2,14 @@
 
 ## Version 2
 
+###### v2.5.82
+```
+= FIXED - 'Missing parameter' warning by adding optional argument similar to constructor
+= FIXED - Move 'loadGoogleFonts' function to main class
+= FIXED - Save Google fonts only, ignore other fonts
+= FIXED - If key not found, return the original array: This removes the possibility of $key_offset being a bool value
+= ADDED - Trigger a Warning to notify devs about the invalid key used in custom field insertion
+```
 ###### v2.5.81
 ```
 = FIXED - Color picker layout
