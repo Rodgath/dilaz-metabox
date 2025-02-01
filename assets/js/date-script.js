@@ -11,8 +11,8 @@ jQuery(document).ready( function($) {
 			changeMonth : true,
 			changeYear : true,
 			numberOfMonths : 1,
-			prevText : '<i class="mdi mdi-24px mdi-chevron-left"></i>',
-			nextText : '<i class="mdi mdi-24px mdi-chevron-right"></i>',
+			prevText : '<',
+			nextText : '>',
 		});
 	});
 	
@@ -28,8 +28,8 @@ jQuery(document).ready( function($) {
 			changeMonth : true,
 			changeYear : true,
 			numberOfMonths : 1,
-			prevText : '<i class="mdi mdi-24px mdi-chevron-left"></i>',
-			nextText : '<i class="mdi mdi-24px mdi-chevron-right"></i>',
+			prevText : '<',
+			nextText : '>',
 			onClose : function( selectedDate ) {
 				$toDate.datepicker( 'option', 'minDate', selectedDate );
 			}
@@ -39,8 +39,8 @@ jQuery(document).ready( function($) {
 			defaultDate : '+1w',
 			changeMonth : false,
 			numberOfMonths : 1,
-			prevText : '<i class="mdi mdi-24px mdi-chevron-left"></i>',
-			nextText : '<i class="mdi mdi-24px mdi-chevron-right"></i>',			
+			prevText : '<',
+			nextText : '>',			
 			onClose : function( selectedDate ) {
 				$fromDate.datepicker( 'option', 'maxDate', selectedDate );
 			}
@@ -56,8 +56,8 @@ jQuery(document).ready( function($) {
 			dateFormat : 'MM, yy',
 			changeYear : false,
 			stepYears : 1,
-			prevText : '<i class="mdi mdi-24px mdi-chevron-left"></i>',
-			nextText : '<i class="mdi mdi-24px mdi-chevron-right"></i>',
+			prevText : '<',
+			nextText : '>',
 			showButtonPanel : true,
 		});
 	});
@@ -72,8 +72,8 @@ jQuery(document).ready( function($) {
 			dateFormat : 'MM, yy',
 			changeYear : false,
 			stepYears : 1,
-			prevText : '<i class="mdi mdi-24px mdi-chevron-left"></i>',
-			nextText : '<i class="mdi mdi-24px mdi-chevron-right"></i>',
+			prevText : '<',
+			nextText : '>',
 			showButtonPanel : true,
 		});
 	});
@@ -109,8 +109,8 @@ jQuery(document).ready( function($) {
 		$this.datetimepicker({
 			timeFormat : 'hh:mm:ss TT',
 			dateFormat : 'DD, MM d yy',
-			prevText : '<i class="mdi mdi-24px mdi-chevron-left"></i>',
-			nextText : '<i class="mdi mdi-24px mdi-chevron-right"></i>',	
+			prevText : '<',
+			nextText : '>',	
 		});
 	});
 	
@@ -123,8 +123,8 @@ jQuery(document).ready( function($) {
 		$dateTime.datetimepicker({
 			timeFormat : 'hh:mm:ss TT',
 			dateFormat : 'DD, MM d yy',
-			prevText : '<i class="mdi mdi-24px mdi-chevron-left"></i>',
-			nextText : '<i class="mdi mdi-24px mdi-chevron-right"></i>',	
+			prevText : '<',
+			nextText : '>',	
 		});
 	});
 });
