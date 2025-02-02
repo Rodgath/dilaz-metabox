@@ -2,6 +2,13 @@
 
 ## Version 2
 
+###### v2.5.83
+```
+= FIXED - Layout issues
+= IMPORVED - Select2 input fields layout
+= ADDED - Append plugin's custom classes to admin body tag.
+= ADDED - Gulp bundler
+```
 ###### v2.5.82
 ```
 = FIXED - 'Missing parameter' warning by adding optional argument similar to constructor
