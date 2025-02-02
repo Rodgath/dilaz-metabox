@@ -877,7 +877,7 @@ if (!class_exists('DilazMetaboxFields')) {
 						} else {
 							$font_size = 14;
 						}
-						$output .= '<input type="text" class="f-size '. esc_attr($id) .'-size" name="'. esc_attr($id) .'[size]" value="'. $font_size .'" size="3" />';
+						$output .= '<input type="text" class="f-size '. esc_attr($id) .'-size dilaz-mb-input" name="'. esc_attr($id) .'[size]" value="'. $font_size .'" size="3" />';
 						$output .= '<span class="unit">'. $fontUnit .'</span>';
 					$output .= '</div>';
 				$output .= '</div>';
@@ -897,7 +897,7 @@ if (!class_exists('DilazMetaboxFields')) {
 						} else {
 							$font_height = 16;
 						}
-						$output .= '<input type="text" class="f-height '. esc_attr($id) .'-height" name="'. esc_attr($id) .'[height]" value="'. $font_height .'" size="3" />';
+						$output .= '<input type="text" class="f-height '. esc_attr($id) .'-height dilaz-mb-input" name="'. esc_attr($id) .'[height]" value="'. $font_height .'" size="3" />';
 						$output .= '<span class="unit">'. $fontUnit .'</span>';
 					$output .= '</div>';
 				$output .= '</div>';
