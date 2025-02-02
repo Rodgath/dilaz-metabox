@@ -50,6 +50,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			add_action('add_meta_boxes', array(&$this, 'addMetaBox')); # Add metaboxes
 			add_action('save_post', array(&$this, 'saveMetaBox')); # Save post meta
 			add_action('admin_enqueue_scripts', array(&$this, 'loadScriptsAndStyles')); # Enqueue common styles and scripts
+			add_action('admin_body_class', array(&$this, 'adminBodyClass')); # Append body class
 		}
 		
 		
@@ -64,7 +65,20 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			require_once DILAZ_MB_DIR .'inc/fields.php';
 			require_once DILAZ_MB_DIR .'inc/defaults.php';
 		}
-		
+    
+
+		/**
+		 * Append custom classe to admin body tag.
+		 *
+		 * @since 2.5.83
+		 * @param   string $classes
+		 * @return  string
+		 */
+		public function adminBodyClass( $classes ) {
+      
+			$classes .= ' dilaz-metabox-ui';
+			return $classes;
+		}
 		
 		/**
 		 * Load Scripts and Styles
