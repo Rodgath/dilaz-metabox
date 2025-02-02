@@ -1084,11 +1084,13 @@
   /*--------------------------------------------------------------*/
   /* Input fields
   /*--------------------------------------------------------------*/
-  .dilaz-mb-input {
+  .dilaz-mb-input-style {
     background: #fbfbfb;
-    max-width: 100%;
-    padding: 0 6px;
     border: 1px solid #e0e0e0
+  }
+  .dilaz-mb-input {
+    padding: 0 6px;
+    max-width: 100%;
   }
   .dilaz-mb-text,
   .dilaz-mb-email,
@@ -1103,6 +1105,10 @@
     width: 100%;
     height: auto;
     overflow: auto;
+    background: #fbfbfb;
+    max-width: 100%;
+    padding: 0 6px;
+    border: 1px solid #e0e0e0
   }
   .dilaz-mb-input:focus {
     background: #f7f7f7;

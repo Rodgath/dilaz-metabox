@@ -39,7 +39,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$size  = isset($args['size']) ? intval($args['size']) : '30';
 			$class = isset($class) ? sanitize_html_class($class) : '';
 			
-			$output = $prefix .'<input type="text" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="'. esc_attr($class) .'" value="'. $meta .'" size="'. esc_attr($size) .'"  />'. $suffix .''. $desc2 .'';
+			$output = $prefix .'<input type="text" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="dilaz-mb-input-style '. esc_attr($class) .'" value="'. $meta .'" size="'. esc_attr($size) .'"  />'. $suffix .''. $desc2 .'';
 			
 			echo $output;
 		}
@@ -78,7 +78,7 @@ if (!class_exists('DilazMetaboxFields')) {
 					$output .= '<div class="dilaz-mb-multi-text '. $inline .'" '. $cols .'>';
 						$output .= '<div class="dilaz-mb-multi-text-wrap">';
 							$output .= '<strong>'. $text_name .'</strong><br />';
-							$output .= '<input class="dilaz-mb-text '. $class .'" type="text" name="'. esc_attr($id) .'['. esc_attr($key) .']" id="'. esc_attr($id) .'" value="'. $saved_text .'" />';
+							$output .= '<input class="dilaz-mb-text dilaz-mb-input-style '. $class .'" type="text" name="'. esc_attr($id) .'['. esc_attr($key) .']" id="'. esc_attr($id) .'" value="'. $saved_text .'" />';
 						$output .= '</div>';
 					$output .= '</div>';
 				}
@@ -104,7 +104,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$size  = isset($args['size']) ? intval($args['size']) : '30';
 			$class = isset($class) ? sanitize_html_class($class) : '';
 			
-			$output = $prefix .'<input type="password" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="'. esc_attr($class) .'" value="'. $meta .'" size="'. esc_attr($size) .'"  />'. $suffix .''. $desc2 .'';
+			$output = $prefix .'<input type="password" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="dilaz-mb-input-style '. esc_attr($class) .'" value="'. $meta .'" size="'. esc_attr($size) .'"  />'. $suffix .''. $desc2 .'';
 			
 			echo $output;
 		}
@@ -191,7 +191,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$size  = isset($args['size']) ? intval($args['size']) : '30';
 			$class = isset($class) ? sanitize_html_class($class) : '';
 			
-			$output = $prefix .'<input type="text" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="'. esc_attr($class) .'" value="'. esc_url($meta). '" size="'. esc_attr($size) .'"  />'. $suffix .''. $desc2 .'';
+			$output = $prefix .'<input type="text" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="dilaz-mb-input-style '. esc_attr($class) .'" value="'. esc_url($meta). '" size="'. esc_attr($size) .'"  />'. $suffix .''. $desc2 .'';
 			
 			echo $output;
 		}
@@ -212,7 +212,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$size  = isset($args['size']) ? intval($args['size']) : '30';
 			$class = isset($class) ? sanitize_html_class($class) : '';
 			
-			$output = $prefix .'<input type="email" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="'. esc_attr($class) .'" value="'. esc_attr($meta). '" size="'. esc_attr($size) .'"  />'. $suffix .''. $desc2 .'';
+			$output = $prefix .'<input type="email" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="dilaz-mb-input-style '. esc_attr($class) .'" value="'. esc_attr($meta). '" size="'. esc_attr($size) .'"  />'. $suffix .''. $desc2 .'';
 			
 			echo $output;
 		}
@@ -233,7 +233,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$size  = isset($args['size']) ? intval($args['size']) : '5';
 			$class = isset($class) ? sanitize_html_class($class) : '';
 			
-			$output = $prefix .'<input type="text" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="'. esc_attr($class) .'" value="'. $meta .'" size="'. esc_attr($size) .'" />'. $suffix .''. $desc2 .'';
+			$output = $prefix .'<input type="text" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="dilaz-mb-input-style '. esc_attr($class) .'" value="'. $meta .'" size="'. esc_attr($size) .'" />'. $suffix .''. $desc2 .'';
 			
 			echo $output;
 		}
@@ -276,11 +276,11 @@ if (!class_exists('DilazMetaboxFields')) {
 									if ($label != '') {
 										$output .= '<label for="'.esc_attr($id).'"><strong>'.$label.'</strong></label>';
 									}
-									$output .= '<input type="text" class="'.$k.$i.' dilaz-mb-input" name="'.esc_attr($id).'['.$i.'][]" value="'.$v.'" size="'.$field_size.'" />
+									$output .= '<input type="text" class="dilaz-mb-input-style '.$k.$i.'" name="'.esc_attr($id).'['.$i.'][]" value="'.$v.'" size="'.$field_size.'" />
 									</div>';
 								}
 							} else {
-								$output .= '<input type="text" name="'.esc_attr($id).'['.$i.']" value="'.$value.'" size="30" />';
+								$output .= '<input type="text" class="dilaz-mb-input-style" name="'.esc_attr($id).'['.$i.']" value="'.$value.'" size="30" />';
 							}
 						$output .= ($not_removable > $i || $i < 1 ? '' : $remover).'</li>';
 						$i++;
@@ -333,7 +333,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$arrow_step = isset($args['arrow_step']) ? 'data-arrow-step="'. intval($args['arrow_step']) .'"' : '';
 			$step_limit = isset($args['step_limit']) ? 'data-limit="['. $args['step_limit'] .']"' : '';
 			
-			$output = $prefix .'<input type="text" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" value="'. $meta .'" size="'. esc_attr($size) .'" class="dilaz-stepper '. $class .'" '. $wheel_step .' '. $arrow_step .' '. $step_limit .'  />'. $suffix .''. $desc2 .'';
+			$output = $prefix .'<input type="text" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" value="'. $meta .'" size="'. esc_attr($size) .'" class="dilaz-stepper dilaz-mb-input-style '. $class .'" '. $wheel_step .' '. $arrow_step .' '. $step_limit .'  />'. $suffix .''. $desc2 .'';
 			
 			echo $output;
 		}
@@ -355,7 +355,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$cols  = isset($args['cols']) ? intval($args['cols']) : '50';
 			$rows  = isset($args['rows']) ? intval($args['rows']) : '5';
 			
-			$output = $prefix .'<textarea name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="'. esc_attr($class) .'" cols="'. esc_attr($cols) .'" rows="'. esc_attr($rows) .'">'. esc_textarea($meta) .'</textarea>'. $suffix .''. $desc2 .'';
+			$output = $prefix .'<textarea name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="dilaz-mb-input-style '. esc_attr($class) .'" cols="'. esc_attr($cols) .'" rows="'. esc_attr($rows) .'">'. esc_textarea($meta) .'</textarea>'. $suffix .''. $desc2 .'';
 			
 			echo $output;
 		}
@@ -377,7 +377,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$cols  = isset($args['cols']) ? intval($args['cols']) : '50';
 			$rows  = isset($args['rows']) ? intval($args['rows']) : '5';
 			
-			$output = $prefix .'<textarea name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="'. esc_attr($class) .'" cols="'. esc_attr($cols) .'" rows="'. esc_attr($rows) .'">'. esc_textarea($meta) .'</textarea>'. $suffix .''. $desc2 .'';
+			$output = $prefix .'<textarea name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="dilaz-mb-input-style '. esc_attr($class) .'" cols="'. esc_attr($cols) .'" rows="'. esc_attr($rows) .'">'. esc_textarea($meta) .'</textarea>'. $suffix .''. $desc2 .'';
 			
 			echo $output;
 		}
@@ -523,7 +523,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$select2_class = isset($args['select2']) ? sanitize_html_class($args['select2']) : '';
 			$select2_width = isset($args['select2width']) ? 'data-width="'. sanitize_text_field($args['select2width']) .'"' : 'data-width="100px"';
 			
-			$output .= '<select id="'. esc_attr($id) .'" class="dilaz-mb-input dilaz-mb-select '. $select2_class .' '. $class .'" name="'. esc_attr($id) .'" '. $select2_width .'>';
+			$output .= '<select id="'. esc_attr($id) .'" class="dilaz-mb-select dilaz-mb-input-style '. $select2_class .' '. $class .'" name="'. esc_attr($id) .'" '. $select2_width .'>';
 			foreach ((array)$options as $key => $val) {
 				// $selected = $meta == $key ? ' selected="selected"' : '';
 				$selected = selected($meta == $key, true, false);
@@ -553,7 +553,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$select2_class = isset($args['select2']) ? sanitize_html_class($args['select2']) : '';
 			$select2_width = isset($args['select2width']) ? 'data-width="'. sanitize_text_field($args['select2width']) .'"' : 'data-width="100px"';
 			
-			$output .= '<select id="'. esc_attr($id) .'" class="dilaz-mb-input dilaz-mb-select '. $select2_class .' '. $class .'" multiple="multiple" name="'. esc_attr($id) .'[]" '. $select2_width .'>';
+			$output .= '<select id="'. esc_attr($id) .'" class="dilaz-mb-select dilaz-mb-input-style '. $select2_class .' '. $class .'" multiple="multiple" name="'. esc_attr($id) .'[]" '. $select2_width .'>';
 				$selected_data = is_array($meta) ? $meta : array();
 				foreach ($options as $key => $option) {
 					// $selected = (in_array($key, $selected_data)) ? 'selected="selected"' : '';
@@ -651,7 +651,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$select2_class = isset($args['select2']) ? $args['select2'] : '';
 			$select2_width = isset($args['select2width']) ? 'data-width="'. sanitize_text_field($args['select2width']) .'"' : 'data-width="100px"';
 			
-			$output .= '<select name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="dilaz-mb-input dilaz-mb-timezone '. $select2_class .' '. $class .'" '. $select2_width .'>';
+			$output .= '<select name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" class="dilaz-mb-timezone dilaz-mb-input-style '. $select2_class .' '. $class .'" '. $select2_width .'>';
 			$output .= '<option value="">Select timezone</option>';
 			foreach ((array)$options as $t) {
 				$selected = $meta == $t['zone'] ? 'selected="selected"' : '';
@@ -959,7 +959,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$format   = isset($args['format']) ? $args['format'] : 'l, d F, Y';
 			$selected = $meta ? date($format, $meta) : '';
 			
-			$output = '<input type="text" class="dilaz-mb-input dilaz-mb-date '. $class .'" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" value="'. $selected .'" size="'. $size .'" />'. $suffix .''. $desc2 .'';
+			$output = '<input type="text" class="dilaz-mb-date dilaz-mb-input-style '. $class .'" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" value="'. $selected .'" size="'. $size .'" />'. $suffix .''. $desc2 .'';
 			
 			echo $output;
 		}
@@ -1000,12 +1000,12 @@ if (!class_exists('DilazMetaboxFields')) {
 			$output .= '<table>';
 				$output .= '<tr>';
 					$output .= '<td>'. $from_prefix .'</td>';
-					$output .= '<td><input type="text" class="from-date dilaz-mb-input" name="'. esc_attr($id) .'[from]" id="'. esc_attr($id) .'[from]" value="'. $from_date .'" size="'. $size .'" /></td>';
+					$output .= '<td><input type="text" class="from-date dilaz-mb-input-style" name="'. esc_attr($id) .'[from]" id="'. esc_attr($id) .'[from]" value="'. $from_date .'" size="'. $size .'" /></td>';
 					$output .= '<td>'. $from_suffix .'</td>';
 				$output .= '</tr>';
 				$output .= '<tr>';
 					$output .= '<td>'. $to_prefix .'</td>';
-					$output .= '<td><input type="text" class="to-date dilaz-mb-input" name="'. esc_attr($id) .'[to]" id="'. esc_attr($id) .'[to]" value="'. $to_date .'" size="'. $size .'" /></td>';
+					$output .= '<td><input type="text" class="to-date dilaz-mb-input-style" name="'. esc_attr($id) .'[to]" id="'. esc_attr($id) .'[to]" value="'. $to_date .'" size="'. $size .'" /></td>';
 					$output .= '<td>'. $to_suffix .'</td>';
 				$output .= '</tr>';
 			$output .= '</table>';
@@ -1035,7 +1035,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$format   = isset($args['format']) ? $args['format'] : 'F, Y';
 			$selected = $meta ? date($format, $meta) : '';
 			
-			$output = '<input type="text" class="dilaz-mb-input dilaz-mb-month '. $class .'" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" value="'. $selected .'" size="'. $size .'" />'. $suffix .''. $desc2 .'';
+			$output = '<input type="text" class="dilaz-mb-month dilaz-mb-input-style '. $class .'" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" value="'. $selected .'" size="'. $size .'" />'. $suffix .''. $desc2 .'';
 			
 			echo $output;
 			
@@ -1077,12 +1077,12 @@ if (!class_exists('DilazMetaboxFields')) {
 			$output .= '<table>';
 				$output .= '<tr>';
 					$output .= '<td>'. $from_prefix .'</td>';
-					$output .= '<td><input type="text" class="from-month dilaz-mb-input" name="'. esc_attr($id) .'[from]" id="'. esc_attr($id) .'[from]" value="'. $from_month .'" size="'. $size .'" /></td>';
+					$output .= '<td><input type="text" class="from-month dilaz-mb-input-style" name="'. esc_attr($id) .'[from]" id="'. esc_attr($id) .'[from]" value="'. $from_month .'" size="'. $size .'" /></td>';
 					$output .= '<td>'. $from_suffix .'</td>';
 				$output .= '</tr>';
 				$output .= '<tr>';
 					$output .= '<td>'. $to_prefix .'</td>';
-					$output .= '<td><input type="text" class="to-month dilaz-mb-input" name="'. esc_attr($id) .'[to]" id="'. esc_attr($id) .'[to]" value="'. $to_month .'" size="'. $size .'" /></td>';
+					$output .= '<td><input type="text" class="to-month dilaz-mb-input-style" name="'. esc_attr($id) .'[to]" id="'. esc_attr($id) .'[to]" value="'. $to_month .'" size="'. $size .'" /></td>';
 					$output .= '<td>'. $to_suffix .'</td>';
 				$output .= '</tr>';
 			$output .= '</table>';
@@ -1112,7 +1112,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$format   = isset($args['format']) ? $args['format'] : 'h:i:s A';
 			$selected = isset($meta) && is_numeric($meta) ? date($format, $meta) : '';
 			
-			$output = '<input type="text" class="dilaz-mb-input dilaz-mb-time '. $class .'" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" value="'. $selected .'" size="'. $size .'" />'. $suffix .''. $desc2 .'';
+			$output = '<input type="text" class="dilaz-mb-time dilaz-mb-input-style '. $class .'" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" value="'. $selected .'" size="'. $size .'" />'. $suffix .''. $desc2 .'';
 
 			echo $output;
 		}
@@ -1153,12 +1153,12 @@ if (!class_exists('DilazMetaboxFields')) {
 			$output .= '<table>';
 				$output .= '<tr>';
 					$output .= '<td>'. $from_prefix .'</td>';
-					$output .= '<td><input type="text" class="from-time dilaz-mb-input" name="'. esc_attr($id) .'[from]" id="'. esc_attr($id) .'[from]" value="'. $from_time .'" size="'. $size .'" /></td>';
+					$output .= '<td><input type="text" class="from-time dilaz-mb-input-style" name="'. esc_attr($id) .'[from]" id="'. esc_attr($id) .'[from]" value="'. $from_time .'" size="'. $size .'" /></td>';
 					$output .= '<td>'. $from_suffix .'</td>';
 				$output .= '</tr>';
 				$output .= '<tr>';
 					$output .= '<td>'. $to_prefix .'</td>';
-					$output .= '<td><input type="text" class="to-time dilaz-mb-input" name="'. esc_attr($id) .'[to]" id="'. esc_attr($id) .'[to]" value="'. $to_time .'" size="'. $size .'" /></td>';
+					$output .= '<td><input type="text" class="to-time dilaz-mb-input-style" name="'. esc_attr($id) .'[to]" id="'. esc_attr($id) .'[to]" value="'. $to_time .'" size="'. $size .'" /></td>';
 					$output .= '<td>'. $to_suffix .'</td>';
 				$output .= '</tr>';
 			$output .= '</table>';
@@ -1188,7 +1188,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$format   = isset($args['format']) ? $args['format'] : 'l, d F Y h:i:s A';
 			$selected = $meta ? date($format, $meta) : '';
 			
-			$output = '<input type="text" class="dilaz-mb-input dilaz-mb-date-time '. $class .'" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" value="'. $selected .'" size="'. $size .'" />'. $suffix .''. $desc2 .'';
+			$output = '<input type="text" class="dilaz-mb-date-time dilaz-mb-input-style '. $class .'" name="'. esc_attr($id) .'" id="'. esc_attr($id) .'" value="'. $selected .'" size="'. $size .'" />'. $suffix .''. $desc2 .'';
 			
 			echo $output;
 		}
@@ -1229,12 +1229,12 @@ if (!class_exists('DilazMetaboxFields')) {
 			$output .= '<table>';
 				$output .= '<tr>';
 					$output .= '<td>'. $from_prefix .'</td>';
-					$output .= '<td><input type="text" class="from-date-time dilaz-mb-input" name="'. esc_attr($id) .'[from]" id="'. esc_attr($id) .'[from]" value="'. $from_date_time .'" size="'. $size .'" /></td>';
+					$output .= '<td><input type="text" class="from-date-time dilaz-mb-input-style" name="'. esc_attr($id) .'[from]" id="'. esc_attr($id) .'[from]" value="'. $from_date_time .'" size="'. $size .'" /></td>';
 					$output .= '<td>'. $from_suffix .'</td>';
 				$output .= '</tr>';
 				$output .= '<tr>';
 					$output .= '<td>'. $to_prefix .'</td>';
-					$output .= '<td><input type="text" class="to-date-time dilaz-mb-input" name="'. esc_attr($id) .'[to]" id="'. esc_attr($id) .'[to]" value="'. $to_date_time .'" size="'. $size .'" /></td>';
+					$output .= '<td><input type="text" class="to-date-time dilaz-mb-input-style" name="'. esc_attr($id) .'[to]" id="'. esc_attr($id) .'[to]" value="'. $to_date_time .'" size="'. $size .'" /></td>';
 					$output .= '<td>'. $to_suffix .'</td>';
 				$output .= '</tr>';
 			$output .= '</table>';
