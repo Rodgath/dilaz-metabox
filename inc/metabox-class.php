@@ -1214,13 +1214,15 @@ if (!class_exists('Dilaz_Meta_Box')) {
               $g_fonts = DilazMetaboxDefaults::_getGoogleFonts();
 
               # Save Google fonts only, ignore other fonts
-              if (isset($g_fonts[$sanitized_meta['family']])) {							
-                $google_arr = get_post_meta($post_id, 'saved_google_fonts', true);
-                $google_arr = is_array($google_arr) ? $google_arr : [];
-                
-                $google_arr[$field['id']] = $sanitized_meta;
-                
-                update_post_meta($post_id, 'saved_google_fonts', $google_arr);
+              if (isset($sanitized_meta['family'])) {
+                if (isset($g_fonts[$sanitized_meta['family']])) {
+                  $google_arr = get_post_meta($post_id, 'saved_google_fonts', true);
+                  $google_arr = is_array($google_arr) ? $google_arr : [];
+                  
+                  $google_arr[$field['id']] = $sanitized_meta;
+                  
+                  update_post_meta($post_id, 'saved_google_fonts', $google_arr);
+                }
               }
 						}
 						
