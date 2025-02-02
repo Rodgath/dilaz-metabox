@@ -515,11 +515,62 @@
 
   /*--------------------------------------------------------------*/
   /* Select 2
-  /*--------------------------------------------------------------*/
-  .select2-container--default .select2-search--inline .select2-search__field {
-      width: 100% !important;
-  }
+  /*--------------------------------------------------------------*/  
+  .select2-container--default {
+    .select2-selection--multiple {
+      min-height: 28px;
 
+      .select2-selection__rendered {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin: 0;
+        height: 100%;
+      }
+
+      .select2-selection__clear {
+        margin-top: 3px;
+      }
+
+      .select2-selection__choice {
+        margin: 0 3px 0 0;
+        padding: 0 5px 3px 4px;
+      }
+
+      .select2-selection__choice__display {
+        padding-left: 17px;
+      }
+
+      .select2-selection__choice__remove {
+        height: 100%;
+        display: flex;
+        line-height: 1.5;
+      }
+    }
+
+    .select2-search--inline .select2-search__field {
+      width: 100% !important;
+    }
+
+    .select2-selection--single,
+    .select2-selection--multiple {
+      background: #fbfbfb;
+      max-width: 100%;
+      padding: 0 3px;
+      border: 1px solid #e0e0e0;
+      height: 30px
+    }
+
+    .select2-dropdown--below {
+      background: #fbfbfb;
+      border-color: #e0e0e0
+    }
+
+    .select2-results__message {
+      margin: 0
+    }
+  }
+  
   /*--------------------------------------------------------------*/
   /* Color
   /*--------------------------------------------------------------*/
@@ -1033,8 +1084,7 @@
   /*--------------------------------------------------------------*/
   /* Input fields
   /*--------------------------------------------------------------*/
-  .dilaz-mb-input, 
-  .select2-container--default .select2-selection--single {
+  .dilaz-mb-input {
     background: #fbfbfb;
     max-width: 100%;
     padding: 0 6px;
@@ -1191,7 +1241,7 @@
         -o-transform: rotate(-45deg);
             transform: rotate(-45deg);
   }
-  &.dilaz-mb-wp5-wrapper .checkbox:before {
+  .dilaz-mb-wp5-wrapper .checkbox:before {
     width: 10px;
     height: 6px;
   }
@@ -1220,7 +1270,7 @@
   /*--------------------------------------------------------------*/
   .wp-picker-container {
     position: relative;
-    margin-top: 5px;
+    margin-top: 3px;
     vertical-align: baseline
   }
   .wp-picker-open+.wp-picker-input-wrap {
@@ -1266,13 +1316,13 @@
       border-radius: 3px;
       background: #f5f5f5 !important;
   }
-  &.dilaz-mb-wp6-wrapper .wp-color-result-text {
+  .dilaz-mb-wp6-wrapper .wp-color-result-text {
     display: none
   }
-  &.dilaz-mb-wp6-wrapper .color-alpha {
+  .dilaz-mb-wp6-wrapper .color-alpha {
     height: 28px !important
   }
-  &.dilaz-mb-wp6-wrapper .wp-picker-container .iris-picker {
+  .dilaz-mb-wp6-wrapper .wp-picker-container .iris-picker {
       top: 78px;
     width: 256px !important
   }
@@ -1297,9 +1347,11 @@
   /* Fonts
   /*--------------------------------------------------------------*/
   .dilaz-mb-font {
-    display: inline-block;
     margin-bottom: 10px;
     margin-right: 10px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: start;
   }
   .dilaz-mb-font .face,
   .dilaz-mb-font .size,
@@ -1333,7 +1385,8 @@
   }
   .dilaz-mb-font [id*="-size"] input,
   .dilaz-mb-font [id*="-height"] input {
-    border: 0;
+    // border: 0;
+    margin: 0;
     vertical-align: middle
   }
   .dilaz-mb-font [id*="-size"] .unit,
@@ -1356,18 +1409,6 @@
     padding: 7px 10px;
     border: 1px solid #e0e0e0;
   }
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered {
-      padding: 5px 5px 0;
-      width: 100%;
-  }
-  .select2-container--default .select2-selection--multiple .select2-selection__choice {
-      margin-right: 5px;
-      margin-top: 0;
-      padding: 0 5px 3px 4px;
-  }
-  .select2-container .select2-selection--multiple {
-      min-height: 28px;
-  }
 
   /*--------------------------------------------------------------*/
   /* Paragraph
@@ -1379,7 +1420,7 @@
   /*--------------------------------------------------------------*/
   /* Metabox wrapper for WP 5+
   /*--------------------------------------------------------------*/
-  &.dilaz-mb-wp5-wrapper {
+  .dilaz-mb-wp5-wrapper {
     border: 1px solid #e5e5e5 !important;
     border-bottom: 0 !important;
     margin-top: 15px !important;
@@ -1392,14 +1433,11 @@
   /*--------------------------------------------------------------*/
   /* Metabox wrapper for WP 6+
   /*--------------------------------------------------------------*/
-  &.dilaz-mb-wp6-wrapper:not(.closed) .postbox-header {
+  .dilaz-mb-wp6-wrapper:not(.closed) .postbox-header {
     border-bottom: 1px solid #e5e5e5 !important;
   }
-}
 
-
-
-
+    
   /*--------------------------------------------------------------*/
   /* Datepicker
   /*--------------------------------------------------------------*/
