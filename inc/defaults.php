@@ -14,6 +14,8 @@
 || 
 */
 
+namespace DilazMetabox\DilazMetaboxDefaults;
+
 defined('ABSPATH') || exit;
 
 class DilazMetaboxDefaults {

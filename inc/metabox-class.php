@@ -14,7 +14,13 @@
 || 
 */
 
+namespace DilazMetabox\Dilaz_Meta_Box;
+
 defined('ABSPATH') || exit;
+
+use DilazMetabox\DilazMetaboxFields;
+use DilazMetabox\DilazMetaboxFunction;
+use DilazMetabox\DilazMetaboxDefaults;
 
 /**
  * Metabox class
@@ -661,44 +667,44 @@ if (!class_exists('Dilaz_Meta_Box')) {
 							switch ($field['type']) {
 								
 								case 'metabox_tab'       : break;
-								case 'text'              : DilazMetaboxFields::fieldText($field); break;
-								case 'multitext'         : DilazMetaboxFields::fieldMultiText($field); break;
-								case 'password'          : DilazMetaboxFields::fieldPassword($field); break;
-								case 'hidden'            : DilazMetaboxFields::fieldHidden($field); break;
-								case 'paragraph'         : DilazMetaboxFields::fieldParagraph($field); break;
-								case 'codeoutput'        : DilazMetaboxFields::fieldCodeOutput($field); break;
-								case 'url'               : DilazMetaboxFields::fieldUrl($field); break;
-								case 'email'             : DilazMetaboxFields::fieldEmail($field); break;
-								case 'number'            : DilazMetaboxFields::fieldNumber($field); break;
-								case 'repeatable'        : DilazMetaboxFields::fieldRepeatable($field); break;
-								case 'stepper'           : DilazMetaboxFields::fieldStepper($field); break;
-								case 'code'              : DilazMetaboxFields::fieldCode($field); break;
-								case 'textarea'          : DilazMetaboxFields::fieldTextarea($field); break;
-								case 'editor'            : DilazMetaboxFields::fieldEditor($field); break;
-								case 'radio'             : DilazMetaboxFields::fieldRadio($field); break;
-								case 'checkbox'          : DilazMetaboxFields::fieldCheckbox($field); break;
-								case 'multicheck'        : DilazMetaboxFields::fieldMultiCheck($field); break;
-								case 'select'            : DilazMetaboxFields::fieldSelect($field); break;
-								case 'multiselect'       : DilazMetaboxFields::fieldMultiSelect($field); break;
-								case 'queryselect'       : DilazMetaboxFields::fieldQuerySelect($field); break;
-								case 'timezone'          : DilazMetaboxFields::fieldTimezone($field); break;
-								case 'radioimage'        : DilazMetaboxFields::fieldRadioImage($field); break;
-								case 'color'             : DilazMetaboxFields::fieldColor($field); break;
-								case 'multicolor'        : DilazMetaboxFields::fieldMultiColor($field); break;
-								case 'font'              : DilazMetaboxFields::fieldFont($field); break;
-								case 'date'              : DilazMetaboxFields::fieldDate($field); break;
-								case 'date_from_to'      : DilazMetaboxFields::fieldDateFromTo($field); break;
-								case 'month'             : DilazMetaboxFields::fieldMonth($field); break;
-								case 'month_from_to'     : DilazMetaboxFields::fieldMonthFromTo($field); break;
-								case 'time'              : DilazMetaboxFields::fieldtime($field); break;
-								case 'time_from_to'      : DilazMetaboxFields::fieldTimeFromTo($field); break;
-								case 'date_time'         : DilazMetaboxFields::fieldDateTime($field); break;
-								case 'date_time_from_to' : DilazMetaboxFields::fieldDateTimeFromTo($field); break;
-								case 'slider'            : DilazMetaboxFields::fieldSlideRange($field); break;
-								case 'range'             : DilazMetaboxFields::fieldRange($field); break;
-								case 'upload'            : DilazMetaboxFields::fieldUpload($field); break;
-								case 'buttonset'         : DilazMetaboxFields::fieldButtonset($field); break;
-								case 'switch'            : DilazMetaboxFields::fieldSwitch($field); break;
+								case 'text'              : DilazMetaboxFields\DilazMetaboxFields::fieldText($field); break;
+								case 'multitext'         : DilazMetaboxFields\DilazMetaboxFields::fieldMultiText($field); break;
+								case 'password'          : DilazMetaboxFields\DilazMetaboxFields::fieldPassword($field); break;
+								case 'hidden'            : DilazMetaboxFields\DilazMetaboxFields::fieldHidden($field); break;
+								case 'paragraph'         : DilazMetaboxFields\DilazMetaboxFields::fieldParagraph($field); break;
+								case 'codeoutput'        : DilazMetaboxFields\DilazMetaboxFields::fieldCodeOutput($field); break;
+								case 'url'               : DilazMetaboxFields\DilazMetaboxFields::fieldUrl($field); break;
+								case 'email'             : DilazMetaboxFields\DilazMetaboxFields::fieldEmail($field); break;
+								case 'number'            : DilazMetaboxFields\DilazMetaboxFields::fieldNumber($field); break;
+								case 'repeatable'        : DilazMetaboxFields\DilazMetaboxFields::fieldRepeatable($field); break;
+								case 'stepper'           : DilazMetaboxFields\DilazMetaboxFields::fieldStepper($field); break;
+								case 'code'              : DilazMetaboxFields\DilazMetaboxFields::fieldCode($field); break;
+								case 'textarea'          : DilazMetaboxFields\DilazMetaboxFields::fieldTextarea($field); break;
+								case 'editor'            : DilazMetaboxFields\DilazMetaboxFields::fieldEditor($field); break;
+								case 'radio'             : DilazMetaboxFields\DilazMetaboxFields::fieldRadio($field); break;
+								case 'checkbox'          : DilazMetaboxFields\DilazMetaboxFields::fieldCheckbox($field); break;
+								case 'multicheck'        : DilazMetaboxFields\DilazMetaboxFields::fieldMultiCheck($field); break;
+								case 'select'            : DilazMetaboxFields\DilazMetaboxFields::fieldSelect($field); break;
+								case 'multiselect'       : DilazMetaboxFields\DilazMetaboxFields::fieldMultiSelect($field); break;
+								case 'queryselect'       : DilazMetaboxFields\DilazMetaboxFields::fieldQuerySelect($field); break;
+								case 'timezone'          : DilazMetaboxFields\DilazMetaboxFields::fieldTimezone($field); break;
+								case 'radioimage'        : DilazMetaboxFields\DilazMetaboxFields::fieldRadioImage($field); break;
+								case 'color'             : DilazMetaboxFields\DilazMetaboxFields::fieldColor($field); break;
+								case 'multicolor'        : DilazMetaboxFields\DilazMetaboxFields::fieldMultiColor($field); break;
+								case 'font'              : DilazMetaboxFields\DilazMetaboxFields::fieldFont($field); break;
+								case 'date'              : DilazMetaboxFields\DilazMetaboxFields::fieldDate($field); break;
+								case 'date_from_to'      : DilazMetaboxFields\DilazMetaboxFields::fieldDateFromTo($field); break;
+								case 'month'             : DilazMetaboxFields\DilazMetaboxFields::fieldMonth($field); break;
+								case 'month_from_to'     : DilazMetaboxFields\DilazMetaboxFields::fieldMonthFromTo($field); break;
+								case 'time'              : DilazMetaboxFields\DilazMetaboxFields::fieldtime($field); break;
+								case 'time_from_to'      : DilazMetaboxFields\DilazMetaboxFields::fieldTimeFromTo($field); break;
+								case 'date_time'         : DilazMetaboxFields\DilazMetaboxFields::fieldDateTime($field); break;
+								case 'date_time_from_to' : DilazMetaboxFields\DilazMetaboxFields::fieldDateTimeFromTo($field); break;
+								case 'slider'            : DilazMetaboxFields\DilazMetaboxFields::fieldSlideRange($field); break;
+								case 'range'             : DilazMetaboxFields\DilazMetaboxFields::fieldRange($field); break;
+								case 'upload'            : DilazMetaboxFields\DilazMetaboxFields::fieldUpload($field); break;
+								case 'buttonset'         : DilazMetaboxFields\DilazMetaboxFields::fieldButtonset($field); break;
+								case 'switch'            : DilazMetaboxFields\DilazMetaboxFields::fieldSwitch($field); break;
 								case $field['type']      : do_action('dilaz_mb_field_'. $field['type'] .'_hook', $field); break; # add custom field types via this hook
 								
 							}
@@ -890,9 +896,9 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					
 				case 'color':
 					if ( FALSE !== stripos( $input, 'rgb' ) ) {
-						$output = DilazMetaboxFunction::sanitize_rgb_color($input);
+						$output = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_rgb_color($input);
 					} else if ( FALSE !== stripos( $input, 'hsl' ) ) {
-						$output = DilazMetaboxFunction::sanitize_hsl_color($input);
+						$output = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_hsl_color($input);
 					} else {
 						$output = sanitize_hex_color($input);
 					}
@@ -904,9 +910,9 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					foreach ((array)$input as $k => $v) {
 						if (isset($field['options'][$k])) {
 							if ( FALSE !== stripos( $v, 'rgb' ) ) {
-								$output[$k] = DilazMetaboxFunction::sanitize_rgb_color($v);
+								$output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_rgb_color($v);
 							} else if ( FALSE !== stripos( $v, 'hsl' ) ) {
-								$output[$k] = DilazMetaboxFunction::sanitize_hsl_color($v);
+								$output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_hsl_color($v);
 							} else {
 								$output[$k] = sanitize_hex_color($v);
 							}
@@ -920,9 +926,9 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					foreach ((array)$input as $k => $v) {
 						if (isset($field['options'][$k]) && $k == 'color') {
 							if ( FALSE !== stripos( $v, 'rgb' ) ) {
-								$output[$k] = DilazMetaboxFunction::sanitize_rgb_color($v);
+								$output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_rgb_color($v);
 							} else if ( FALSE !== stripos( $v, 'hsl' ) ) {
-								$output[$k] = DilazMetaboxFunction::sanitize_hsl_color($v);
+								$output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_hsl_color($v);
 							} else {
 								$output[$k] = sanitize_hex_color($v);
 							}
@@ -956,9 +962,9 @@ if (!class_exists('Dilaz_Meta_Box')) {
 							$output[$k] = absint($v);
 						} else if (isset($field['options'][$k]) && $k == 'color') {
 							if ( FALSE !== stripos( $v, 'rgb' ) ) {
-								$output[$k] = DilazMetaboxFunction::sanitize_rgb_color($v);
+								$output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_rgb_color($v);
 							} else if ( FALSE !== stripos( $v, 'hsl' ) ) {
-								$output[$k] = DilazMetaboxFunction::sanitize_hsl_color($v);
+								$output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_hsl_color($v);
 							} else {
 								$output[$k] = sanitize_hex_color($v);
 							}
@@ -1211,7 +1217,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 						# Set any saved Google fonts to be loaded
 						if ('font' == $field['type']) {
               
-              $g_fonts = DilazMetaboxDefaults::_getGoogleFonts();
+              $g_fonts = DilazMetaboxDefaults\DilazMetaboxDefaults::_getGoogleFonts();
 
               # Save Google fonts only, ignore other fonts
               if (isset($sanitized_meta['family'])) {

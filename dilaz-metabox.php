@@ -4,7 +4,7 @@
  * Plugin URI:	https://github.com/Rodgath/Dilaz-Metabox
  * Description:	Create custom metaboxes for WordPress themes and plugins.
  * Author:		Rodgath
- * Version:		2.5.83
+ * Version:		3.0.0
  * Author URI:	https://github.com/Rodgath
  * License:		GPL-2.0+
  * License URI:	http://www.gnu.org/licenses/gpl-2.0.txt
@@ -15,7 +15,7 @@
 ||
 || @package		Dilaz Metabox
 || @subpackage	Metabox
-|| @version		2.5.83
+|| @version		3.0.0
 || @since		Dilaz Metabox 2.0
 || @author		Rodgath, https://github.com/Rodgath
 || @copyright	Copyright (C) 2017, Rodgath LTD
@@ -24,6 +24,8 @@
 || @License URI	http://www.gnu.org/licenses/gpl-2.0.txt
 || 
 */
+
+namespace DilazMetabox;
 
 defined('ABSPATH') || exit;
 
@@ -144,7 +146,7 @@ if (!class_exists('DilazMetabox')) {
 			$this->args      = $metabox_args;
 			$this->_params   = $this->args[0];
 			$this->metaboxes = $this->args[1];
-			$this->_prefix   = DilazMetaboxFunction::preparePrefix($this->_params['prefix']);
+			$this->_prefix   = DilazMetaboxFunction\DilazMetaboxFunction::preparePrefix($this->_params['prefix']);
 			
 			# Hooks
 			add_action('init', array(&$this, 'init'));
@@ -162,7 +164,7 @@ if (!class_exists('DilazMetabox')) {
 		 * @return	void
 		 */
 		public function metaboxClass() {
-			if (!class_exists('Dilaz_Meta_Box'))
+			if (!class_exists('Dilaz_Meta_Box\Dilaz_Meta_Box'))
 				require_once DILAZ_MB_DIR .'inc/metabox-class.php';
 			
 			$prefix           = $this->_prefix;
@@ -171,7 +173,7 @@ if (!class_exists('DilazMetabox')) {
 			$dilaz_meta_boxes = $this->metaboxes;
 			$dilaz_meta_boxes = apply_filters('dilaz_meta_box_filter', $dilaz_meta_boxes, $prefix, $parameters);
 			
-			new Dilaz_Meta_Box($prefix, $dilaz_meta_boxes, $parameters);
+			new Dilaz_Meta_Box\Dilaz_Meta_Box($prefix, $dilaz_meta_boxes, $parameters);
 		}
 		
 		
@@ -313,13 +315,98 @@ if (!class_exists('DilazMetabox')) {
 	}
 }
 
+# Dilaz metabox get use type based on current metabox usage
+function dilaz_metabox_get_use_type($filename) {
+	if (false !== strpos(dirname($filename), '\plugins\\') || false !== strpos(dirname($filename), '/plugins/')) {
+		return 'plugin';
+	} else if (false !== strpos(dirname($filename), '\themes\\') || false !== strpos(dirname($filename), '/themes/')) {
+		return 'theme';
+	} else {
+		return false;
+	}
+}
+
+# Dilaz metabox theme object
+function dilaz_metabox_theme_params($theme_object, $filename) {
+	
+	$theme_name    = is_child_theme() ? $theme_object['Template'] : $theme_object['Name'];
+	$theme_name_lc = strtolower($theme_name);
+	$theme_version = $theme_object['Version'];
+	$theme_uri     = is_child_theme() ? get_stylesheet_directory_uri() : get_template_directory_uri();
+	$theme_folder  = basename($theme_uri);
+	
+	/* 
+	 * If the theme folder name string appears multiple times,
+	 * lets split the string as shown below and focus only 
+	 * on the last theme folder name string
+	 */
+	$split_1      = explode('includes', dirname($filename));
+	$split_2      = explode($theme_folder, $split_1[0]);
+	$split_2_last = array_pop($split_2);
+	
+	$use_type_parameters = array(
+		'item_name'    => $theme_name,
+		'item_version' => $theme_version,
+		'item_url'     => trailingslashit($theme_uri),
+		'dir_url'      => trailingslashit($theme_uri . wp_normalize_path($split_2_last)),
+	);
+	
+	return $use_type_parameters;
+}
+
+# Dilaz metabox plugin object
+function dilaz_metabox_plugin_params($filename) {
+	
+	if (!function_exists('get_plugin_data')) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+	
+	$plugin_data = [];
+	
+	$plugins_dir     = trailingslashit(WP_PLUGIN_DIR); 
+	$plugin_basename = plugin_basename($filename);
+	$plugin_folder   = strtok($plugin_basename, '/');
+	
+	# use global to check plugin data from all PHP files within plugin main folder
+	foreach (glob(trailingslashit($plugins_dir . $plugin_folder) . '*.php') as $file) {
+		$plugin_data = get_plugin_data($file);
+		
+		# lets ensure we don't return empty plugin data
+		if (empty($plugin_data['Name'])) continue; else break;
+	}
+	
+	$plugin_name    = $plugin_data['Name'];
+	$plugin_name_lc = strtolower($plugin_name);
+	$plugin_version = $plugin_data['Version'];
+	
+	/* 
+	 * If the theme name string multiple times, lets
+	 * split the string as show below and focus only 
+	 * on the last theme name string
+	 */
+	$split_1      = explode('includes', plugin_dir_url($filename));
+	$split_2      = explode($plugin_folder, $split_1[0]);
+	$split_2_last = array_pop($split_2);
+	$split_3      = array($split_2_last, implode($plugin_folder, $split_2));
+	
+	$use_type_parameters = array(
+		'item_name'    => $plugin_name,
+		'item_version' => $plugin_version,
+		'item_url'     => trailingslashit($split_3[1].$plugin_folder),
+		'dir_url'      => trailingslashit($split_3[1].$plugin_folder.wp_normalize_path($split_3[0])),
+	);
+
+	return $use_type_parameters;
+}
+
 /* Add update checker */
-require 'inc/update-checker/plugin-update-checker.php';
+require_once plugin_dir_path(__FILE__) . 'inc/update-checker/plugin-update-checker.php';
 
-$dilazMetaboxUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/Rodgath/Dilaz-Metabox/',
-	__FILE__,
-	'dilaz-metabox'
-);
-
-$dilazMetaboxUpdateChecker->setBranch('master');
+if (class_exists('Puc_v4_Factory')) {
+  $dilazMetaboxUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
+    'https://github.com/Rodgath/Dilaz-Metabox/',
+    __FILE__,
+    'dilaz-metabox'
+  );
+  $dilazMetaboxUpdateChecker->setBranch('main');
+}
