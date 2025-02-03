@@ -14,6 +14,8 @@
 || 
 */
 
+namespace DilazMetabox\DilazMetaboxFunction;
+
 defined('ABSPATH') || exit;
 
 /**

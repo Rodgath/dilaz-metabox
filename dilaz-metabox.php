@@ -4,7 +4,7 @@
  * Plugin URI:	https://github.com/Rodgath/Dilaz-Metabox
  * Description:	Create custom metaboxes for WordPress themes and plugins.
  * Author:		Rodgath
- * Version:		2.5.83
+ * Version:		3.0.0
  * Author URI:	https://github.com/Rodgath
  * License:		GPL-2.0+
  * License URI:	http://www.gnu.org/licenses/gpl-2.0.txt
@@ -15,7 +15,7 @@
 ||
 || @package		Dilaz Metabox
 || @subpackage	Metabox
-|| @version		2.5.83
+|| @version		3.0.0
 || @since		Dilaz Metabox 2.0
 || @author		Rodgath, https://github.com/Rodgath
 || @copyright	Copyright (C) 2017, Rodgath LTD
@@ -24,6 +24,8 @@
 || @License URI	http://www.gnu.org/licenses/gpl-2.0.txt
 || 
 */
+
+namespace DilazMetabox;
 
 defined('ABSPATH') || exit;
 
@@ -144,7 +146,7 @@ if (!class_exists('DilazMetabox')) {
 			$this->args      = $metabox_args;
 			$this->_params   = $this->args[0];
 			$this->metaboxes = $this->args[1];
-			$this->_prefix   = DilazMetaboxFunction::preparePrefix($this->_params['prefix']);
+			$this->_prefix   = DilazMetaboxFunction\DilazMetaboxFunction::preparePrefix($this->_params['prefix']);
 			
 			# Hooks
 			add_action('init', array(&$this, 'init'));
@@ -162,7 +164,7 @@ if (!class_exists('DilazMetabox')) {
 		 * @return	void
 		 */
 		public function metaboxClass() {
-			if (!class_exists('Dilaz_Meta_Box'))
+			if (!class_exists('Dilaz_Meta_Box\Dilaz_Meta_Box'))
 				require_once DILAZ_MB_DIR .'inc/metabox-class.php';
 			
 			$prefix           = $this->_prefix;
@@ -171,7 +173,7 @@ if (!class_exists('DilazMetabox')) {
 			$dilaz_meta_boxes = $this->metaboxes;
 			$dilaz_meta_boxes = apply_filters('dilaz_meta_box_filter', $dilaz_meta_boxes, $prefix, $parameters);
 			
-			new Dilaz_Meta_Box($prefix, $dilaz_meta_boxes, $parameters);
+			new Dilaz_Meta_Box\Dilaz_Meta_Box($prefix, $dilaz_meta_boxes, $parameters);
 		}
 		
 		
@@ -314,12 +316,13 @@ if (!class_exists('DilazMetabox')) {
 }
 
 /* Add update checker */
-require 'inc/update-checker/plugin-update-checker.php';
+require_once plugin_dir_path(__FILE__) . 'inc/update-checker/plugin-update-checker.php';
 
-$dilazMetaboxUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/Rodgath/Dilaz-Metabox/',
-	__FILE__,
-	'dilaz-metabox'
-);
-
-$dilazMetaboxUpdateChecker->setBranch('master');
+if (class_exists('Puc_v4_Factory')) {
+  $dilazMetaboxUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
+    'https://github.com/Rodgath/Dilaz-Metabox/',
+    __FILE__,
+    'dilaz-metabox'
+  );
+  $dilazMetaboxUpdateChecker->setBranch('main');
+}
