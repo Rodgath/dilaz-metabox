@@ -155,7 +155,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				}
 				
 				# datepicker scripts
-				if ($this->hasField(array('date', 'date_from_to', 'month', 'month_from_to', 'time', 'time_from_to', 'datetime', 'date_time_from_to'))) {
+				if ($this->hasField(array('date', 'date_from_to', 'month', 'month_from_to', 'time', 'time_from_to', 'date_time', 'date_time_from_to'))) {
 					wp_enqueue_script('jquery-ui-datepicker');
 					wp_enqueue_style('jquery-ui-datepicker');
 				}
@@ -181,7 +181,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				}
 				
 				# datepicker & timepicker scripts
-				if ($this->hasField(array('time', 'time_from_to', 'datetime', 'date_time_from_to'))) {
+				if ($this->hasField(array('time', 'time_from_to', 'date_time', 'date_time_from_to'))) {
 					wp_enqueue_style('jquery-ui-datepicker');
 					
 					# file version based on last update
