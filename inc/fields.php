@@ -1348,54 +1348,23 @@ if (!class_exists('DilazMetaboxFields')) {
 			$data_file_specific = (isset($args['file_specific']) && $args['file_specific'] == true) ? 'data-file-specific="true"' : '';
 			$frame_title        = (isset($args['frame_title']) && $args['frame_title'] != '') ? sanitize_text_field($args['frame_title']) : '';
 			$frame_button_text  = (isset($args['frame_button_text']) && $args['frame_button_text'] != '') ? sanitize_text_field($args['frame_button_text']) : '';
-			
-			switch ($file_type) {
-				
-				case ('image') :
-					$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Image', 'dilaz-metabox') .'"';
-					$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Image', 'dilaz-metabox') .'"';
-					break;
-				
-				case ('audio') :
-					$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Audio', 'dilaz-metabox') .'"';
-					$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Audio', 'dilaz-metabox') .'"';
-					break;
-				
-				case ('video') :
-					$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Video', 'dilaz-metabox') .'"';
-					$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Video', 'dilaz-metabox') .'"';
-					break;
-				
-				case ('document') :
-					$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Document', 'dilaz-metabox') .'"';
-					$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Document', 'dilaz-metabox') .'"';
-					break;
-				
-				case ('spreadsheet') :
-					$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Spreadsheet', 'dilaz-metabox') .'"';
-					$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Spreadsheet', 'dilaz-metabox') .'"';
-					break;
-				
-				case ('interactive') :
-					$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Interactive File', 'dilaz-metabox') .'"';
-					$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Interactive File', 'dilaz-metabox') .'"';
-					break;
-				
-				case ('text') :
-					$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Text File', 'dilaz-metabox') .'"';
-					$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Text File', 'dilaz-metabox') .'"';
-					break;
-				
-				case ('archive') :
-					$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Archive File', 'dilaz-metabox') .'"';
-					$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Archive File', 'dilaz-metabox') .'"';
-					break;
-				
-				case ('code') :
-					$data_frame_title = ($frame_title != '') ? 'data-frame-title="'. $frame_title .'"' : 'data-frame-title="'. __('Choose Code File', 'dilaz-metabox') .'"';
-					$data_frame_b_txt = ($frame_button_text != '') ? 'data-frame-button-text="'. $frame_button_text .'"' : 'data-frame-button-text="'. __('Use Selected Code File', 'dilaz-metabox') .'"';
-					break;
-			}
+      
+      // Frame title and button text based on file type
+      $file_type_labels = [
+        'image' => [__('Choose Image', 'dilaz-metabox'), __('Use Selected Image', 'dilaz-metabox')],
+        'audio' => [__('Choose Audio', 'dilaz-metabox'), __('Use Selected Audio', 'dilaz-metabox')],
+        'video' => [__('Choose Video', 'dilaz-metabox'), __('Use Selected Video', 'dilaz-metabox')],
+        'document' => [__('Choose Document', 'dilaz-metabox'), __('Use Selected Document', 'dilaz-metabox')],
+        'spreadsheet' => [__('Choose Spreadsheet', 'dilaz-metabox'), __('Use Selected Spreadsheet', 'dilaz-metabox')],
+        'interactive' => [__('Choose Interactive File', 'dilaz-metabox'), __('Use Selected Interactive File', 'dilaz-metabox')],
+        'text' => [__('Choose Text File', 'dilaz-metabox'), __('Use Selected Text File', 'dilaz-metabox')],
+        'archive' => [__('Choose Archive File', 'dilaz-metabox'), __('Use Selected Archive File', 'dilaz-metabox')],
+        'code' => [__('Choose Code File', 'dilaz-metabox'), __('Use Selected Code File', 'dilaz-metabox')],
+      ];
+      
+      $default_labels = $file_type_labels[$file_type] ?? [__('Choose File', 'dilaz-metabox'), __('Use Selected File', 'dilaz-metabox')];
+      $data_frame_title = 'data-frame-title="' . esc_attr($frame_title ?: $default_labels[0]) . '"';
+      $data_frame_b_txt = 'data-frame-button-text="' . esc_attr($frame_button_text ?: $default_labels[1]) . '"';
 			
 			$output .= '<div class="dilaz-mb-file-upload '. $class .'">';
 			
@@ -1456,47 +1425,21 @@ if (!class_exists('DilazMetaboxFields')) {
 								
 								$output .= '<div class="filename '. $file_type .'">'. $file_title .'</div>';
 								
-								$media_remove = '<a href="#" class="dilaz-mb-remove-file" title="'. __('Remove', 'dilaz-metabox') .'"><span class="mdi mdi-window-close"></span></a>';					
-								
-								switch ($file_type) {
-									
-									case ('image') :
-										$output .= ($file_ext) ? '<img src="'. $file .'" class="dilaz-mb-file-preview file-image" alt="" />'. $media_remove : '';
-										break;
-									
-									case ('audio') :
-										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/audio.png" class="dilaz-mb-file-preview file-audio" alt="" />'. $media_remove : '';
-										break;
-									
-									case ('video') :
-										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/video.png" class="dilaz-mb-file-preview file-video" alt="" />'. $media_remove : '';
-										break;
-									
-									case ('document') :
-										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/document.png" class="dilaz-mb-file-preview file-document" alt="" />'. $media_remove : '';
-										break;
-									
-									case ('spreadsheet') :
-										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/spreadsheet.png" class="dilaz-mb-file-preview file-spreadsheet" alt="" />'. $media_remove : '';
-										break;
-									
-									case ('interactive') :
-										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/interactive.png" class="dilaz-mb-file-preview file-interactive" alt="" />'. $media_remove : '';
-										break;
-										
-									case ('text') :
-										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/text.png" class="dilaz-mb-file-preview file-text" alt="" />'. $media_remove : '';
-										break;
-										
-									case ('archive') :
-										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/archive.png" class="dilaz-mb-file-preview file-archive" alt="" />'. $media_remove : '';
-										break;
-										
-									case ('code') :	
-										$output .= ($file_ext) ? '<img src="'. DILAZ_MB_IMAGES .'media/code.png" class="dilaz-mb-file-preview file-code" alt="" />'. $media_remove : '';
-										break;	
-										
-								}
+								$media_remove = '<a href="#" class="dilaz-mb-remove-file" title="'. __('Remove', 'dilaz-metabox') .'"><span class="mdi mdi-window-close"></span></a>';
+                
+                $file_type_images = [
+                  'image' => $file,
+                  'audio' => DILAZ_MB_IMAGES . 'media/audio.png',
+                  'video' => DILAZ_MB_IMAGES . 'media/video.png',
+                  'document' => DILAZ_MB_IMAGES . 'media/document.png',
+                  'spreadsheet' => DILAZ_MB_IMAGES . 'media/spreadsheet.png',
+                  'interactive' => DILAZ_MB_IMAGES . 'media/interactive.png',
+                  'text' => DILAZ_MB_IMAGES . 'media/text.png',
+                  'archive' => DILAZ_MB_IMAGES . 'media/archive.png',
+                  'code' => DILAZ_MB_IMAGES . 'media/code.png',
+                ];
+
+                $output .= $file_ext ? '<img src="' . esc_url($file_type_images[$file_type] ?? '') . '" class="dilaz-mb-file-preview file-' . esc_attr($file_type) . '" alt="" />' . $media_remove : '';
 								$output .= '</div><!-- .dilaz-mb-media-file -->'; // end .dilaz-mb-media-file
 							}
 						}
