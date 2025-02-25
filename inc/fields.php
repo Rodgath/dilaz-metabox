@@ -1382,9 +1382,14 @@ if (!class_exists('DilazMetaboxFields')) {
 					foreach ($meta as $key => $file_data) {
 						
 						if ( $key == 'url' || (isset($file_data['url']) && $file_data['url'] != '') ) {
-							
-							$attachment_url = is_array($file_data) && isset($file_data['url']) ? $file_data['url'] : (!empty($file_data) ? $file_data : '');
-							$attachment_id  = isset($file_data['id']) && $file_data['id'] != '' ? attachment_url_to_postid($attachment_url) : '';
+              
+              $attachment_url = is_array($file_data) && isset($file_data['url']) 
+                  ? $file_data['url'] 
+                  : (is_string($file_data) && !empty($file_data) ? $file_data : '');
+
+              $attachment_id = isset($file_data['id']) && !empty($file_data['id']) 
+                  ? (int) $file_data['id'] 
+                  : (!empty($attachment_url) ? attachment_url_to_postid($attachment_url) : '');
 						
 							// if ($attachment_id) {
 								// $file = wp_get_attachment_image_src($attachment_id, 'thumbnail'); $file = $file[0];
@@ -1396,12 +1401,12 @@ if (!class_exists('DilazMetaboxFields')) {
 							
 							if (!empty($attachment_url)) {
 									
-									if (FALSE !== get_post_status($attachment_id)) {
-										$image_size = $show_thumb == 'true' ? 'thumbnail' : 'large';
-										$file = wp_get_attachment_image_src($attachment_id, $image_size); $file = $file[0];
-									} else {
-										$file = $attachment_url;
-									}
+                if (FALSE !== get_post_status($attachment_id)) {
+                  $image_size = $show_thumb == 'true' ? 'thumbnail' : 'large';
+                  $file = wp_get_attachment_image_src($attachment_id, $image_size); $file = $file[0];
+                } else {
+                  $file = $attachment_url;
+                }
 								
 								$output .= '<div class="dilaz-mb-media-file '. $file_type .' '. ($attachment_id != '' ? '' : 'empty') .'" id="file-'. esc_attr($id) .'">';
 								
