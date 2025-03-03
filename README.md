@@ -7,7 +7,7 @@ Feel free to use this metabox plugin in your __premium__ and __commercial__ proj
 
 ## How to use
 1. Download and install [Dilaz Metabox](https://github.com/Rodgath/dilaz-metabox/archive/master.zip) plugin
-2. Download [Dilaz Metabox Options](https://github.com/Rodgath/dilaz-metabox-Options) and add it into your WordPress project *(theme or plugin)*. 
+2. Download [Dilaz Metabox Options](https://github.com/Rodgath/dilaz-metabox-Options) and add it into your WordPress project *(theme or plugin)*.
 
 ## Example of how to use Dilaz Panel in a *__theme__*
 Download and install [Dilaz Demo Theme](https://github.com/Rodgath/Dilaz-Demo-Theme) to see a useful example on how to integrate this *dilaz panel* into your WordPress theme development project.
@@ -18,10 +18,10 @@ Download and install [Dilaz Demo Plugin](https://github.com/Rodgath/Dilaz-Demo-P
 ## Features
 * __Fault Tolerant__ - Continues to working effectively even when a component is faulty.
 * __Backward Compatible__ - Fairly interoperable with WP older legacy versions and your own option settings.
-* __Extendability__ - Easy to update or create new functionality. Future growth considered. 
+* __Extendability__ - Easy to update or create new functionality. Future growth considered.
 * __Reliability__ - Full operational under stated WP conditions. No surprises.
 * __Maintainability__ - Easy to maintain, update, correct defects or repair faulty parts.
-* __Easy updating__ - Your settings will not be part of core files. 
+* __Easy updating__ - Your settings will not be part of core files.
 * __AddOns availability__ - AddOns created by ther software developers.
 * __Both Plugins & Themes__ - Can be used with any WordPress theme or plugin.
 
@@ -31,8 +31,8 @@ Download and install [Dilaz Demo Plugin](https://github.com/Rodgath/Dilaz-Demo-P
 * Hidden
 * Paragraph
 * URL
-* Email 
-* Number 
+* Email
+* Number
 * Stepper
 * Code
 * Textarea
@@ -78,7 +78,7 @@ wp-content/plugins/dilaz-metaboxes/  # → Dilaz metaboxes root directory
 └── dilaz-metabox.php                # → metabox access (never edit)
 ```
 
-## Download 
+## Download
 
 To get a local working copy of the development repository, do:
 
@@ -89,8 +89,8 @@ as follows:
 
     wget --content-disposition https://github.com/Rodgath/dilaz-metabox/tarball/main
 
-OR 
+OR
 
     curl -LJO https://github.com/Rodgath/dilaz-metabox/tarball/main
-    
-    
+
+

@@ -11,7 +11,7 @@
 || @copyright  Copyright (C) 2017, Rodgath LTD
 || @link       https://github.com/Rodgath/Dilaz-Metabox
 || @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-|| 
+||
 */
 
 namespace DilazMetabox\DilazMetaboxFunction;
@@ -23,7 +23,7 @@ defined('ABSPATH') || exit;
  */
 if (!class_exists('DilazMetaboxFunction')) {
 	class DilazMetaboxFunction {
-		
+
 		/**
 		 * Saved Google Fonts
 		 *
@@ -32,13 +32,13 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 * @access protected
 		 */
 		protected $savedGFonts;
-		
+
 		function __construct() {
 			add_action('wp_ajax_dilaz_mb_query_select', array($this, 'query_select'));
 			add_action('wp_ajax_dilaz_mb_get_post_titles', array($this, 'get_post_titles'));
 		}
-		
-		
+
+
 		/**
 		 * Add underscore to prefix
 		 *
@@ -51,8 +51,8 @@ if (!class_exists('DilazMetaboxFunction')) {
 		public static function preparePrefix($prefix) {
 			return rtrim($prefix, '_') . '_';
 		}
-		
-		
+
+
 		/**
 		 * Query select function
 		 *
@@ -67,81 +67,81 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 * @return json.data
 		 */
 		public function query_select() {
-			
+
 			global $wpdb;
-			
+
 			$search     = isset($_POST['q']) ? $wpdb->esc_like($_POST['q']) : '';
 			$selected   = isset($_POST['selected']) ? (array)$_POST['selected'] : '';
 			$query_type = isset($_POST['query_type']) ? sanitize_text_field($_POST['query_type']) : '';
 			$query_args = isset($_POST['query_args']) ? $_POST['query_args'] : '';
-			
+
 			$data = array();
-			
+
 			if ($query_type == 'post') {
-				
+
 				/* The callback is a closure that needs to use the $search from the current scope */
 				add_filter('posts_where', function ($where) use ($search) {
 					$where .= (' AND post_title LIKE "%'. $search .'%"');
 					return $where;
 				});
-				
+
 				$default_args = array(
 					'post__not_in'     => $selected,
 					'suppress_filters' => false,
 				);
-				
+
 				$query = wp_parse_args( unserialize(base64_decode($query_args)), $default_args );
 				$posts = get_posts($query);
-				
+
 				foreach ($posts as $post) {
 					$data[] = array(
 						'id'   => $post->ID,
 						'name' => $post->post_title,
 					);
 				}
-				
+
 			} else if ($query_type == 'user') {
-				
+
 				$default_args = array(
 					'search'  => '*'. $search .'*',
 					'exclude' => $selected
 				);
-				
+
 				$query = wp_parse_args( unserialize(base64_decode($query_args)), $default_args );
 				$users = get_users($query);
-				
+
 				foreach ($users as $user) {
 					$data[] = array(
 						'id'   => $user->ID,
 						'name' => $user->nickname,
 					);
 				}
-				
+
 			} else if ($query_type == 'term') {
-				
+
 				$default_args = array(
 					'name__like' => $search,
 					'exclude'    => $selected
 				);
-				
+
 				$query = wp_parse_args( unserialize(base64_decode($query_args)), $default_args );
 				$terms = get_terms($query);
-				
+
 				foreach ($terms as $term) {
 					$data[] = array(
 						'id'   => $term->term_id,
 						'name' => $term->name,
 					);
 				}
-				
+
 			}
-			
+
 			echo json_encode($data);
-			
+
 			die();
 		}
-		
-		
+
+
 		/**
 		 * Get post titles
 		 *
@@ -152,11 +152,11 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 * @return json.data
 		 */
 		public function get_post_titles() {
-			
+
 			$result = array();
-			
+
 			$selected = isset($_POST['selected']) ? $_POST['selected'] : '';
-			
+
 			if (is_array($selected) && !empty($selected)) {
 				$posts = get_posts(array(
 					'posts_per_page' => -1,
@@ -164,7 +164,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 					'post__in'       => $selected,
 					'post_type'      => 'any'
 				));
-				
+
 				foreach ($posts as $post) {
 					$result[] = array(
 						'id'    => $post->ID,
@@ -172,13 +172,13 @@ if (!class_exists('DilazMetaboxFunction')) {
 					);
 				}
 			}
-			
+
 			echo json_encode($result);
-			
+
 			die;
 		}
-		
-		
+
+
 		/**
 		 * Find position of array using its key and value
 		 *
@@ -194,11 +194,11 @@ if (!class_exists('DilazMetaboxFunction')) {
 				if ($array_item[$field] === $value)
 					return $key;
 			}
-			
+
 			return false;
 		}
-		
-		
+
+
 		/**
 		 * Insert an array before the key of another array
 		 *
@@ -211,24 +211,24 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 * @return array|bool
 		 */
 		public static function insert_array_adjacent_to_key($array, $data, $key_offset, $insert_position = 'before') {
-			
+
 			if (!is_array($data)) return false;
-			
+
 			switch ($insert_position) {
 				case 'before' : $offset = $key_offset; break;
 				case 'after'  : $offset = $key_offset+1; break;
 				case 'last'   : $offset = count($array); break; # usually used when inserting a tab to be the last one
 				default       : $offset = $key_offset; break;
 			}
-			
+
 			foreach ($data as $item) {
-				$new_array = array_merge( array_slice($array, 0, $offset, true), (array) $item, array_slice($array, $offset, NULL, true) );  
+				$new_array = array_merge( array_slice($array, 0, $offset, true), (array) $item, array_slice($array, $offset, NULL, true) );
 			}
-			
-			return $new_array;  
+
+			return $new_array;
 		}
-		
-		
+
+
 		/**
 		 * Get all fields within a metabox set
 		 *
@@ -239,29 +239,29 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 * @return array
 		 */
 		public static function get_meta_box_content($dilaz_meta_boxes, $metabox_set_id) {
-			
+
 			$set_id = 0;
 			$box_contents = array();
-			
+
 			foreach ($dilaz_meta_boxes as $key => $val) {
-				
+
 				if (!isset($val['type'])) continue;
-				
+
 				if (isset($val['type'])) {
 					if ($val['type'] == 'metabox_set') {
 						$set_id = sanitize_key($val['id']);
 					}
 				}
-				
+
 				if ($set_id == $metabox_set_id) {
 					$box_contents['fields'][] = $val;
 				}
 			}
-			
+
 			return $box_contents;
 		}
-		
-		
+
+
 		/**
 		 * Add/Insert metabox field before a specific field
 		 *
@@ -276,33 +276,33 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 * @return array|void
 		 */
 		public static function insert_field($meta_boxes, $metabox_set_id, $before_field_id, $insert_data, $insert_position) {
-			
+
 			$metabox_content = self::get_meta_box_content($meta_boxes, $metabox_set_id);
-			
+
 			/* bail if fileds not found */
 			if (!isset($metabox_content['fields'])) return;
-			
+
 			$metabox_content_data = $metabox_content['fields'];
-			
+
 			/* get array key position */
 			$key_offset = isset($metabox_content_data) ? self::find_array_key_by_value($metabox_content_data, 'id', $before_field_id) : false;
-      
+
       // If key not found, return the original array
       if ($key_offset === false) {
         trigger_error("Error: Field ID '$before_field_id' not found in metabox '$metabox_set_id'.", E_USER_WARNING);
         return $meta_boxes;
       }
-			
+
 			/* new array after another array has been inserted  */
 			$new_array_modified = isset($metabox_content_data) ? self::insert_array_adjacent_to_key($metabox_content_data, array($insert_data), $key_offset, $insert_position) : $meta_boxes;
-			
+
 			/* merge the new array with the entire metabox options array */
 			$new_meta_boxes = $new_array_modified;
-			
+
 			return $new_meta_boxes;
 		}
-		
-		
+
+
 		/**
 		 * Timezones list with GMT offset
 		 *
@@ -312,7 +312,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 		public static function time_zones() {
 			$zones_array = array();
 			$timestamp = time();
-			
+
 			if (function_exists('timezone_identifiers_list')) {
 				foreach (timezone_identifiers_list() as $key => $zone) {
 					date_default_timezone_set($zone);
@@ -320,11 +320,11 @@ if (!class_exists('DilazMetaboxFunction')) {
 					$zones_array[$key]['diff_from_GMT'] = 'UTC/GMT '. date('P', $timestamp);
 				}
 			}
-			
+
 			return $zones_array;
 		}
-		
-		
+
+
 		/**
 		 * Sanitizes a rgb/rgba color.
 		 *
@@ -334,17 +334,17 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 * @return string|void
 		 */
 		public static function sanitize_rgb_color( $color ) {
-			
+
 			if ( '' === $color ) {
 				return '';
 			}
-			
+
 			if ( preg_match('/^rgba?\(((\d{1,2}|1\d\d|2([0-4]\d|5[0-5]))\s*,\s*){2}((\d{1,2}|1\d\d|2([0-4]\d|5[0-5]))\s*)(,\s*(0\.\d+|1))?\)$/', $color ) ) {
 				return $color;
 			}
 		}
-		
-		
+
+
 		/**
 		 * Sanitizes a hsl/hsla color.
 		 *
@@ -354,17 +354,17 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 * @return string|void
 		 */
 		public static function sanitize_hsl_color( $color ) {
-			
+
 			if ( '' === $color ) {
 				return '';
 			}
-			
+
 			if ( preg_match('/^hsla?\(\s*((\d{1,2}|[1-2]\d{2}|3([0-5]\d|60)))\s*,\s*((\d{1,2}|100)\s*%)\s*,\s*((\d{1,2}|100)\s*%)(,\s*(0\.\d+|1))?\)$/', $color ) ) {
 				return $color;
 			}
 		}
-		
-		
+
+
 		/**
 		 * Default option vars
 		 *
@@ -375,40 +375,40 @@ if (!class_exists('DilazMetaboxFunction')) {
 		 * @return mixed
 		 */
 		public static function choice($var) {
-			
+
 			switch ($var) {
-				
-				case 'yes_no_bool': 
-					$output = array( 1 => __('Yes', 'dilaz-metabox'), 0 => __('No', 'dilaz-metabox') ); 
+
+				case 'yes_no_bool':
+					$output = array( 1 => __('Yes', 'dilaz-metabox'), 0 => __('No', 'dilaz-metabox') );
 					break;
-					
-				case 'yes_no': 
+
+				case 'yes_no':
 					$output = array( 'yes' => __('Yes', 'dilaz-metabox'), 'no' => __('No', 'dilaz-metabox') );
 					break;
-					
-				case 'def_yes_no': 
+
+				case 'def_yes_no':
 					$output = array( 'default' => __('Default', 'dilaz-metabox'), 'yes' => __('Yes', 'dilaz-metabox'), 'no' => __('No', 'dilaz-metabox') );
 					break;
-					
-				case 'on_off': 
+
+				case 'on_off':
 					$output = array( 'on' => __('On', 'dilaz-metabox'), 'off' => __('Off', 'dilaz-metabox') );
 					break;
-					
-				case 'true_false': 
+
+				case 'true_false':
 					$output = array( 'true' => __('True', 'dilaz-metabox'), 'false'	=> __('False', 'dilaz-metabox') );
 					break;
-					
-				case 'bg_repeat': 
-					$output = array( 
+
+				case 'bg_repeat':
+					$output = array(
 						'repeat'    => __('Repeat', 'dilaz-metabox'),
 						'no-repeat'	=> __('No Repeat', 'dilaz-metabox'),
 						'repeat-x'  => __('Repeat Horizontally', 'dilaz-metabox'),
-						'repeat-y'  => __('Repeat Vertically', 'dilaz-metabox') 
+						'repeat-y'  => __('Repeat Vertically', 'dilaz-metabox')
 					);
 					break;
-					
-				case 'body_pos': 
-					$output = array( 
+
+				case 'body_pos':
+					$output = array(
 						'top left'		=> __('Top Left', 'dilaz-metabox'),
 						'top center'	=> __('Top Center', 'dilaz-metabox'),
 						'top right'		=> __('Top Right', 'dilaz-metabox'),
@@ -417,18 +417,18 @@ if (!class_exists('DilazMetaboxFunction')) {
 						'center right'	=> __('Center Right', 'dilaz-metabox'),
 						'bottom left'	=> __('Bottom Left', 'dilaz-metabox'),
 						'bottom center'	=> __('Bottom Center', 'dilaz-metabox'),
-						'bottom right'	=> __('Bottom Right', 'dilaz-metabox') 
+						'bottom right'	=> __('Bottom Right', 'dilaz-metabox')
 					);
 					break;
-					
-				case 'bg_attachment': 
+
+				case 'bg_attachment':
 					$output = array(
 						'scroll' => __('Scroll', 'dilaz-metabox'),
 						'fixed'	 => __('Fixed', 'dilaz-metabox')
 					);
 					break;
-					
-				case 'country_list': 
+
+				case 'country_list':
 					$output = array(
 						""   => "",
 						"AF" => "Afghanistan",
@@ -697,8 +697,8 @@ if (!class_exists('DilazMetaboxFunction')) {
 						"AX" => "�land Islands",
 					);
 					break;
-					
-				case 'us_states': 
+
+				case 'us_states':
 					$output = array(
 						''=>'',
 						'AL'=>'Alabama',
@@ -765,19 +765,19 @@ if (!class_exists('DilazMetaboxFunction')) {
 						'AP'=>'Armed Forces Pacific'
 					);
 					break;
-				
+
 				/* add custom variables via this hook */
-				case $var : 
+				case $var :
 					$output = apply_filters('dilaz_mb_choice_'. $var .'_action');
-					break; 
+					break;
 
 				default: break;
-				
+
 			}
-			
+
 			return $output;
 		}
 	}
-	
+
 	new DilazMetaboxFunction;
 }

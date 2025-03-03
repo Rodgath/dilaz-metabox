@@ -10,25 +10,25 @@
 || @copyright	Copyright (C) 2017, Rodgath LTD
 || @link		https://github.com/Rodgath/Dilaz-Metabox
 || @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-|| 
+||
 */
 
 var DilazMetaboxS2Scripts = new function() {
 
 	"use strict";
-	
+
 	/**
 	 * Global Variables
 	 */
 	var $t = this;
 	var $ = jQuery.noConflict();
-	
+
 	/**
 	 * select2 field
 	 */
 	$t.select2Field = function() {
 		$('.select2single, .select2multiple').each(function() {
-			
+
 			var $this = $(this),
 				$dataWidth = ($this.data('width').length > 1) ? $this.data('width') : '50px';
 			 // data-width="230px"
@@ -39,15 +39,15 @@ var DilazMetaboxS2Scripts = new function() {
 			});
 		});
 	}
-	
+
 	/**
 	 * select2 ajax query
 	 */
 	$t.select2Query = function() {
 		$('.dilaz-mb-query-select').each(function() {
-			
+
 			var $this = $(this);
-			
+
 			$this.select2({
 				placeholder : $this.data('placeholder'),
 				multiple : $this.data('multiple'),
@@ -72,12 +72,12 @@ var DilazMetaboxS2Scripts = new function() {
 						};
 					},
 					processResults : function(data) {
-						
+
 						var items   = [],
 							newItem = null;
 
 						for (var thisId in data) {
-							
+
 							newItem = {
 								'id' : data[thisId]['id'],
 								'text' : data[thisId]['name']
@@ -87,20 +87,20 @@ var DilazMetaboxS2Scripts = new function() {
 						}
 
 						return { results : items };
-					} 
+					}
 				}
 			});
 		});
 	}
-	
+
 	/**
 	 * select2 search user
 	 */
 	$t.select2SearchUser = function() {
 		$('.dilaz-mb-select-users').each(function() {
-			
+
 			var $this = $(this);
-			
+
 			$this.select2({
 				placeholder : $this.data('placeholder'),
 				multiple : $this.data('multiple'),
@@ -124,12 +124,12 @@ var DilazMetaboxS2Scripts = new function() {
 						};
 					},
 					processResults : function(data) {
-						
+
 						var items = [],
 						newItem = null;
 
 						for (var thisId in data) {
-							
+
 							newItem = {
 								'id' : data[thisId]['id'],
 								'text' : data[thisId]['name']
@@ -139,18 +139,18 @@ var DilazMetaboxS2Scripts = new function() {
 						}
 
 						return { results : items };
-					} 
+					}
 				}
 			});
 		});
 	}
-	
+
 	/**
 	 * Init
 	 *
 	 */
 	$t.init = function() {
-		
+
 		$t.select2Field();
 		$t.select2Query();
 		$t.select2SearchUser();
@@ -159,7 +159,7 @@ var DilazMetaboxS2Scripts = new function() {
 }
 
 jQuery(document).ready(function($) {
-	
+
 	DilazMetaboxS2Scripts.init();
-	
+
 });

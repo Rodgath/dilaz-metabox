@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 || --------------------------------------------------------------------------------------------
 || Metabox Defaults
@@ -11,7 +11,7 @@
 || @copyright  Copyright (C) 2019, Rodgath LTD
 || @link       https://github.com/Rodgath/Dilaz-Metabox
 || @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-|| 
+||
 */
 
 namespace DilazMetabox\DilazMetaboxDefaults;
@@ -19,11 +19,11 @@ namespace DilazMetabox\DilazMetaboxDefaults;
 defined('ABSPATH') || exit;
 
 class DilazMetaboxDefaults {
-	
+
 	function __construct() {
-		
+
 	}
-	
+
 	/**
 	 * Background defaults
 	 *
@@ -32,9 +32,9 @@ class DilazMetaboxDefaults {
 	 * @return array
 	 */
 	public static function _bg() {
-		
+
 		$bg_defaults = array(
-			'image'  => '', 
+			'image'  => '',
 			'repeat' => array(
 				''          => '',
 				'no-repeat' => __('No Repeat', 'dilaz-metabox'),
@@ -42,13 +42,13 @@ class DilazMetaboxDefaults {
 				'repeat-x'  => __('Repeat Horizontally', 'dilaz-metabox'),
 				'repeat-y'  => __('Repeat Vertically', 'dilaz-metabox'),
 				'inherit'   => __('Inherit', 'dilaz-metabox'),
-			), 
+			),
 			'size' => array(
 				''        => '',
 				'cover'   => __('Cover', 'dilaz-metabox'),
 				'contain' => __('Contain', 'dilaz-metabox'),
 				'inherit' => __('Inherit', 'dilaz-metabox'),
-			), 
+			),
 			'position' => array(
 				''              => '',
 				'top left'      => __('Top Left', 'dilaz-metabox'),
@@ -66,26 +66,26 @@ class DilazMetaboxDefaults {
 				'fixed'   => __('Fixed', 'dilaz-metabox'),
 				'scroll'  => __('Scroll', 'dilaz-metabox'),
 				'inherit' => __('Inherit', 'dilaz-metabox'),
-			), 
+			),
 			'origin' => array(
 				''            => '',
 				'content-box' => __('Content Box', 'dilaz-metabox'),
 				'border-box'  => __('Border Box', 'dilaz-metabox'),
 				'padding-box' => __('Padding Box', 'dilaz-metabox'),
-			), 
-			'color'  => '', 
+			),
+			'color'  => '',
 		);
-		
+
 		$bg_defaults = apply_filters('dilaz_mb_bg_defaults', $bg_defaults);
-		
+
 		foreach ($bg_defaults as $k => $v) {
 			$bg_defaults[$k] = is_array($v) ? array_map('sanitize_text_field', $v) : sanitize_text_field($bg_defaults[$k]);
 		}
-		
+
 		return $bg_defaults;
 	}
-	
-	
+
+
 	/**
 	 * Multicolor defaults
 	 *
@@ -99,8 +99,8 @@ class DilazMetaboxDefaults {
 		$multicolor_defaults = array_map('sanitize_hex_color', $multicolor_defaults);
 		return $multicolor_defaults;
 	}
-	
-	
+
+
 	/**
 	 * Get Google Fonts
 	 *
@@ -109,7 +109,7 @@ class DilazMetaboxDefaults {
 	 * @return array
 	 */
 	public static function _getGoogleFonts() {
-		
+
 		$g_fonts_array = array();
 		$get_g_fonts = file_get_contents(dirname(__FILE__).'/google-fonts-min.json');
 		if ($get_g_fonts !== false && !empty($get_g_fonts)) {
@@ -123,11 +123,11 @@ class DilazMetaboxDefaults {
 				}
 			}
 		}
-		
+
 		return apply_filters('dilaz_mb_get_google_fonts', $g_fonts_array);
 	}
-	
-	
+
+
 	/**
 	 * Google Fonts
 	 *
@@ -136,18 +136,18 @@ class DilazMetaboxDefaults {
 	 * @return array
 	 */
 	public static function _googleFonts() {
-		
+
 		$g_fonts = DilazMetaboxDefaults::_getGoogleFonts();
 		$g_font_names = [];
-		
+
 		foreach ((array)$g_fonts as $font_name => &$atts) {
 			$g_font_names[$font_name] = $font_name;
 		}
-		
+
 		return apply_filters('dilaz_mb_google_fonts', $g_font_names);
 	}
-	
-	
+
+
 	/**
 	 * Font defaults
 	 *
@@ -157,23 +157,23 @@ class DilazMetaboxDefaults {
 	 */
 	public static function _font() {
 		$font_defaults = array(
-			'family' => 'verdana', 
-			'subset' => '', 
-			'weight' => 'normal', 
-			'size'   => '14', 
-			'height' => '16', 
-			'style'  => '', 
-			'case'   => '', 
+			'family' => 'verdana',
+			'subset' => '',
+			'weight' => 'normal',
+			'size'   => '14',
+			'height' => '16',
+			'style'  => '',
+			'case'   => '',
 			'color'  => '#555'
 		);
 		$font_defaults = apply_filters('dilaz_mb_font_defaults', $font_defaults);
 		$font_defaults = array_map('sanitize_text_field', $font_defaults);
 		return $font_defaults;
 	}
-	
-	
+
+
 	/**
-	 * Stacks for font family defaults 
+	 * Stacks for font family defaults
 	 *
 	 * @since 2.5.7
 	 *
@@ -205,8 +205,8 @@ class DilazMetaboxDefaults {
 		}
 		return $font_family_stacks;
 	}
-	
-	
+
+
 	/**
 	 * Font family defaults
 	 *
@@ -230,8 +230,8 @@ class DilazMetaboxDefaults {
 		$font_family = array_map('sanitize_text_field', $font_family);
 		return $font_family;
 	}
-	
-	
+
+
 	/**
 	 * Font family all
 	 *
@@ -245,8 +245,8 @@ class DilazMetaboxDefaults {
 		$font_family = array_map('sanitize_text_field', $font_family);
 		return $font_family;
 	}
-	
-	
+
+
 	/**
 	 * Font subset defaults
 	 *
@@ -284,8 +284,8 @@ class DilazMetaboxDefaults {
 		$font_subset = array_map('sanitize_text_field', $font_subset);
 		return $font_subset;
 	}
-	
-	
+
+
 	/**
 	 * Font size defaults
 	 *
@@ -299,8 +299,8 @@ class DilazMetaboxDefaults {
 		$font_sizes = array_map('absint', $font_sizes);
 		return $font_sizes;
 	}
-	
-	
+
+
 	/**
 	 * Font height defaults
 	 *
@@ -314,8 +314,8 @@ class DilazMetaboxDefaults {
 		$font_heights = array_map('absint', $font_heights);
 		return $font_heights;
 	}
-	
-	
+
+
 	/**
 	 * Font weight defaults
 	 *
@@ -346,8 +346,8 @@ class DilazMetaboxDefaults {
 		$font_weights = array_map('sanitize_text_field', $font_weights);
 		return $font_weights;
 	}
-	
-	
+
+
 	/**
 	 * Font style defaults
 	 *
@@ -368,8 +368,8 @@ class DilazMetaboxDefaults {
 		$font_styles = array_map('sanitize_text_field', $font_styles);
 		return $font_styles;
 	}
-	
-	
+
+
 	/**
 	 * Font case defaults
 	 *
@@ -377,18 +377,18 @@ class DilazMetaboxDefaults {
 	 *
 	 * @return array
 	 */
-	 
+
 	public static function _font_cases() {
 		$font_cases = array(
-			''           => '', 
-			'none'       => 'None', 
-			'uppercase'  => 'Uppercase', 
-			'lowercase'  => 'Lowercase', 
+			''           => '',
+			'none'       => 'None',
+			'uppercase'  => 'Uppercase',
+			'lowercase'  => 'Lowercase',
 			'capitalize' => 'Capitalize'
 		);
 		$font_cases = apply_filters('dilaz_mb_font_cases', $font_cases);
 		$font_cases = array_map('sanitize_text_field', $font_cases);
 		return $font_cases;
 	}
-	
+
 }

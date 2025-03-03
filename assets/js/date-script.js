@@ -1,10 +1,10 @@
 jQuery(document).ready( function($) {
-	
+
 	// Date picker
 	$('.dilaz-mb-date').each(function() {
-		
+
 		var $this = $(this);
-		
+
 		$this.datepicker({
 			dateFormat : 'DD, d MM, yy',
 			defaultDate : '+1w',
@@ -15,14 +15,14 @@ jQuery(document).ready( function($) {
 			nextText : '>',
 		});
 	});
-	
+
 	// Date picker (From - To)
 	$('.dilaz-mb-date-from-to').each(function() {
-		
+
 		var $this     = $(this),
 			$fromDate = $this.find('.from-date'),
 			$toDate   = $this.find('.to-date');
-			
+
 		$fromDate.datepicker({
 			defaultDate : '+1w',
 			changeMonth : true,
@@ -34,24 +34,24 @@ jQuery(document).ready( function($) {
 				$toDate.datepicker( 'option', 'minDate', selectedDate );
 			}
 		});
-		
+
 		$toDate.datepicker({
 			defaultDate : '+1w',
 			changeMonth : false,
 			numberOfMonths : 1,
 			prevText : '<',
-			nextText : '>',			
+			nextText : '>',
 			onClose : function( selectedDate ) {
 				$fromDate.datepicker( 'option', 'maxDate', selectedDate );
 			}
 		});
 	});
-	
+
 	// Month picker
 	$('.dilaz-mb-month').each(function() {
-		
+
 		var $this = $(this);
-		
+
 		$this.monthpicker({
 			dateFormat : 'MM, yy',
 			changeYear : false,
@@ -61,13 +61,13 @@ jQuery(document).ready( function($) {
 			showButtonPanel : true,
 		});
 	});
-	
+
 	// Month picker (From - To)
 	$('.dilaz-mb-month-from-to').each(function() {
-		
+
 		var $this  = $(this),
 			$month = $this.find('.from-month, .to-month');
-			
+
 		$month.monthpicker({
 			dateFormat : 'MM, yy',
 			changeYear : false,
@@ -77,54 +77,54 @@ jQuery(document).ready( function($) {
 			showButtonPanel : true,
 		});
 	});
-	
+
 	// Time picker
 	$('.dilaz-mb-time').each(function() {
-		
+
 		var $this = $(this);
-		
+
 		$this.timepicker({
 			timeFormat: 'hh:mm:ss TT',
 			showSecond: true,
 		});
 	});
-	
+
 	// Time picker (From - To)
 	$('.dilaz-mb-time-from-to').each(function() {
-		
+
 		var $this = $(this),
 			$time = $this.find('.from-time, .to-time');
-			
+
 		$time.timepicker({
 			timeFormat : 'hh:mm:ss TT',
 			showSecond : true,
 		});
 	});
-	
+
 	// Date Time picker
 	$('.dilaz-mb-date-time').each(function() {
-		
+
 		var $this = $(this);
-		
+
 		$this.datetimepicker({
 			timeFormat : 'hh:mm:ss TT',
 			dateFormat : 'DD, MM d yy',
 			prevText : '<',
-			nextText : '>',	
+			nextText : '>',
 		});
 	});
-	
+
 	// Date Time picker (From - To)
 	$('.dilaz-mb-date-time-from-to').each(function() {
-		
+
 		var $this     = $(this),
 			$dateTime = $this.find('.from-date-time, .to-date-time');
-			
+
 		$dateTime.datetimepicker({
 			timeFormat : 'hh:mm:ss TT',
 			dateFormat : 'DD, MM d yy',
 			prevText : '<',
-			nextText : '>',	
+			nextText : '>',
 		});
 	});
 });

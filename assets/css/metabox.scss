@@ -1,10 +1,10 @@
 .dilaz-metabox-ui {
-  .dilaz-mb-wrapper { 
+  .dilaz-mb-wrapper {
 
     /*--------------------------------------------------------------*/
     /* Clearfixing
     /*--------------------------------------------------------------*/
-    .clearfix:before, 
+    .clearfix:before,
     .clearfix:after {
       content: '\0020';
       display: block;
@@ -57,7 +57,7 @@
     .dilaz-metabox .left{
       padding: 0 0 10px 0;
       vertical-align:  top;
-    } 
+    }
     .dilaz-metabox .right {
       padding: 0 0 0 0;
       margin-left: -1px;
@@ -82,7 +82,7 @@
     .dilaz-metabox .right .joined-cell select{
       /* margin-top: -1px !important; */
     }
-    .dilaz-metabox .description, 
+    .dilaz-metabox .description,
     .dilaz-metabox .desc2 {
       font-size: 12px;
       line-height: 15px;
@@ -151,11 +151,11 @@
       border-right: 1px solid #ccc;
       width: 170px
     }
-    /* .dilaz-metabox ul.sortable .ui-sortable-placeholder { 
-      border: 2px dashed #aaa !important; 
-      background: #f9f9f9 !important; 
-      visibility: visible !important; 
-      margin-bottom: 11px !important; 
+    /* .dilaz-metabox ul.sortable .ui-sortable-placeholder {
+      border: 2px dashed #aaa !important;
+      background: #f9f9f9 !important;
+      visibility: visible !important;
+      margin-bottom: 11px !important;
       margin-right: 15px !important;
     }
     .dilaz-metabox ul.sortable.keyvalopts-sortable .ui-sortable-placeholder {
@@ -191,7 +191,7 @@
     .dilaz-metabox ul.sortable li > span.skill-button:hover {
       color: #DB0700;
     }
-    .slideshow_remove, 
+    .slideshow_remove,
     .bg_slideshow_remove {
       width: auto;
       position: relative;
@@ -209,7 +209,7 @@
           -o-transition: all 0.3s;
               transition: all 0.3s;
     }
-    .slideshow_remove:hover, 
+    .slideshow_remove:hover,
     .bg_slideshow_remove:hover {
       background: #DB0700;
       color: #fff;
@@ -276,10 +276,10 @@
     .dilaz-mb-repeatable  {
       position: relative
     }
-    .dilaz-mb-repeatable .ui-sortable-placeholder { 
-      border: 2px dashed #aaa !important; 
-      background: #f9f9f9 !important; 
-      visibility: visible !important; 
+    .dilaz-mb-repeatable .ui-sortable-placeholder {
+      border: 2px dashed #aaa !important;
+      background: #f9f9f9 !important;
+      visibility: visible !important;
       margin: 0 15px 15px 0 !important;
       width: 100% !important;
       height: 50px !important;
@@ -419,10 +419,10 @@
     .dilaz-metabox .dilaz-mb-media-file:hover .filename.image {
       display: block
     }
-    .dilaz-mb-file-upload .ui-sortable-placeholder { 
-      border: 2px dashed #aaa !important; 
-      background: #f9f9f9 !important; 
-      visibility: visible !important; 
+    .dilaz-mb-file-upload .ui-sortable-placeholder {
+      border: 2px dashed #aaa !important;
+      background: #f9f9f9 !important;
+      visibility: visible !important;
       margin: 0 15px 15px 0 !important;
       width: 98px !important;
       height: 98px !important;
@@ -513,7 +513,7 @@
       z-index: 1;
       cursor: pointer;
     }
-    
+
     /*--------------------------------------------------------------*/
     /* Color
     /*--------------------------------------------------------------*/
@@ -558,7 +558,7 @@
       font-weight: 700;
       float: left;
     }
-    .dilaz-metabox-clear { 
+    .dilaz-metabox-clear {
       clear:both !important;
       height:0 !important;
       width:100% !important;
@@ -608,15 +608,15 @@
     .dilaz-metabox .right input[type=button].upload_button {
       margin:0 0 0 5px;
     }
-    #normal-sortables [id^="dilaz-meta-box-pt-"].postbox h3.hndle, 
+    #normal-sortables [id^="dilaz-meta-box-pt-"].postbox h3.hndle,
     #normal-sortables [id^="dilaz-meta-box-pf-"].postbox h3.hndle,
-    #normal-sortables [id^="dilaz-meta-box-ct-"].postbox h3.hndle, 
+    #normal-sortables [id^="dilaz-meta-box-ct-"].postbox h3.hndle,
     #normal-sortables [id^="logic_"].postbox h3.hndle {
       padding-left: 25px;
     }
-    #normal-sortables [id^="dilaz-meta-box-pt-"].postbox h3.hndle:before, 
+    #normal-sortables [id^="dilaz-meta-box-pt-"].postbox h3.hndle:before,
     #normal-sortables [id^="dilaz-meta-box-pf-"].postbox h3.hndle:before,
-    #normal-sortables [id^="dilaz-meta-box-ct-"].postbox h3.hndle:before, 
+    #normal-sortables [id^="dilaz-meta-box-ct-"].postbox h3.hndle:before,
     #normal-sortables [id^="logic_"].postbox h3.hndle:before {
       content: '';
       position: absolute;
@@ -627,7 +627,7 @@
       background: #aed15a;
       border-radius: 50%;
     }
-    #normal-sortables [id^="logic_background_"] .dilaz_metabox_clear_bg_image_button, 
+    #normal-sortables [id^="logic_background_"] .dilaz_metabox_clear_bg_image_button,
     #normal-sortables [id^="logic_"].postbox .wp-editor-tools a {
       color:#777 !important;
     }
@@ -635,7 +635,7 @@
       color:#fff !important;
       background: #147093;
     }
-    #normal-sortables [id^="logic_background_"] .bg_slideshow_remove, 
+    #normal-sortables [id^="logic_background_"] .bg_slideshow_remove,
     #normal-sortables .dilaz-metabox .add-criteria,
     #normal-sortables .dilaz-metabox .add-keyvalopts {
       color:#fff !important;
@@ -663,7 +663,7 @@
         background-color: #eee;
         border: 1px solid #ccc;
         border-left: 0;
-        /* useful if you don't want a bg color from leaking outside the border: */ 
+        /* useful if you don't want a bg color from leaking outside the border: */
       -webkit-background-clip: padding-box;
         -moz-background-clip: padding-box;
               background-clip: padding-box;
@@ -842,7 +842,7 @@
       margin: -1px;
       padding: 0px 15px;
       line-height: 30px;
-      text-align: center;	
+      text-align: center;
       cursor: pointer;
       border: 1px solid #d8d8d8
     }
@@ -1387,10 +1387,10 @@
       border-bottom: 1px solid #e5e5e5 !important;
     }
   }
-  
+
   /*--------------------------------------------------------------*/
   /* Select 2
-  /*--------------------------------------------------------------*/  
+  /*--------------------------------------------------------------*/
   .select2-container--default {
     .select2-selection--multiple {
       min-height: 28px;
@@ -1445,7 +1445,7 @@
       margin: 0
     }
   }
-    
+
   /*--------------------------------------------------------------*/
   /* Datepicker
   /*--------------------------------------------------------------*/
