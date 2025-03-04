@@ -2,10 +2,11 @@
 
 ## Version 3
 
-###### v3.0.1
+###### v3.1.0
 ```
 = FIXED - Date time field
 = IMPORVED - File upload field attachment ID and URL handling
+= ADDED - Support for SVG image file upload
 ```
 
 ###### v3.0.0
