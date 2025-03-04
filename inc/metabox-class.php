@@ -58,6 +58,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			add_action('admin_enqueue_scripts', array(&$this, 'loadScriptsAndStyles')); # Enqueue common styles and scripts
 			add_action('admin_body_class', array(&$this, 'adminBodyClass')); # Append body class
       add_filter('ext2type', array(&$this, 'addSVGToExtTypes'));
+      add_filter('upload_mimes', array(&$this, 'allowSVGUpload'));
 		}
 
 
@@ -1266,6 +1267,20 @@ if (!class_exists('Dilaz_Meta_Box')) {
         $types['image'][] = 'svg';
       }
       return $types;
+    }
+
+		/**
+		 * Enable SVG MIME Type in WordPress upload
+     *
+     * @since 3.1.0
+     *
+     * @see get_allowed_mime_types()
+     *
+		 * @return string[] Array of mime types with 'svg' included.
+		 */
+    public function allowSVGUpload($mimes) {
+      $mimes['svg'] = 'image/svg+xml';
+      return $mimes;
     }
 
 	} # end class
