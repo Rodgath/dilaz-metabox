@@ -1398,7 +1398,7 @@
 
       .select2-selection__rendered {
         width: 100%;
-        display: flex;
+        display: contents;
         align-items: center;
         margin: 0;
         height: 100%;
@@ -1409,7 +1409,7 @@
       }
 
       .select2-selection__choice {
-        margin: 0 3px 0 0;
+        margin: 0 4px 4px 0;
         padding: 0 5px 3px 4px;
       }
 
@@ -1426,15 +1426,16 @@
 
     .select2-search--inline .select2-search__field {
       width: 100% !important;
+      margin-top: 3px;
     }
 
     .select2-selection--single,
     .select2-selection--multiple {
       background: #fbfbfb;
       max-width: 100%;
-      padding: 0 3px;
+      padding: 4px;
       border: 1px solid #e0e0e0;
-      height: 30px
+      min-height: 30px
     }
 
     .select2-dropdown--below {
