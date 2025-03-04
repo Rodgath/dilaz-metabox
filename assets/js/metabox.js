@@ -249,12 +249,14 @@ var DilazMetaboxScript = new function() {
 
 						var type = attachment.attributes.type;
 
-						if (type == 'image') {
-							if (attachment.attributes.sizes.thumbnail !== undefined) {
-								var image_src = $fileThumb ? attachment.attributes.sizes.thumbnail.url : attachment.attributes.url;
-							} else {
-								var image_src = $fileThumb ? attachment.attributes.sizes.thumbnail.url : attachment.attributes.url;
-							}
+            var image_src;
+
+						if (type === 'image') {
+						  image_src = attachment.attributes.url; // Default to full URL
+
+						  if (attachment.attributes.sizes && attachment.attributes.sizes.thumbnail) {
+						    image_src = $fileThumb ? attachment.attributes.sizes.thumbnail.url : attachment.attributes.url;
+						  }
 						}
 
 						/* attachment data */
