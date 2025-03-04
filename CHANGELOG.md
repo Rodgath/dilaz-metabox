@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.1.2
+```
+= FIXED - Compiled CSS
+```
+
 ###### v3.1.1
 ```
 = FIXED - 'select2multiple' field layout
