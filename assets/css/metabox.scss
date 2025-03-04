@@ -335,7 +335,8 @@
       width: 100px;
       height: 100px;
       overflow: hidden;
-      border-radius: 2px
+      border-radius: 2px;
+      display: flex
     }
     [data-file-thumb="false"] + .dilaz-mb-file-wrapper .dilaz-mb-media-file {
       padding: 10px;
