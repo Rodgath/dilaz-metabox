@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.1.1
+```
+= FIXED - 'select2multiple' field layout
+```
+
 ###### v3.1.0
 ```
 = FIXED - Date time field
