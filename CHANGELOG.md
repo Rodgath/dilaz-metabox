@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.1.21
+```
+= FIXED - 'select2single' field layout padding issue
+```
+
 ###### v3.1.2
 ```
 = FIXED - Compiled CSS

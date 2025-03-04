@@ -1425,17 +1425,27 @@
     }
 
     .select2-search--inline .select2-search__field {
-      width: 100% !important;
-      margin-top: 3px;
+      margin-top: 2px;
+      vertical-align: top;
     }
 
     .select2-selection--single,
     .select2-selection--multiple {
       background: #fbfbfb;
       max-width: 100%;
-      padding: 4px;
+      padding: 4px 4px 0;
       border: 1px solid #e0e0e0;
       min-height: 30px
+    }
+
+    .select2-selection--single {
+      .select2-selection__rendered {
+        line-height: 20px;
+      }
+
+      .select2-selection__clear {
+        height: auto
+      }
     }
 
     .select2-dropdown--below {
@@ -1447,6 +1457,8 @@
       margin: 0
     }
   }
+
+  .select2-container--default
 
   /*--------------------------------------------------------------*/
   /* Datepicker
