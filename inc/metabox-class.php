@@ -59,6 +59,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			add_action('admin_body_class', array(&$this, 'adminBodyClass')); # Append body class
       add_filter('ext2type', array(&$this, 'addSVGToExtTypes'));
       add_filter('upload_mimes', array(&$this, 'allowSVGUpload'));
+      add_filter('wp_handle_upload_prefilter', array(&$this, 'sanitizeSVG'));
 		}
 
 
@@ -1281,6 +1282,79 @@ if (!class_exists('Dilaz_Meta_Box')) {
     public function allowSVGUpload($mimes) {
       $mimes['svg'] = 'image/svg+xml';
       return $mimes;
+    }
+
+    /**
+     * Sanitize SVGs for JavaScript and XML-based exploits before the file is uploaded.
+     *
+     * @since 3.1.0
+     *
+     * @see _wp_handle_upload()
+     *
+     * @param array $file {
+     *     Reference to a single element from `$_FILES`.
+     *
+     *     @type string $name     The original name of the file on the client machine.
+     *     @type string $type     The mime type of the file, if the browser provided this information.
+     *     @type string $tmp_name The temporary filename of the file in which the uploaded file was stored on the server.
+     *     @type int    $size     The size, in bytes, of the uploaded file.
+     *     @type int    $error    The error code associated with this file upload.
+     * }
+     * @return array $file The sanitized file array.
+     */
+    public function sanitizeSVG($file) {
+      // Check if the file is an SVG
+      if ($file['type'] === 'image/svg+xml') {
+        // Get the temporary file path
+        $tmp_name = $file['tmp_name'];
+
+        // Read the file contents
+        $contents = file_get_contents($tmp_name);
+
+        // Load the SVG content into a DOMDocument
+        $dom = new \DOMDocument();
+        @$dom->loadXML($contents);
+
+        // Remove <script> elements
+        $scripts = $dom->getElementsByTagName('script');
+        while ($scripts->length > 0) {
+          $script = $scripts->item(0);
+          $script->parentNode->removeChild($script);
+        }
+
+        // Remove event handlers from all elements
+        $xpath = new \DOMXPath($dom);
+        $nodes = $xpath->query('//@*[starts-with(name(), "on")]');
+        foreach ($nodes as $node) {
+          /** @var DOMElement $parentNode */
+          $parentNode = $node->parentNode;
+          $parentNode->removeAttribute($node->nodeName);
+        }
+
+        // Whitelist allowed elements and attributes (customize as needed)
+        $allowed_elements = ['svg', 'defs', 'style', 'title', 'g', 'rect', 'path', 'circle', 'line', 'text'];
+        $allowed_attributes = ['id', 'class', 'x', 'y', 'width', 'height', 'fill', 'stroke', 'd', 'transform', 'viewBox', 'xmlns', 'data-name'];
+
+        // Remove disallowed elements
+        foreach ($dom->getElementsByTagName('*') as $element) {
+          if (!in_array($element->nodeName, $allowed_elements)) {
+            $element->parentNode->removeChild($element);
+          } else {
+            // Remove disallowed attributes
+            foreach ($element->attributes as $attribute) {
+              if (!in_array($attribute->nodeName, $allowed_attributes)) {
+                $element->removeAttribute($attribute->nodeName);
+              }
+            }
+          }
+        }
+
+        // Save the sanitized SVG back to the file
+        $sanitized_contents = $dom->saveXML();
+        file_put_contents($tmp_name, $sanitized_contents);
+      }
+
+      return $file;
     }
 
 	} # end class
