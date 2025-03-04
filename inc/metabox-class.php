@@ -57,6 +57,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			add_action('save_post', array(&$this, 'saveMetaBox')); # Save post meta
 			add_action('admin_enqueue_scripts', array(&$this, 'loadScriptsAndStyles')); # Enqueue common styles and scripts
 			add_action('admin_body_class', array(&$this, 'adminBodyClass')); # Append body class
+      add_filter('ext2type', array(&$this, 'addSVGToExtTypes'));
 		}
 
 
@@ -1249,6 +1250,23 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			# after save action hook
 			do_action('dilaz_mb_after_save_post', $post_id);
 		}
+
+		/**
+		 * Add SVG to allowed extension types
+     *
+     * @since 3.1.0
+     *
+     * @see wp_get_ext_types()
+     *
+		 * @return array[] Multi-dimensional array of file extensions types including 'svg' type.
+		 */
+    public function addSVGToExtTypes($types)
+    {
+      if (!in_array('svg', $types['image'])) {
+        $types['image'][] = 'svg';
+      }
+      return $types;
+    }
 
 	} # end class
 }
