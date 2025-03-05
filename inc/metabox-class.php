@@ -1022,7 +1022,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				case 'month':
 				case 'time':
 				case 'date_time':
-					return strtotime($input);
+          return !empty($input) ? strtotime($input) : 0;
 					break;
 
 				case 'date_from_to':
@@ -1031,7 +1031,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				case 'date_time_from_to':
 					$output = array();
 					foreach ((array)$input as $k => $v) {
-						$output[$k] = strtotime($v);
+						$output[$k] = !empty($v) ? strtotime($v) : 0;
 					}
 					return !empty($output) ? $output : '';
 					break;
