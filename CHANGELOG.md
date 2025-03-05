@@ -2,6 +2,12 @@
 
 ## Version 3
 
+###### v3.1.22
+```
+= FIXED - Ensure $input is never null
+= FIXED - Ensure not to use null values in strtotime(). PHP 8.1+ no longer allows that.
+```
+
 ###### v3.1.21
 ```
 = FIXED - 'select2single' field layout padding issue
