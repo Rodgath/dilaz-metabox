@@ -774,6 +774,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				case 'hidden':
 				case 'switch':
 				case 'password':
+          $input = $input ?? ''; // Ensure $input is never null
 					return sanitize_text_field($input);
 					break;
 
@@ -788,20 +789,24 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					break;
 
 				case 'paragraph':
+          $input = $input ?? ''; // Ensure $input is never null
 					return sanitize_textarea_field($input);
 					break;
 
 				case 'email':
+          $input = $input ?? ''; // Ensure $input is never null
 					$sanitized_email = sanitize_email($input);
 					return is_email($sanitized_email) ? $sanitized_email : '';
 					break;
 
 				case 'url':
+          $input = $input ?? ''; // Ensure $input is never null
 					return esc_url_raw($input);
 					break;
 
 				case 'code':
 				case 'textarea':
+          $input = $input ?? ''; // Ensure $input is never null
 					return sanitize_textarea_field($input);
 					break;
 
@@ -809,6 +814,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				case 'integer':
 				case 'slider':
 				case 'stepper':
+          $input = $input ?? ''; // Ensure $input is never null
 					return absint($input);
 					break;
 
@@ -816,6 +822,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				case 'radio':
 				case 'radioimage':
 				case 'buttonset':
+          $input = $input ?? ''; // Ensure $input is never null
 					$output = '';
 					$options = isset($field['options']) ? $field['options'] : '';
 					if (isset($options[$input])) {
