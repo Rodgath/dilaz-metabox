@@ -701,11 +701,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
               }
               unset($option); // Avoid reference issues
 
-              // error_log(print_r($field['group_options'], true)); // Log modified data
-
               $this->processFields($field['group_options'], $post, $counter);
-            } else {
-              // error_log("group_options is not set or not an array!");
             }
             break;
           case $field['type']:
@@ -1364,17 +1360,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
         # Save the ordered group data under the parent key
         if (!empty($ordered_group_data)) {
           update_post_meta($post_id, $parent_key, $ordered_group_data);
-          // $group_data = []; // Reset to prevent sharing of data across metabox sets
-          // $ordered_group_data = [];
-          // $accordion_order = [];
-          // $parent_key = '';
         }
-
-        # Save the group data under the parent key
-        // if (!empty($group_data)) {
-        //     update_post_meta($post_id, $parent_key, $group_data);
-        //     $group_data = []; // Reset to prevent sharing of data across metabox sets
-        // }
       }
     }
 
