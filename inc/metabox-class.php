@@ -1262,96 +1262,164 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			}
 		}
 
-		# Save data when post is edited
-		# =============================================================================================
-		function saveMetaBox($post_id) {
+    # Save data when post is edited
+    # =============================================================================================
+    function saveMetaBox($post_id)
+    {
 
-			# verify nonce - Security
-			if (!isset($_POST['wp_meta_box_nonce']) || !wp_verify_nonce($_POST['wp_meta_box_nonce'], basename(__FILE__))) {
-				return $post_id;
-			}
+      # verify nonce - Security
+      if (!isset($_POST['wp_meta_box_nonce']) || !wp_verify_nonce($_POST['wp_meta_box_nonce'], basename(__FILE__))) {
+        return $post_id;
+      }
 
-			# check autosave
-			if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-				return $post_id;
-			}
+      # check autosave
+      if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return $post_id;
+      }
 
-			# add meta to post and not revision
-			if ($the_post = wp_is_post_revision($post_id))
-				$post_id = $the_post;
+      # add meta to post and not revision
+      if ($the_post = wp_is_post_revision($post_id))
+        $post_id = $the_post;
 
-			# check permissions
-			if ('page' == $_POST['post_type']) {
-				if (!current_user_can('edit_page', $post_id)) {
-					return $post_id;
-				} else if (!current_user_can('edit_post', $post_id)) {
-					return $post_id;
-				}
-			}
+      # check permissions
+      if ('page' == $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id)) {
+          return $post_id;
+        } else if (!current_user_can('edit_post', $post_id)) {
+          return $post_id;
+        }
+      }
 
-			# before save action hook
-			do_action('dilaz_mb_before_save_post', $post_id);
+      # before save action hook
+      do_action('dilaz_mb_before_save_post', $post_id);
 
-			# save metabox data
-			$meta_box_content = $this->metaBoxContent();
-			if (!empty($meta_box_content)) {
-				foreach ($meta_box_content as $key => $metabox_set) {
-					foreach ($metabox_set['fields'] as $field_key => $field) {
+      # save metabox data
+      $meta_box_content = $this->metaBoxContent();
+      if (!empty($meta_box_content)) {
+        foreach ($meta_box_content as $key => $metabox_set) {
+          error_log('$metabox_set - ' . print_r($metabox_set, true));
+          $this->saveFields($metabox_set['fields'], $post_id); // Pass the parent key
+        }
+      }
 
-						# ignore 'codeoutput' field
-						if ($field['type'] == 'codeoutput') continue;
+      $this->deleteRemovedMeta($post_id);
+      $this->saveMetaboxFieldIdsOption();
 
-						$old = get_post_meta($post_id, $field['id'], true);
-						$new = isset( $_POST[$field['id']] ) ? $_POST[$field['id']] : null;
+      # after save action hook
+      do_action('dilaz_mb_after_save_post', $post_id);
+    }
 
-						# sanitized option
-						$sanitized_meta = $this->sanitizeMeta($field['type'], $new, $field);
+    # Recursive function to save fields
+    # =============================================================================================
+    function saveFields($fields, $post_id)
+    {
+      $parent_key = '';
+      $group_data = []; // Array to store all option_group data
 
-						# Set any saved Google fonts to be loaded
-						if ('font' == $field['type']) {
+      # Get the order of the accordion items from the $_POST data
+      $accordion_order = [];
 
-              $g_fonts = DilazMetaboxDefaults\DilazMetaboxDefaults::_getGoogleFonts();
+      foreach ($fields as $field_key => $field) {
 
-              # Save Google fonts only, ignore other fonts
-              if (isset($sanitized_meta['family'])) {
-                if (isset($g_fonts[$sanitized_meta['family']])) {
-                  $google_arr = get_post_meta($post_id, 'saved_google_fonts', true);
-                  $google_arr = is_array($google_arr) ? $google_arr : [];
+        # ignore 'codeoutput' field
+        if ($field['type'] == 'codeoutput') continue;
 
-                  $google_arr[$field['id']] = $sanitized_meta;
+        # Handle 'option_group' fields recursively
+        if ($field['type'] == 'option_group' && isset($field['group_options']) && is_array($field['group_options'])) {
+          $parent_key = $field['metabox_set_id']; // Parent key for the metabox set
+          $group_key = $field['id']; // Parent key for the group
+          $group_values = []; // Array to store child field values
 
-                  update_post_meta($post_id, 'saved_google_fonts', $google_arr);
-                }
-              }
-						}
+          # Recursively process nested fields
+          foreach ($field['group_options'] as $child_field) {
+            $child_key = $child_field['id'];
+            $child_value = isset($_POST[$child_key]) ? $_POST[$child_key] : null;
 
-						if ($new != $old && false !== $new && $field['type'] != 'checkbox') {
-							update_post_meta($post_id, $field['id'], $sanitized_meta);
-						} else if ($new != $old && $field['type'] == 'checkbox') {
-							update_post_meta($post_id, $field['id'], $sanitized_meta);
-						} else if ('' == $new && $old) {
-							delete_post_meta($post_id, $field['id'], $old);
-						}
-					}
-				}
-			}
+            # Sanitize the child field value
+            $sanitized_child_value = $this->sanitizeMeta($child_field['type'], $child_value, $child_field);
 
-			$this->deleteRemovedMeta($post_id);
-			$this->saveMetaboxFieldIdsOption();
+            # Add the sanitized value to the group array
+            $group_values[$child_key] = $sanitized_child_value;
+          }
 
-			# after save action hook
-			do_action('dilaz_mb_after_save_post', $post_id);
-		}
+          # Add the group array to the parent group data
+          $group_data[$group_key] = $group_values;
 
-		/**
-		 * Add SVG to allowed extension types
+          // error_log('$group_data - ' . print_r($group_data, true));
+          continue; // Skip the rest of the loop for the 'option_group' field itself
+        }
+
+        # Dynamically determine the accordion input name
+        $accordion_input_name = $parent_key . '_accordion';
+
+        # Get the order of the accordion items from the $_POST data
+        $accordion_order = isset($_POST[$accordion_input_name]) ? $_POST[$accordion_input_name] : [];
+
+        # Reorder the group data based on the accordion order
+        $ordered_group_data = [];
+        foreach ($accordion_order as $group_key) {
+          if (isset($group_data[$group_key])) {
+            $ordered_group_data[$group_key] = $group_data[$group_key];
+          }
+        }
+
+        # Save the ordered group data under the parent key
+        if (!empty($ordered_group_data)) {
+          update_post_meta($post_id, $parent_key, $ordered_group_data);
+          $group_data = []; // Reset to prevent sharing of data across metabox sets
+          $ordered_group_data = [];
+        }
+
+        # Save the group data under the parent key
+        // if (!empty($group_data)) {
+        //     update_post_meta($post_id, $parent_key, $group_data);
+        //     $group_data = []; // Reset to prevent sharing of data across metabox sets
+        // }
+
+        # Handle regular fields
+        $old = get_post_meta($post_id, $field['id'], true);
+        $new = isset($_POST[$field['id']]) ? $_POST[$field['id']] : null;
+
+        # Sanitize the field value
+        $sanitized_meta = $this->sanitizeMeta($field['type'], $new, $field);
+
+        # Set any saved Google fonts to be loaded
+        if ('font' == $field['type']) {
+          $g_fonts = DilazMetaboxDefaults\DilazMetaboxDefaults::_getGoogleFonts();
+
+          # Save Google fonts only, ignore other fonts
+          if (isset($sanitized_meta['family'])) {
+            if (isset($g_fonts[$sanitized_meta['family']])) {
+              $google_arr = get_post_meta($post_id, 'saved_google_fonts', true);
+              $google_arr = is_array($google_arr) ? $google_arr : [];
+
+              $google_arr[$field['id']] = $sanitized_meta;
+
+              update_post_meta($post_id, 'saved_google_fonts', $google_arr);
+            }
+          }
+        }
+
+        # Save the field value
+        if ($new != $old && false !== $new && $field['type'] != 'checkbox') {
+          update_post_meta($post_id, $field['id'], $sanitized_meta);
+        } else if ($new != $old && $field['type'] == 'checkbox') {
+          update_post_meta($post_id, $field['id'], $sanitized_meta);
+        } else if ('' == $new && $old) {
+          delete_post_meta($post_id, $field['id'], $old);
+        }
+      }
+    }
+
+    /**
+     * Add SVG to allowed extension types
      *
      * @since 3.1.0
      *
      * @see wp_get_ext_types()
      *
-		 * @return array[] Multi-dimensional array of file extensions types including 'svg' type.
-		 */
+     * @return array[] Multi-dimensional array of file extensions types including 'svg' type.
+     */
     public function addSVGToExtTypes($types)
     {
       if (!in_array('svg', $types['image'])) {
