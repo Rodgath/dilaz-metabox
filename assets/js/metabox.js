@@ -845,26 +845,27 @@ var DilazMetaboxScript = new function() {
 	    // $(".dilaz-mb-opt-group-accordion-content").not($(this).next()).slideUp();
 	  });
 
-	  // Make accordion sortable
-	  $("[id^=\'dilaz_mb_prefix_\']").sortable({
-	    handle: '.drag-handle',
-	    axis: 'y',
-	    placeholder: 'sortable-placeholder'
-	  }).disableSelection();
-
-    // Sort accordions based on sort-index
 	  document.querySelectorAll('.dilaz-mb-opt-group-accordion').forEach(container => {
-	    let items = Array.from(container.getElementsByClassName('dilaz-mb-opt-group-accordion-item'));
+      let items = Array.from(container.getElementsByClassName('dilaz-mb-opt-group-accordion-item'));
 
-	    items.sort((a, b) => {
-	      let indexA = parseInt(a.querySelector('input.dilaz-mb-input').dataset.sortIndex, 10);
-	      let indexB = parseInt(b.querySelector('input.dilaz-mb-input').dataset.sortIndex, 10);
-	      return indexA - indexB;
-	    });
+      // Sort items based on data-sort-index
+      items.sort((a, b) => {
+        let indexA = parseInt(a.querySelector('input.dilaz-mb-input').dataset.sortIndex, 10);
+        let indexB = parseInt(b.querySelector('input.dilaz-mb-input').dataset.sortIndex, 10);
+        return indexA - indexB;
+      });
 
-	    // Append items back in sorted order
-	    items.forEach(item => container.appendChild(item));
-	  });
+      // Append items back in sorted order
+      items.forEach(item => container.appendChild(item));
+
+      // Make accordion sortable
+      $(container).sortable({
+        handle: '.drag-handle',
+        axis: 'y',
+        placeholder: 'sortable-placeholder'
+      }).disableSelection();
+    });
+
 	}
 
 	/**
