@@ -852,6 +852,19 @@ var DilazMetaboxScript = new function() {
 	    placeholder: 'sortable-placeholder'
 	  }).disableSelection();
 
+    // Sort accordions based on sort-index
+	  document.querySelectorAll('.dilaz-mb-opt-group-accordion').forEach(container => {
+	    let items = Array.from(container.getElementsByClassName('dilaz-mb-opt-group-accordion-item'));
+
+	    items.sort((a, b) => {
+	      let indexA = parseInt(a.querySelector('input.dilaz-mb-input').dataset.sortIndex, 10);
+	      let indexB = parseInt(b.querySelector('input.dilaz-mb-input').dataset.sortIndex, 10);
+	      return indexA - indexB;
+	    });
+
+	    // Append items back in sorted order
+	    items.forEach(item => container.appendChild(item));
+	  });
 	}
 
 	/**

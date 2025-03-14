@@ -547,30 +547,48 @@ if (!class_exists('Dilaz_Meta_Box')) {
           }
         }
 
-        # get post meta from each metabox
-        $meta = get_post_meta($post->ID, $field['id'], true);
+        if (isset($field['is_opt_group_field'])) {
 
-        # show value or default value
-        $meta = ('' === $meta || array() === $meta) ? $field['std'] : $meta;
+          # Get post meta from each option_group metabox
+          $meta = get_post_meta($post->ID, $field['group_parent_id'], true);
 
-        # integrate variables into $field array
-        $field['meta'] = $meta;
+          # Show value or default value
+          $meta = ('' === $meta || !is_array($meta)) ? $field['std'] : $meta[$field['group_id']][$field['id']];
+
+          # integrate variables into $field array
+          $field['meta'] = $meta;
+
+        } else {
+
+          # get post meta from each metabox
+          $meta = get_post_meta($post->ID, $field['id'], true);
+
+          # show value or default value
+          $meta = ('' === $meta || array() === $meta) ? $field['std'] : $meta;
+
+          # integrate variables into $field array
+          $field['meta'] = $meta;
+        }
 
         # tab end/start sequence
         if (isset($field['type']) && $field['type'] == 'metabox_tab') {
-          if ($counter >= 3) {
+          if ($counter >= 1) {
             echo '</div><!-- /.dilaz-meta-tab -->';
           }
-          echo '<div class="dilaz-meta-tab" id="' . esc_attr(sanitize_key($field['id'])) . '">';
+          echo '<div class="dilaz-meta-tab dilaz-mb-opt-group-accordion" id="' . esc_attr(sanitize_key($field['id'])) . '">';
           $counter++; // Increment counter for each tab
         }
 
         if (isset($field['type']) && $field['type'] != 'metabox_tab' && $field['type'] != 'hidden') {
           if (isset($field['type']) && $field['type'] == 'option_group') {
+            $group_saved_data = get_post_meta($post->ID, $field['metabox_set_id'], true);
             echo '<div class="dilaz-mb-opt-group-accordion-item">
-            <input type="hidden" class="dilaz-mb-input" name="' . esc_attr(sanitize_key($field['metabox_set_id'])) . '_accordion[]" value="' . esc_attr(sanitize_key($field['id'])) . '">
+            <input type="hidden" class="dilaz-mb-input"
+              data-sort-index="' . esc_attr($group_saved_data[$field['id']]['sort_index']) . '"
+              name="' . esc_attr(sanitize_key($field['metabox_set_id'])) . '_accordion[]"
+              value="' . esc_attr(sanitize_key($field['id'])) . '">
             <div class="dilaz-mb-opt-group-accordion-header">
-                <span>Section 1</span>
+                <span>' . esc_html($field['name']) . '</span>
                 <span class="drag-handle">☰</span>
             </div>
             <div class="dilaz-mb-opt-group-accordion-content">';
@@ -630,160 +648,93 @@ if (!class_exists('Dilaz_Meta_Box')) {
         }
 
         switch ($field['type']) {
-          case 'metabox_tab':
-            break;
-          case 'text':
-            DilazMetaboxFields\DilazMetaboxFields::fieldText($field);
-            break;
-          case 'multitext':
-            DilazMetaboxFields\DilazMetaboxFields::fieldMultiText($field);
-            break;
-          case 'password':
-            DilazMetaboxFields\DilazMetaboxFields::fieldPassword($field);
-            break;
-          case 'hidden':
-            DilazMetaboxFields\DilazMetaboxFields::fieldHidden($field);
-            break;
-          case 'paragraph':
-            DilazMetaboxFields\DilazMetaboxFields::fieldParagraph($field);
-            break;
-          case 'codeoutput':
-            DilazMetaboxFields\DilazMetaboxFields::fieldCodeOutput($field);
-            break;
-          case 'url':
-            DilazMetaboxFields\DilazMetaboxFields::fieldUrl($field);
-            break;
-          case 'email':
-            DilazMetaboxFields\DilazMetaboxFields::fieldEmail($field);
-            break;
-          case 'number':
-            DilazMetaboxFields\DilazMetaboxFields::fieldNumber($field);
-            break;
-          case 'repeatable':
-            DilazMetaboxFields\DilazMetaboxFields::fieldRepeatable($field);
-            break;
-          case 'stepper':
-            DilazMetaboxFields\DilazMetaboxFields::fieldStepper($field);
-            break;
-          case 'code':
-            DilazMetaboxFields\DilazMetaboxFields::fieldCode($field);
-            break;
-          case 'textarea':
-            DilazMetaboxFields\DilazMetaboxFields::fieldTextarea($field);
-            break;
-          case 'editor':
-            DilazMetaboxFields\DilazMetaboxFields::fieldEditor($field);
-            break;
-          case 'radio':
-            DilazMetaboxFields\DilazMetaboxFields::fieldRadio($field);
-            break;
-          case 'checkbox':
-            DilazMetaboxFields\DilazMetaboxFields::fieldCheckbox($field);
-            break;
-          case 'multicheck':
-            DilazMetaboxFields\DilazMetaboxFields::fieldMultiCheck($field);
-            break;
-          case 'select':
-            DilazMetaboxFields\DilazMetaboxFields::fieldSelect($field);
-            break;
-          case 'multiselect':
-            DilazMetaboxFields\DilazMetaboxFields::fieldMultiSelect($field);
-            break;
-          case 'queryselect':
-            DilazMetaboxFields\DilazMetaboxFields::fieldQuerySelect($field);
-            break;
-          case 'timezone':
-            DilazMetaboxFields\DilazMetaboxFields::fieldTimezone($field);
-            break;
-          case 'radioimage':
-            DilazMetaboxFields\DilazMetaboxFields::fieldRadioImage($field);
-            break;
-          case 'color':
-            DilazMetaboxFields\DilazMetaboxFields::fieldColor($field);
-            break;
-          case 'multicolor':
-            DilazMetaboxFields\DilazMetaboxFields::fieldMultiColor($field);
-            break;
-          case 'font':
-            DilazMetaboxFields\DilazMetaboxFields::fieldFont($field);
-            break;
-          case 'date':
-            DilazMetaboxFields\DilazMetaboxFields::fieldDate($field);
-            break;
-          case 'date_from_to':
-            DilazMetaboxFields\DilazMetaboxFields::fieldDateFromTo($field);
-            break;
-          case 'month':
-            DilazMetaboxFields\DilazMetaboxFields::fieldMonth($field);
-            break;
-          case 'month_from_to':
-            DilazMetaboxFields\DilazMetaboxFields::fieldMonthFromTo($field);
-            break;
-          case 'time':
-            DilazMetaboxFields\DilazMetaboxFields::fieldtime($field);
-            break;
-          case 'time_from_to':
-            DilazMetaboxFields\DilazMetaboxFields::fieldTimeFromTo($field);
-            break;
-          case 'date_time':
-            DilazMetaboxFields\DilazMetaboxFields::fieldDateTime($field);
-            break;
-          case 'date_time_from_to':
-            DilazMetaboxFields\DilazMetaboxFields::fieldDateTimeFromTo($field);
-            break;
-          case 'slider':
-            DilazMetaboxFields\DilazMetaboxFields::fieldSlideRange($field);
-            break;
-          case 'range':
-            DilazMetaboxFields\DilazMetaboxFields::fieldRange($field);
-            break;
-          case 'upload':
-            DilazMetaboxFields\DilazMetaboxFields::fieldUpload($field);
-            break;
-          case 'buttonset':
-            DilazMetaboxFields\DilazMetaboxFields::fieldButtonset($field);
-            break;
-          case 'switch':
-            DilazMetaboxFields\DilazMetaboxFields::fieldSwitch($field);
-            break;
+          case 'metabox_tab'       : break;
+          case 'text'              : DilazMetaboxFields\DilazMetaboxFields::fieldText($field); break;
+          case 'multitext'         : DilazMetaboxFields\DilazMetaboxFields::fieldMultiText($field); break;
+          case 'password'          : DilazMetaboxFields\DilazMetaboxFields::fieldPassword($field); break;
+          case 'hidden'            : DilazMetaboxFields\DilazMetaboxFields::fieldHidden($field); break;
+          case 'paragraph'         : DilazMetaboxFields\DilazMetaboxFields::fieldParagraph($field); break;
+          case 'codeoutput'        : DilazMetaboxFields\DilazMetaboxFields::fieldCodeOutput($field); break;
+          case 'url'               : DilazMetaboxFields\DilazMetaboxFields::fieldUrl($field); break;
+          case 'email'             : DilazMetaboxFields\DilazMetaboxFields::fieldEmail($field); break;
+          case 'number'            : DilazMetaboxFields\DilazMetaboxFields::fieldNumber($field); break;
+          case 'repeatable'        : DilazMetaboxFields\DilazMetaboxFields::fieldRepeatable($field); break;
+          case 'stepper'           : DilazMetaboxFields\DilazMetaboxFields::fieldStepper($field); break;
+          case 'code'              : DilazMetaboxFields\DilazMetaboxFields::fieldCode($field); break;
+          case 'textarea'          : DilazMetaboxFields\DilazMetaboxFields::fieldTextarea($field); break;
+          case 'editor'            : DilazMetaboxFields\DilazMetaboxFields::fieldEditor($field); break;
+          case 'radio'             : DilazMetaboxFields\DilazMetaboxFields::fieldRadio($field); break;
+          case 'checkbox'          : DilazMetaboxFields\DilazMetaboxFields::fieldCheckbox($field); break;
+          case 'multicheck'        : DilazMetaboxFields\DilazMetaboxFields::fieldMultiCheck($field); break;
+          case 'select'            : DilazMetaboxFields\DilazMetaboxFields::fieldSelect($field); break;
+          case 'multiselect'       : DilazMetaboxFields\DilazMetaboxFields::fieldMultiSelect($field); break;
+          case 'queryselect'       : DilazMetaboxFields\DilazMetaboxFields::fieldQuerySelect($field); break;
+          case 'timezone'          : DilazMetaboxFields\DilazMetaboxFields::fieldTimezone($field); break;
+          case 'radioimage'        : DilazMetaboxFields\DilazMetaboxFields::fieldRadioImage($field); break;
+          case 'color'             : DilazMetaboxFields\DilazMetaboxFields::fieldColor($field); break;
+          case 'multicolor'        : DilazMetaboxFields\DilazMetaboxFields::fieldMultiColor($field); break;
+          case 'font'              : DilazMetaboxFields\DilazMetaboxFields::fieldFont($field); break;
+          case 'date'              : DilazMetaboxFields\DilazMetaboxFields::fieldDate($field); break;
+          case 'date_from_to'      : DilazMetaboxFields\DilazMetaboxFields::fieldDateFromTo($field); break;
+          case 'month'             : DilazMetaboxFields\DilazMetaboxFields::fieldMonth($field); break;
+          case 'month_from_to'     : DilazMetaboxFields\DilazMetaboxFields::fieldMonthFromTo($field); break;
+          case 'time'              : DilazMetaboxFields\DilazMetaboxFields::fieldtime($field); break;
+          case 'time_from_to'      : DilazMetaboxFields\DilazMetaboxFields::fieldTimeFromTo($field); break;
+          case 'date_time'         : DilazMetaboxFields\DilazMetaboxFields::fieldDateTime($field); break;
+          case 'date_time_from_to' : DilazMetaboxFields\DilazMetaboxFields::fieldDateTimeFromTo($field); break;
+          case 'slider'            : DilazMetaboxFields\DilazMetaboxFields::fieldSlideRange($field); break;
+          case 'range'             : DilazMetaboxFields\DilazMetaboxFields::fieldRange($field); break;
+          case 'upload'            : DilazMetaboxFields\DilazMetaboxFields::fieldUpload($field); break;
+          case 'buttonset'         : DilazMetaboxFields\DilazMetaboxFields::fieldButtonset($field); break;
+          case 'switch'            : DilazMetaboxFields\DilazMetaboxFields::fieldSwitch($field); break;
           case 'option_group':
             if (isset($field['group_options']) && is_array($field['group_options'])) {
-              $field['group_options'] = array_map(function ($option) use ($field) {
+              foreach ($field['group_options'] as $index => &$option) {
+                if (!is_array($option)) {
+                  continue;
+                }
+
                 $option['is_opt_group_field'] = true;
-                $option['group_parent_id'] = $field['metabox_set_id'];
-                $option['group_id'] = $field['id'];
-                return $option;
-              }, $field['group_options']);
+                $option['group_parent_id'] = $field['metabox_set_id'] ?? null;
+                $option['group_id'] = $field['id'] ?? null;
+                $option['group_field_index'] = $index;
+              }
+              unset($option); // Avoid reference issues
 
-              $this->processFields($field['group_options'], $post, $counter); // Pass $counter by reference
+              // error_log(print_r($field['group_options'], true)); // Log modified data
+
+              $this->processFields($field['group_options'], $post, $counter);
+            } else {
+              // error_log("group_options is not set or not an array!");
             }
-            // error_log(print_r($field['group_options'], true)); // Log modified data
-
-            $this->processFields($field['group_options'], $post, $counter);
             break;
           case $field['type']:
-            do_action('dilaz_mb_field_' . $field['type'] . '_hook', $field);
-            break; # add custom field types via this hook
+            do_action('dilaz_mb_field_' . $field['type'] . '_hook', $field); break; # add custom field types via this hook
         }
 
         if (isset($field['type']) && $field['type'] != 'metabox_tab' && $field['type'] != 'hidden') {
-          if (isset($field['type']) && $field['type'] == 'header') {
-            echo '</div>';
+          if (isset($field['type']) && $field['type'] == 'option_group') {
+            echo '</div><!-- /.dilaz-mb-opt-group-accordion-content -->';
+            echo '</div><!-- /.dilaz-mb-opt-group-accordion-item -->';
           } else {
-            if ($field['state'] == 'joined_start') {
-              echo '</div><!-- /.joined-cell -->'; # .joined-cell for .joined_start
-            } else if ($field['state'] == 'joined_middle') {
-              echo '</div><!-- /.joined-middle -->'; # .joined-middle
-              echo '</div><!-- /.joined-cell -->';   # .joined-cell covering .joined-middle
-            } else if ($field['state'] == 'joined_end') {
-              echo '</div><!-- /.joined-cell -->';  # .joined-cell covering .joined-end
-              echo '</div><!-- /.joined-end -->';   # .joined-end
-              echo '</div><!-- /.joined-row -->';   # .joined-row
-              echo '</div><!-- /.joined-table -->'; # .joined-table
-              echo '</div><!-- /.right -->';        # .right
-              echo '</div><!-- /.joined-start -->'; # .joined-start
+            if (isset($field['type']) && $field['type'] == 'header') {
+              echo '</div>';
             } else {
-              echo '</div></div>';
+              if ($field['state'] == 'joined_start') {
+                echo '</div><!-- /.joined-cell -->'; # .joined-cell for .joined_start
+              } else if ($field['state'] == 'joined_middle') {
+                echo '</div><!-- /.joined-middle -->'; # .joined-middle
+                echo '</div><!-- /.joined-cell -->';   # .joined-cell covering .joined-middle
+              } else if ($field['state'] == 'joined_end') {
+                echo '</div><!-- /.joined-cell -->';  # .joined-cell covering .joined-end
+                echo '</div><!-- /.joined-end -->';   # .joined-end
+                echo '</div><!-- /.joined-row -->';   # .joined-row
+                echo '</div><!-- /.joined-table -->'; # .joined-table
+                echo '</div><!-- /.right -->';        # .right
+                echo '</div><!-- /.joined-start -->'; # .joined-start
+              } else {
+                echo '</div></div>';
+              }
             }
           }
         }
@@ -1307,7 +1258,6 @@ if (!class_exists('Dilaz_Meta_Box')) {
       $meta_box_content = $this->metaBoxContent();
       if (!empty($meta_box_content)) {
         foreach ($meta_box_content as $key => $metabox_set) {
-          // error_log('$metabox_set - ' . print_r($metabox_set, true));
           $this->saveFields($metabox_set['fields'], $post_id); // Pass the parent key
         }
       }
@@ -1354,7 +1304,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
           # Add the group array to the parent group data
           $group_data[$parent_key][$group_key] = $group_values;
 
-          // error_log('$group_data - ' . print_r($group_data, true));
+          # Prevent different/separate option group fields being bundled together
           continue; // Skip the rest of the loop for the 'option_group' field itself
         }
 
@@ -1394,7 +1344,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 
       foreach ($group_data as $parent_key => $v) {
 
-        # Dynamically determine the accordion input name
+        # Determine the accordion input name
         $accordion_input_name = $parent_key . '_accordion';
 
         # Get the order of the accordion items from the $_POST data
@@ -1402,9 +1352,12 @@ if (!class_exists('Dilaz_Meta_Box')) {
 
         # Reorder the group data based on the accordion order
         $ordered_group_data = [];
+        $sort_index = 0;
         foreach ($accordion_order as $group_key) {
           if (isset($v[$group_key])) {
+            $v[$group_key]['sort_index'] = $sort_index; // Add sort_index inside each item
             $ordered_group_data[$group_key] = $v[$group_key];
+            $sort_index++;
           }
         }
 
@@ -1422,7 +1375,6 @@ if (!class_exists('Dilaz_Meta_Box')) {
         //     update_post_meta($post_id, $parent_key, $group_data);
         //     $group_data = []; // Reset to prevent sharing of data across metabox sets
         // }
-
       }
     }
 
