@@ -748,8 +748,18 @@ if (!class_exists('Dilaz_Meta_Box')) {
             break;
           case 'option_group':
             if (isset($field['group_options']) && is_array($field['group_options'])) {
+              $field['group_options'] = array_map(function ($option) use ($field) {
+                $option['is_opt_group_field'] = true;
+                $option['group_parent_id'] = $field['metabox_set_id'];
+                $option['group_id'] = $field['id'];
+                return $option;
+              }, $field['group_options']);
+
               $this->processFields($field['group_options'], $post, $counter); // Pass $counter by reference
             }
+            // error_log(print_r($field['group_options'], true)); // Log modified data
+
+            $this->processFields($field['group_options'], $post, $counter);
             break;
           case $field['type']:
             do_action('dilaz_mb_field_' . $field['type'] . '_hook', $field);
