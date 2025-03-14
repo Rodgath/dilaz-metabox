@@ -1297,7 +1297,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
       $meta_box_content = $this->metaBoxContent();
       if (!empty($meta_box_content)) {
         foreach ($meta_box_content as $key => $metabox_set) {
-          error_log('$metabox_set - ' . print_r($metabox_set, true));
+          // error_log('$metabox_set - ' . print_r($metabox_set, true));
           $this->saveFields($metabox_set['fields'], $post_id); // Pass the parent key
         }
       }
@@ -1313,7 +1313,6 @@ if (!class_exists('Dilaz_Meta_Box')) {
     # =============================================================================================
     function saveFields($fields, $post_id)
     {
-      $parent_key = '';
       $group_data = []; // Array to store all option_group data
 
       # Get the order of the accordion items from the $_POST data
@@ -1343,38 +1342,11 @@ if (!class_exists('Dilaz_Meta_Box')) {
           }
 
           # Add the group array to the parent group data
-          $group_data[$group_key] = $group_values;
+          $group_data[$parent_key][$group_key] = $group_values;
 
           // error_log('$group_data - ' . print_r($group_data, true));
           continue; // Skip the rest of the loop for the 'option_group' field itself
         }
-
-        # Dynamically determine the accordion input name
-        $accordion_input_name = $parent_key . '_accordion';
-
-        # Get the order of the accordion items from the $_POST data
-        $accordion_order = isset($_POST[$accordion_input_name]) ? $_POST[$accordion_input_name] : [];
-
-        # Reorder the group data based on the accordion order
-        $ordered_group_data = [];
-        foreach ($accordion_order as $group_key) {
-          if (isset($group_data[$group_key])) {
-            $ordered_group_data[$group_key] = $group_data[$group_key];
-          }
-        }
-
-        # Save the ordered group data under the parent key
-        if (!empty($ordered_group_data)) {
-          update_post_meta($post_id, $parent_key, $ordered_group_data);
-          $group_data = []; // Reset to prevent sharing of data across metabox sets
-          $ordered_group_data = [];
-        }
-
-        # Save the group data under the parent key
-        // if (!empty($group_data)) {
-        //     update_post_meta($post_id, $parent_key, $group_data);
-        //     $group_data = []; // Reset to prevent sharing of data across metabox sets
-        // }
 
         # Handle regular fields
         $old = get_post_meta($post_id, $field['id'], true);
@@ -1408,6 +1380,39 @@ if (!class_exists('Dilaz_Meta_Box')) {
         } else if ('' == $new && $old) {
           delete_post_meta($post_id, $field['id'], $old);
         }
+      }
+
+      foreach ($group_data as $parent_key => $v) {
+
+        # Dynamically determine the accordion input name
+        $accordion_input_name = $parent_key . '_accordion';
+
+        # Get the order of the accordion items from the $_POST data
+        $accordion_order = isset($_POST[$accordion_input_name]) ? $_POST[$accordion_input_name] : [];
+
+        # Reorder the group data based on the accordion order
+        $ordered_group_data = [];
+        foreach ($accordion_order as $group_key) {
+          if (isset($v[$group_key])) {
+            $ordered_group_data[$group_key] = $v[$group_key];
+          }
+        }
+
+        # Save the ordered group data under the parent key
+        if (!empty($ordered_group_data)) {
+          update_post_meta($post_id, $parent_key, $ordered_group_data);
+          // $group_data = []; // Reset to prevent sharing of data across metabox sets
+          // $ordered_group_data = [];
+          // $accordion_order = [];
+          // $parent_key = '';
+        }
+
+        # Save the group data under the parent key
+        // if (!empty($group_data)) {
+        //     update_post_meta($post_id, $parent_key, $group_data);
+        //     $group_data = []; // Reset to prevent sharing of data across metabox sets
+        // }
+
       }
     }
 
