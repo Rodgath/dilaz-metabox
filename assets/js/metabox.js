@@ -835,6 +835,26 @@ var DilazMetaboxScript = new function() {
 	}
 
 	/**
+	 * option-group field
+	 */
+	$t.optionGroupField = function () {
+
+	  // Accordion functionality
+	  $doc.on('click', '.dilaz-mb-opt-group-accordion-header', function () {
+	    $(this).siblings('.dilaz-mb-opt-group-accordion-content').slideToggle();
+	    // $(".dilaz-mb-opt-group-accordion-content").not($(this).next()).slideUp();
+	  });
+
+	  // Make accordion sortable
+	  $("[id^=\'dilaz_mb_prefix_\']").sortable({
+	    handle: '.drag-handle',
+	    axis: 'y',
+	    placeholder: 'sortable-placeholder'
+	  }).disableSelection();
+
+	}
+
+	/**
 	 * check if color is HEX, RGB, RGBA, HSL, HSLA
 	 *
 	 * @since Dilaz Metabox 2.5.7
@@ -979,6 +999,7 @@ var DilazMetaboxScript = new function() {
 		$t.repeatableField();
 		$t.addRepeatableField();
 		$t.removeRepeatableField();
+		$t.optionGroupField();
 
 	};
 }

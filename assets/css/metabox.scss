@@ -1886,3 +1886,40 @@
     border-bottom: 8px solid transparent;
   }
 }
+
+/*--------------------------------------------------------------*/
+/* Option-Group Accordion
+/*--------------------------------------------------------------*/
+.dilaz-mb-opt-group-accordion {
+  // width: 100%;
+  margin: 0;
+  padding: 20px;
+
+  .dilaz-mb-opt-group-accordion-item {
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    overflow: hidden;
+
+    .dilaz-mb-opt-group-accordion-header {
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .drag-handle {
+        cursor: grab;
+      }
+    }
+
+    .dilaz-mb-opt-group-accordion-content {
+      display: none;
+      padding: 10px;
+      background: #f9f9f9;
+    }
+  }
+}

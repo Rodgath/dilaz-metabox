@@ -457,9 +457,332 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			}
 		}
 
-		# Show meta boxes
-		# =============================================================================================
-		function showMetaBox($page, $id) {
+    # Process fields recursively
+    # =============================================================================================
+    function processFields($fields, $post, &$counter)
+    {
+      foreach ($fields as $key => $field) {
+
+        if (isset($field['type']) && $field['type'] == 'metabox_set') continue;
+
+        # Set up blank or default values for empty fields
+        if (!isset($field['id']))         $field['id'] = '';
+        if (!isset($field['type']))       $field['type'] = '';
+        if (!isset($field['name']))       $field['name'] = '';
+        if (!isset($field['std']))        $field['std'] = '';
+        if (!isset($field['args']))       $field['args'] = '';
+        if (!isset($field['state']))      $field['state'] = '';
+        if (!isset($field['class']))      $field['class'] = '';
+        if (!isset($field['req_id']))     $field['req_id'] = '';
+        if (!isset($field['req_value']))  $field['req_value'] = '';
+        if (!isset($field['req_args']))   $field['req_args'] = '';
+        if (!isset($field['req_cond']))   $field['req_cond'] = '';
+        if (!isset($field['req_action'])) $field['req_action'] = '';
+        if (!isset($field['hide_key']))   $field['hide_key'] = '';
+        if (!isset($field['hide_val']))   $field['hide_val'] = '';
+
+        # Desc setup
+        $field['desc']   = isset($field['desc']) && $field['desc'] !== '' ? '<span class="description">' . esc_html($field['desc']) . '</span>' : '';
+        $field['desc2']  = isset($field['desc2']) && $field['desc2'] !== '' ? '<span class="desc2">' . esc_html($field['desc2']) . '</span>' : '';
+        $field['prefix'] = isset($field['prefix']) && $field['prefix'] !== '' ? '<span class="prefix">' . esc_html($field['prefix']) . '</span>' : '';
+        $field['suffix'] = isset($field['suffix']) && $field['suffix'] !== '' ? '<span class="suffix">' . esc_html($field['suffix']) . '</span>' : '';
+
+        # setup conditional fields
+        $cond_fields = '';
+        if (!isset($field['req_args']) || $field['req_args'] != '') {
+          if (!isset($field['req_cond']) || $field['req_cond'] == '') {
+            $cond_fields .= ' data-do-when=\'{';
+            $do_when_ = '';
+            foreach ($field['req_args'] as $req_id => $req_value) {
+              if (is_array($req_value)) {
+                foreach ($req_value as $key => $val) {
+                  $do_when_ .= ' "' . $req_id . '" : ["' . $val . '"]';
+                }
+              } else {
+                $do_when_ .= ' "' . $req_id . '" : ["' . $req_value . '"]';
+              }
+            }
+            $cond_fields .= $do_when_;
+            $cond_fields .= ' }\' data-do-action="' . $field['req_action'] . '"';
+          } else if ($field['req_cond'] == 'AND') {
+            $cond_fields .= ' data-do-when=\'{';
+            $do_when_AND = '';
+            foreach ($field['req_args'] as $req_id => $req_value) {
+              if (is_array($req_value)) {
+                foreach ($req_value as $key => $val) {
+                  $do_when_AND .= ' "' . $req_id . '" : ["' . $val . '"],';
+                }
+              } else {
+                $do_when_AND .= ' "' . $req_id . '" : ["' . $req_value . '"],';
+              }
+            }
+            $cond_fields .= rtrim($do_when_AND, ','); # remove last comma
+            $cond_fields .= ' }\' data-do-action="' . $field['req_action'] . '"';
+          } else if ($field['req_cond'] == 'OR') {
+            $cond_fields .= ' data-do-when=\'';
+            $do_when_OR = '';
+            foreach ($field['req_args'] as $req_id => $req_value) {
+              if (is_array($req_value)) {
+                foreach ($req_value as $key => $val) {
+                  $do_when_OR .= '{ "' . $req_id . '" : ["' . $val . '"] } || ';
+                }
+              } else {
+                $do_when_OR .= '{ "' . $req_id . '" : ["' . $req_value . '"] } || ';
+              }
+            }
+            $cond_fields .= rtrim($do_when_OR, '|| '); # remove dangling "OR" sign
+            $cond_fields .= ' \' data-do-action="' . $field['req_action'] . '"';
+          }
+        }
+
+        # hide specific fields on demand
+        $hide = '';
+        $post_object = get_post($post->ID, ARRAY_A);
+        if ($post_object['post_type'] == 'dilaz_event_txns') {
+          if ((!get_post_meta($post->ID, $this->_prefix . 'event_txn_event_id', true) || !get_post_meta($post->ID, $this->_prefix . 'event_txn_event_id', true)) && $field['hide_key'] == 'event_txn' && $field['hide_val'] == 1) {
+            $hide = 'data-dilaz-hide="hidden"';
+          }
+          if ((!get_post_meta($post->ID, $this->_prefix . 'event_txn_pkg_id', true) || !get_post_meta($post->ID, $this->_prefix . 'event_txn_pkg_id', true)) && $field['hide_key'] == 'pkg_txn' && $field['hide_val'] == 1) {
+            $hide = 'data-dilaz-hidden="yes"';
+          }
+        }
+
+        # get post meta from each metabox
+        $meta = get_post_meta($post->ID, $field['id'], true);
+
+        # show value or default value
+        $meta = ('' === $meta || array() === $meta) ? $field['std'] : $meta;
+
+        # integrate variables into $field array
+        $field['meta'] = $meta;
+
+        # tab end/start sequence
+        if (isset($field['type']) && $field['type'] == 'metabox_tab') {
+          if ($counter >= 3) {
+            echo '</div><!-- /.dilaz-meta-tab -->';
+          }
+          echo '<div class="dilaz-meta-tab" id="' . esc_attr(sanitize_key($field['id'])) . '">';
+          $counter++; // Increment counter for each tab
+        }
+
+        if (isset($field['type']) && $field['type'] != 'metabox_tab' && $field['type'] != 'hidden') {
+          if (isset($field['type']) && $field['type'] == 'option_group') {
+            echo '<div class="dilaz-mb-opt-group-accordion-item">
+            <input type="hidden" class="dilaz-mb-input" name="' . esc_attr(sanitize_key($field['metabox_set_id'])) . '_accordion[]" value="' . esc_attr(sanitize_key($field['id'])) . '">
+            <div class="dilaz-mb-opt-group-accordion-header">
+                <span>Section 1</span>
+                <span class="drag-handle">☰</span>
+            </div>
+            <div class="dilaz-mb-opt-group-accordion-content">';
+          } else {
+            if (isset($field['type']) && $field['type'] == 'header') {
+              echo '<div class="dilaz-metabox-head row" ' . esc_attr($hide) . '><div>' . $field['name'] . '</div><div></div>';
+            } else {
+              $section_id    = 'dilaz-mb-field-' . sanitize_key($field['id']);
+              $section_class = 'dilaz-mb-field dilaz-mb-field-' . esc_attr($field['type']) . ' ' . sanitize_html_class($field['class']);
+
+              # Get the current screen object
+              $screen = get_current_screen();
+
+              # post format support
+              if ($field['args'] != '') {
+                if (isset($field['args']['post_format']) && $screen->id == 'post') {
+                  $post_formats = is_array($field['args']['post_format']) ? implode(' ', $field['args']['post_format']) : '';
+                } else {
+                  $post_formats = '';
+                }
+              } else {
+                $post_formats = '';
+              }
+
+              # page template support
+              if ($field['args'] != '') {
+                if (isset($field['args']['page_template']) && $screen->id == 'page') {
+                  # use preg_filter() to add "page-" prefix to every array element in page_template array
+                  $page_templates = is_array($field['args']['page_template']) ? implode(' ', preg_filter('/^/', 'page-', $field['args']['page_template'])) : '';
+                } else {
+                  $page_templates = '';
+                }
+              } else {
+                $page_templates = '';
+              }
+
+              # adjacent fields - first field
+              if ($field['state'] == 'joined_start') {
+                echo '<div id="' . esc_attr($section_id) . '" class="row joined-state joined-start ' . esc_attr($section_class) . '" ' . $cond_fields . '><div class="left"><div class="header"><label for="' . esc_attr($field['id']) . '">' . esc_html($field['name']) . '</label>' . $field['desc'] . '</div></div><div class="right option"><div class="joined-table"><div class="joined-row"><div class="joined-cell">';
+
+                # adjacent fields - middle fields
+              } else if ($field['state'] == 'joined_middle') {
+                echo '<div class="joined-cell"><div id="' . esc_attr($section_id) . '" class="joined-state joined-middle ' . esc_attr($section_class) . '" ' . $cond_fields . '>';
+
+                # adjacent fields - last field
+              } else if ($field['state'] == 'joined_end') {
+                echo '<div class="joined-cell"><div id="' . esc_attr($section_id) . '" class="joined-state joined-end ' . esc_attr($section_class) . '" ' . $cond_fields . '>';
+              } else {
+                echo '<div id="' . esc_attr($section_id) . '" class="dilaz-metabox-item row ' . esc_attr($section_class) . ' ' . $post_formats . ' ' . $page_templates . '" ' . $cond_fields . ' ' . $hide . '>';
+                if ($field['name'] != '') {
+                  echo '<div class="left"><div class="header"><label for="' . esc_attr($field['id']) . '">' . esc_html($field['name']) . '</label>' . $field['desc'] . '</div></div>';
+                }
+                echo '<div class="right option clearfix">';
+              }
+            }
+          }
+        }
+
+        switch ($field['type']) {
+          case 'metabox_tab':
+            break;
+          case 'text':
+            DilazMetaboxFields\DilazMetaboxFields::fieldText($field);
+            break;
+          case 'multitext':
+            DilazMetaboxFields\DilazMetaboxFields::fieldMultiText($field);
+            break;
+          case 'password':
+            DilazMetaboxFields\DilazMetaboxFields::fieldPassword($field);
+            break;
+          case 'hidden':
+            DilazMetaboxFields\DilazMetaboxFields::fieldHidden($field);
+            break;
+          case 'paragraph':
+            DilazMetaboxFields\DilazMetaboxFields::fieldParagraph($field);
+            break;
+          case 'codeoutput':
+            DilazMetaboxFields\DilazMetaboxFields::fieldCodeOutput($field);
+            break;
+          case 'url':
+            DilazMetaboxFields\DilazMetaboxFields::fieldUrl($field);
+            break;
+          case 'email':
+            DilazMetaboxFields\DilazMetaboxFields::fieldEmail($field);
+            break;
+          case 'number':
+            DilazMetaboxFields\DilazMetaboxFields::fieldNumber($field);
+            break;
+          case 'repeatable':
+            DilazMetaboxFields\DilazMetaboxFields::fieldRepeatable($field);
+            break;
+          case 'stepper':
+            DilazMetaboxFields\DilazMetaboxFields::fieldStepper($field);
+            break;
+          case 'code':
+            DilazMetaboxFields\DilazMetaboxFields::fieldCode($field);
+            break;
+          case 'textarea':
+            DilazMetaboxFields\DilazMetaboxFields::fieldTextarea($field);
+            break;
+          case 'editor':
+            DilazMetaboxFields\DilazMetaboxFields::fieldEditor($field);
+            break;
+          case 'radio':
+            DilazMetaboxFields\DilazMetaboxFields::fieldRadio($field);
+            break;
+          case 'checkbox':
+            DilazMetaboxFields\DilazMetaboxFields::fieldCheckbox($field);
+            break;
+          case 'multicheck':
+            DilazMetaboxFields\DilazMetaboxFields::fieldMultiCheck($field);
+            break;
+          case 'select':
+            DilazMetaboxFields\DilazMetaboxFields::fieldSelect($field);
+            break;
+          case 'multiselect':
+            DilazMetaboxFields\DilazMetaboxFields::fieldMultiSelect($field);
+            break;
+          case 'queryselect':
+            DilazMetaboxFields\DilazMetaboxFields::fieldQuerySelect($field);
+            break;
+          case 'timezone':
+            DilazMetaboxFields\DilazMetaboxFields::fieldTimezone($field);
+            break;
+          case 'radioimage':
+            DilazMetaboxFields\DilazMetaboxFields::fieldRadioImage($field);
+            break;
+          case 'color':
+            DilazMetaboxFields\DilazMetaboxFields::fieldColor($field);
+            break;
+          case 'multicolor':
+            DilazMetaboxFields\DilazMetaboxFields::fieldMultiColor($field);
+            break;
+          case 'font':
+            DilazMetaboxFields\DilazMetaboxFields::fieldFont($field);
+            break;
+          case 'date':
+            DilazMetaboxFields\DilazMetaboxFields::fieldDate($field);
+            break;
+          case 'date_from_to':
+            DilazMetaboxFields\DilazMetaboxFields::fieldDateFromTo($field);
+            break;
+          case 'month':
+            DilazMetaboxFields\DilazMetaboxFields::fieldMonth($field);
+            break;
+          case 'month_from_to':
+            DilazMetaboxFields\DilazMetaboxFields::fieldMonthFromTo($field);
+            break;
+          case 'time':
+            DilazMetaboxFields\DilazMetaboxFields::fieldtime($field);
+            break;
+          case 'time_from_to':
+            DilazMetaboxFields\DilazMetaboxFields::fieldTimeFromTo($field);
+            break;
+          case 'date_time':
+            DilazMetaboxFields\DilazMetaboxFields::fieldDateTime($field);
+            break;
+          case 'date_time_from_to':
+            DilazMetaboxFields\DilazMetaboxFields::fieldDateTimeFromTo($field);
+            break;
+          case 'slider':
+            DilazMetaboxFields\DilazMetaboxFields::fieldSlideRange($field);
+            break;
+          case 'range':
+            DilazMetaboxFields\DilazMetaboxFields::fieldRange($field);
+            break;
+          case 'upload':
+            DilazMetaboxFields\DilazMetaboxFields::fieldUpload($field);
+            break;
+          case 'buttonset':
+            DilazMetaboxFields\DilazMetaboxFields::fieldButtonset($field);
+            break;
+          case 'switch':
+            DilazMetaboxFields\DilazMetaboxFields::fieldSwitch($field);
+            break;
+          case 'option_group':
+            if (isset($field['group_options']) && is_array($field['group_options'])) {
+              $this->processFields($field['group_options'], $post, $counter); // Pass $counter by reference
+            }
+            break;
+          case $field['type']:
+            do_action('dilaz_mb_field_' . $field['type'] . '_hook', $field);
+            break; # add custom field types via this hook
+        }
+
+        if (isset($field['type']) && $field['type'] != 'metabox_tab' && $field['type'] != 'hidden') {
+          if (isset($field['type']) && $field['type'] == 'header') {
+            echo '</div>';
+          } else {
+            if ($field['state'] == 'joined_start') {
+              echo '</div><!-- /.joined-cell -->'; # .joined-cell for .joined_start
+            } else if ($field['state'] == 'joined_middle') {
+              echo '</div><!-- /.joined-middle -->'; # .joined-middle
+              echo '</div><!-- /.joined-cell -->';   # .joined-cell covering .joined-middle
+            } else if ($field['state'] == 'joined_end') {
+              echo '</div><!-- /.joined-cell -->';  # .joined-cell covering .joined-end
+              echo '</div><!-- /.joined-end -->';   # .joined-end
+              echo '</div><!-- /.joined-row -->';   # .joined-row
+              echo '</div><!-- /.joined-table -->'; # .joined-table
+              echo '</div><!-- /.right -->';        # .right
+              echo '</div><!-- /.joined-start -->'; # .joined-start
+            } else {
+              echo '</div></div>';
+            }
+          }
+        }
+      }
+    }
+
+    # Show meta boxes
+    # =============================================================================================
+    function showMetaBox($page, $id) {
 
 			global $post, $pages;
 
@@ -500,247 +823,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 
 						$counter = 0;
 
-						foreach ($meta_box_content[$meta_box_id]['fields'] as $key => $field) {
-
-							$counter++;
-
-							if (isset($field['type']) && $field['type'] == 'metabox_set') continue;
-
-							# Set up blank or default values for empty fields
-							if ( !isset( $field['id'] ) )         $field['id'] = '';
-							if ( !isset( $field['type'] ) )       $field['type'] = '';
-							if ( !isset( $field['name'] ) )       $field['name'] = '';
-							if ( !isset( $field['std'] ) )        $field['std'] = '';
-							if ( !isset( $field['args'] ) )       $field['args'] = '';
-							if ( !isset( $field['state'] ) )      $field['state'] = '';
-							if ( !isset( $field['class'] ) )      $field['class'] = '';
-							if ( !isset( $field['req_id'] ) )     $field['req_id'] = '';
-							if ( !isset( $field['req_value'] ) )  $field['req_value'] = '';
-							if ( !isset( $field['req_args'] ) )   $field['req_args'] = '';
-							if ( !isset( $field['req_cond'] ) )   $field['req_cond'] = '';
-							if ( !isset( $field['req_action'] ) ) $field['req_action'] = '';
-							if ( !isset( $field['hide_key'] ) )   $field['hide_key'] = '';
-							if ( !isset( $field['hide_val'] ) )   $field['hide_val'] = '';
-
-							# Desc setup
-							$field['desc']   = isset($field['desc']) && $field['desc'] !== '' ? '<span class="description">'. esc_html($field['desc']) .'</span>' : '';
-							$field['desc2']  = isset($field['desc2']) && $field['desc2'] !== '' ? '<span class="desc2">'. esc_html($field['desc2']) .'</span>' : '';
-							$field['prefix'] = isset($field['prefix']) && $field['prefix'] !== '' ? '<span class="prefix">'. esc_html($field['prefix']) .'</span>' : '';
-							$field['suffix'] = isset($field['suffix']) && $field['suffix'] !== '' ? '<span class="suffix">'. esc_html($field['suffix']) .'</span>' : '';
-
-							# setup conditional fields
-							$cond_fields = '';
-							if ( !isset( $field['req_args'] ) || $field['req_args'] != '' ) {
-								if ( !isset( $field['req_cond'] ) || $field['req_cond'] == '' ) {
-
-									$cond_fields .= ' data-do-when=\'{';
-										$do_when_ = '';
-										foreach ( $field['req_args'] as $req_id => $req_value ) {
-											if (is_array($req_value)) {
-												foreach ($req_value as $key => $val) {
-													$do_when_ .= ' "'. $req_id .'" : ["'. $val .'"]';
-												}
-											} else {
-												$do_when_ .= ' "'. $req_id .'" : ["'. $req_value .'"]';
-											}
-										}
-										$cond_fields .= $do_when_;
-									$cond_fields .= ' }\' data-do-action="'. $field['req_action'] .'"';
-
-								} else if ( $field['req_cond'] == 'AND' ) {
-
-									$cond_fields .= ' data-do-when=\'{';
-										$do_when_AND = '';
-										foreach ( $field['req_args'] as $req_id => $req_value ) {
-											if (is_array($req_value)) {
-												foreach ($req_value as $key => $val) {
-													$do_when_AND .= ' "'. $req_id .'" : ["'. $val .'"],';
-												}
-											} else {
-												$do_when_AND .= ' "'. $req_id .'" : ["'. $req_value .'"],';
-											}
-										}
-										$cond_fields .= rtrim( $do_when_AND, ',' ); # remove last comma
-									$cond_fields .= ' }\' data-do-action="'. $field['req_action'] .'"';
-
-								} else if ( $field['req_cond'] == 'OR' ) {
-
-									$cond_fields .= ' data-do-when=\'';
-										$do_when_OR = '';
-										foreach ( $field['req_args'] as $req_id => $req_value ) {
-											if (is_array($req_value)) {
-												foreach ($req_value as $key => $val) {
-													$do_when_OR .= '{ "'. $req_id .'" : ["'. $val .'"] } || ';
-												}
-											} else {
-												$do_when_OR .= '{ "'. $req_id .'" : ["'. $req_value .'"] } || ';
-											}
-										}
-										$cond_fields .= rtrim( $do_when_OR, '|| ' ); # remove dangling "OR" sign
-									$cond_fields .= ' \' data-do-action="'. $field['req_action'] .'"';
-
-								}
-							}
-
-							# hide specific fields on demand
-							$hide = '';
-							$post_object = get_post($post->ID, ARRAY_A);
-							if ($post_object['post_type'] == 'dilaz_event_txns') {
-
-								if ((!get_post_meta($post->ID, $this->_prefix .'event_txn_event_id', true) || !get_post_meta($post->ID, $this->_prefix .'event_txn_event_id', true)) && $field['hide_key'] == 'event_txn' && $field['hide_val'] == 1) {
-									$hide = 'data-dilaz-hide="hidden"';
-								}
-
-								if ((!get_post_meta($post->ID, $this->_prefix .'event_txn_pkg_id', true) || !get_post_meta($post->ID, $this->_prefix .'event_txn_pkg_id', true)) && $field['hide_key'] == 'pkg_txn' && $field['hide_val'] == 1) {
-									$hide = 'data-dilaz-hidden="yes"';
-								}
-							}
-
-							# get post meta from each metabox
-							$meta = get_post_meta($post->ID, $field['id'], true);
-
-							# show value or default value
-							$meta = ('' === $meta || array() === $meta) ? $field['std'] : $meta;
-
-							# integrate variables into $field array
-							$field['meta'] = $meta;
-
-							# tab end/start sequence
-							if (isset($field['type']) && $field['type'] == 'metabox_tab') {
-								if ($counter >= 3) { echo '</div><!-- /.dilaz-meta-tab -->'; }
-								echo '<div class="dilaz-meta-tab" id="'. esc_attr(sanitize_key($field['id'])) .'">';
-							}
-
-							if (isset($field['type']) && $field['type'] != 'metabox_tab' && $field['type'] != 'hidden') {
-
-								if (isset($field['type']) && $field['type'] == 'header') {
-									echo '<div class="dilaz-metabox-head row" '. esc_attr($hide) .'><div>'. $field['name'] .'</div><div></div>';
-								} else {
-
-									$section_id    = 'dilaz-mb-field-'. sanitize_key($field['id']);
-									$section_class = 'dilaz-mb-field dilaz-mb-field-'. esc_attr($field['type']) .' '. sanitize_html_class($field['class']);
-
-									# Get the current screen object
-									$screen = get_current_screen();
-
-									# post format support
-									if ($field['args'] != '') {
-										if (isset($field['args']['post_format']) && $screen->id == 'post') {
-											$post_formats = is_array($field['args']['post_format']) ? implode(' ', $field['args']['post_format']) : '';
-										} else {
-											$post_formats = '';
-										}
-									} else {
-										$post_formats = '';
-									}
-
-									# page template support
-									if ($field['args'] != '') {
-										if (isset($field['args']['page_template']) && $screen->id == 'page') {
-											# use preg_filter() to add "page-" prefix to every array element in page_template array
-											$page_templates = is_array($field['args']['page_template']) ? implode(' ', preg_filter('/^/', 'page-', $field['args']['page_template'])) : '';
-										} else {
-											$page_templates = '';
-										}
-									} else {
-										$page_templates = '';
-									}
-
-									# adjacent fields - first field
-									if ($field['state'] == 'joined_start') {
-										echo '<div id="'. esc_attr($section_id) .'" class="row joined-state joined-start '. esc_attr($section_class) .'" '. $cond_fields .'><div class="left"><div class="header"><label for="'. esc_attr($field['id']) .'">'. esc_html($field['name']) .'</label>'. $field['desc'] .'</div></div><div class="right option"><div class="joined-table"><div class="joined-row"><div class="joined-cell">';
-
-									# adjacent fields - middle fields
-									} else if ($field['state'] == 'joined_middle') {
-										echo '<div class="joined-cell"><div id="'. esc_attr($section_id) .'" class="joined-state joined-middle '. esc_attr($section_class) .'" '. $cond_fields .'>';
-
-									# adjacent fields - last field
-									} else if ($field['state'] == 'joined_end') {
-										echo '<div class="joined-cell"><div id="'. esc_attr($section_id) .'" class="joined-state joined-end '. esc_attr($section_class) .'" '. $cond_fields .'>';
-									} else {
-										echo '<div id="'. esc_attr($section_id) .'" class="dilaz-metabox-item row '. esc_attr($section_class) .' '. $post_formats .' '. $page_templates .'" '. $cond_fields .' '. $hide .'>';
-										if ($field['name'] != '') {
-											echo '<div class="left"><div class="header"><label for="'. esc_attr($field['id']) .'">'. esc_html($field['name']) .'</label>'. $field['desc'] .'</div></div>';
-										}
-										echo '<div class="right option clearfix">';
-									}
-								}
-							}
-
-							switch ($field['type']) {
-
-								case 'metabox_tab'       : break;
-								case 'text'              : DilazMetaboxFields\DilazMetaboxFields::fieldText($field); break;
-								case 'multitext'         : DilazMetaboxFields\DilazMetaboxFields::fieldMultiText($field); break;
-								case 'password'          : DilazMetaboxFields\DilazMetaboxFields::fieldPassword($field); break;
-								case 'hidden'            : DilazMetaboxFields\DilazMetaboxFields::fieldHidden($field); break;
-								case 'paragraph'         : DilazMetaboxFields\DilazMetaboxFields::fieldParagraph($field); break;
-								case 'codeoutput'        : DilazMetaboxFields\DilazMetaboxFields::fieldCodeOutput($field); break;
-								case 'url'               : DilazMetaboxFields\DilazMetaboxFields::fieldUrl($field); break;
-								case 'email'             : DilazMetaboxFields\DilazMetaboxFields::fieldEmail($field); break;
-								case 'number'            : DilazMetaboxFields\DilazMetaboxFields::fieldNumber($field); break;
-								case 'repeatable'        : DilazMetaboxFields\DilazMetaboxFields::fieldRepeatable($field); break;
-								case 'stepper'           : DilazMetaboxFields\DilazMetaboxFields::fieldStepper($field); break;
-								case 'code'              : DilazMetaboxFields\DilazMetaboxFields::fieldCode($field); break;
-								case 'textarea'          : DilazMetaboxFields\DilazMetaboxFields::fieldTextarea($field); break;
-								case 'editor'            : DilazMetaboxFields\DilazMetaboxFields::fieldEditor($field); break;
-								case 'radio'             : DilazMetaboxFields\DilazMetaboxFields::fieldRadio($field); break;
-								case 'checkbox'          : DilazMetaboxFields\DilazMetaboxFields::fieldCheckbox($field); break;
-								case 'multicheck'        : DilazMetaboxFields\DilazMetaboxFields::fieldMultiCheck($field); break;
-								case 'select'            : DilazMetaboxFields\DilazMetaboxFields::fieldSelect($field); break;
-								case 'multiselect'       : DilazMetaboxFields\DilazMetaboxFields::fieldMultiSelect($field); break;
-								case 'queryselect'       : DilazMetaboxFields\DilazMetaboxFields::fieldQuerySelect($field); break;
-								case 'timezone'          : DilazMetaboxFields\DilazMetaboxFields::fieldTimezone($field); break;
-								case 'radioimage'        : DilazMetaboxFields\DilazMetaboxFields::fieldRadioImage($field); break;
-								case 'color'             : DilazMetaboxFields\DilazMetaboxFields::fieldColor($field); break;
-								case 'multicolor'        : DilazMetaboxFields\DilazMetaboxFields::fieldMultiColor($field); break;
-								case 'font'              : DilazMetaboxFields\DilazMetaboxFields::fieldFont($field); break;
-								case 'date'              : DilazMetaboxFields\DilazMetaboxFields::fieldDate($field); break;
-								case 'date_from_to'      : DilazMetaboxFields\DilazMetaboxFields::fieldDateFromTo($field); break;
-								case 'month'             : DilazMetaboxFields\DilazMetaboxFields::fieldMonth($field); break;
-								case 'month_from_to'     : DilazMetaboxFields\DilazMetaboxFields::fieldMonthFromTo($field); break;
-								case 'time'              : DilazMetaboxFields\DilazMetaboxFields::fieldtime($field); break;
-								case 'time_from_to'      : DilazMetaboxFields\DilazMetaboxFields::fieldTimeFromTo($field); break;
-								case 'date_time'         : DilazMetaboxFields\DilazMetaboxFields::fieldDateTime($field); break;
-								case 'date_time_from_to' : DilazMetaboxFields\DilazMetaboxFields::fieldDateTimeFromTo($field); break;
-								case 'slider'            : DilazMetaboxFields\DilazMetaboxFields::fieldSlideRange($field); break;
-								case 'range'             : DilazMetaboxFields\DilazMetaboxFields::fieldRange($field); break;
-								case 'upload'            : DilazMetaboxFields\DilazMetaboxFields::fieldUpload($field); break;
-								case 'buttonset'         : DilazMetaboxFields\DilazMetaboxFields::fieldButtonset($field); break;
-								case 'switch'            : DilazMetaboxFields\DilazMetaboxFields::fieldSwitch($field); break;
-								case $field['type']      : do_action('dilaz_mb_field_'. $field['type'] .'_hook', $field); break; # add custom field types via this hook
-
-							}
-
-							if (isset($field['type']) && $field['type'] != 'metabox_tab' && $field['type'] != 'hidden') {
-
-								if (isset($field['type']) && $field['type'] == 'header') {
-									echo '</div>';
-								} else {
-									if ($field['state'] == 'joined_start') {
-
-										echo '</div><!-- /.joined-cell -->'; # .joined-cell for .joined_start
-
-									} else if ($field['state'] == 'joined_middle') {
-
-										echo '</div><!-- /.joined-middle -->'; # .joined-middle
-										echo '</div><!-- /.joined-cell -->';   # .joined-cell covering .joined-middle
-
-									} else if ($field['state'] == 'joined_end') {
-
-										echo '</div><!-- /.joined-cell -->';  # .joined-cell covering .joined-end
-										echo '</div><!-- /.joined-end -->';   # .joined-end
-										echo '</div><!-- /.joined-row -->';   # .joined-row
-										echo '</div><!-- /.joined-table -->'; # .joined-table
-										echo '</div><!-- /.right -->';        # .right
-										echo '</div><!-- /.joined-start -->'; # .joined-start
-
-									} else {
-										echo '</div></div>';
-									}
-								}
-							}
-						}
+						$this->processFields($meta_box_content[$meta_box_id]['fields'], $post, $counter); // Pass $counter by reference
 					}
 
 					echo '<script>
