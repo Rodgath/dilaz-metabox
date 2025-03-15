@@ -457,8 +457,23 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			}
 		}
 
-    # Process fields recursively
-    # =============================================================================================
+    /**
+     * Recursively processes an array of fields, setting up default values,
+     * handling conditional visibility, and retrieving stored meta values.
+     *
+     * This function ensures that all required field attributes are initialized,
+     * applies conditional logic for visibility, and formats descriptions and prefixes/suffixes.
+     * It also manages the rendering of metabox tabs and grouped options while maintaining
+     * the necessary data attributes for frontend behavior.
+     *
+     * @since 3.2.0
+     *
+     * @param array $fields   The array of fields to process.
+     * @param object $post    The current post object.
+     * @param int &$counter   A reference to the tab counter, used for metabox tab sequencing.
+     *
+     * @return array Processed field data with default values and conditional attributes applied.
+     */
     function processFields($fields, $post, &$counter)
     {
       foreach ($fields as $key => $field) {
@@ -1271,8 +1286,26 @@ if (!class_exists('Dilaz_Meta_Box')) {
       do_action('dilaz_mb_after_save_post', $post_id);
     }
 
-    # Recursive function to save fields
-    # =============================================================================================
+    /**
+     * Recursively saves custom fields for a post.
+     *
+     * This function processes and saves different types of fields, including
+     * standard fields, checkbox fields, Google fonts, and nested option groups.
+     * It also ensures that 'option_group' fields are handled separately to avoid
+     * overwriting data from different groups.
+     *
+     * @since 3.2.0
+     *
+     * @param array $fields   The array of custom fields to process.
+     * @param int   $post_id  The ID of the post to which the fields belong.
+     *
+     * Workflow:
+     * - Ignores 'codeoutput' fields.
+     * - Processes 'option_group' fields recursively, storing nested data properly.
+     * - Sanitizes and saves regular fields.
+     * - Handles Google font fields separately and updates saved fonts.
+     * - Manages and reorders accordion-based group fields before saving them.
+     */
     function saveFields($fields, $post_id)
     {
       $group_data = []; // Array to store all option_group data
