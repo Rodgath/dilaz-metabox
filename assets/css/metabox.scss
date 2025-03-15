@@ -1886,11 +1886,11 @@
     border-bottom: 8px solid transparent;
   }
 }
+
 /*--------------------------------------------------------------*/
 /* Option-Group Accordion
 /*--------------------------------------------------------------*/
 .dilaz-mb-opt-group-accordion {
-  // width: 100%;
   margin: 0;
   padding: 20px;
 
@@ -1926,11 +1926,15 @@
         border-right: 1px solid #d5d5d5;
       }
 
-      .toggle-handle svg {
-        width: 22px;
-        height: 22px;
-        transition: transform 0.3s ease;
-        margin-right: 10px
+      .toggle-handle {
+        display: flex;
+
+        svg {
+          width: 22px;
+          height: 22px;
+          transition: transform 0.3s ease;
+          margin-right: 12px
+        }
       }
 
       .rotate {
