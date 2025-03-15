@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.2.0
+```
+= ADDED - NEW FEATURE: Option-group field
+```
+
 ###### v3.1.22
 ```
 = FIXED - Ensure $input is never null
