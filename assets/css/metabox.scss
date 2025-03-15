@@ -1922,4 +1922,14 @@
       background: #f9f9f9;
     }
   }
+
+  .ui-sortable-placeholder {
+    border: 2px dashed #aaa !important;
+    background: #f9f9f9 !important;
+    visibility: visible !important;
+    margin-bottom: 8px !important;
+    border-radius: 5px !important;
+    height: 48px !important;
+    display: flex !important;
+  }
 }
