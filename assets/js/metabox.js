@@ -840,9 +840,15 @@ var DilazMetaboxScript = new function() {
 	$t.optionGroupField = function () {
 
 	  // Accordion functionality
-	  $doc.on('click', '.dilaz-mb-opt-group-accordion-header', function () {
-	    $(this).siblings('.dilaz-mb-opt-group-accordion-content').slideToggle();
-	    // $(".dilaz-mb-opt-group-accordion-content").not($(this).next()).slideUp();
+	  $doc.on('click', '.dilaz-mb-opt-group-accordion-header', function(event) {
+
+	    let content = $(this).siblings('.dilaz-mb-opt-group-accordion-content');
+      let icon = $(this).find(".toggle-handle svg");
+
+      content.slideToggle();
+      icon.toggleClass("rotate")
+      $(this).toggleClass("open")
+
 	  });
 
 	  document.querySelectorAll('.dilaz-mb-opt-group-accordion').forEach(container => {
