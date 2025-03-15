@@ -842,6 +842,8 @@ var DilazMetaboxScript = new function() {
 	  // Accordion functionality
 	  $doc.on('click', '.dilaz-mb-opt-group-accordion-header', function(event) {
 
+      if ($(event.target).hasClass("drag-handle")) return; // Ignore clikcs on drag handle
+
 	    let content = $(this).siblings('.dilaz-mb-opt-group-accordion-content');
       let icon = $(this).find(".toggle-handle svg");
 
