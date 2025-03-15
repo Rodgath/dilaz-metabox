@@ -835,6 +835,48 @@ var DilazMetaboxScript = new function() {
 	}
 
 	/**
+	 * option-group field
+	 */
+	$t.optionGroupField = function () {
+
+	  // Accordion functionality
+	  $doc.on('click', '.dilaz-mb-opt-group-accordion-header', function(event) {
+
+      if ($(event.target).hasClass("drag-handle")) return; // Ignore clikcs on drag handle
+
+	    let content = $(this).siblings('.dilaz-mb-opt-group-accordion-content');
+      let icon = $(this).find(".toggle-handle svg");
+
+      content.slideToggle();
+      icon.toggleClass("rotate")
+      $(this).toggleClass("open")
+
+	  });
+
+	  document.querySelectorAll('.dilaz-mb-opt-group-accordion').forEach(container => {
+      let items = Array.from(container.getElementsByClassName('dilaz-mb-opt-group-accordion-item'));
+
+      // Sort items based on data-sort-index
+      items.sort((a, b) => {
+        let indexA = parseInt(a.querySelector('input.dilaz-mb-input').dataset.sortIndex, 10);
+        let indexB = parseInt(b.querySelector('input.dilaz-mb-input').dataset.sortIndex, 10);
+        return indexA - indexB;
+      });
+
+      // Append items back in sorted order
+      items.forEach(item => container.appendChild(item));
+
+      // Make accordion sortable
+      $(container).sortable({
+        handle: '.drag-handle',
+        axis: 'y',
+        placeholder: 'sortable-placeholder'
+      }).disableSelection();
+    });
+
+	}
+
+	/**
 	 * check if color is HEX, RGB, RGBA, HSL, HSLA
 	 *
 	 * @since Dilaz Metabox 2.5.7
@@ -979,6 +1021,7 @@ var DilazMetaboxScript = new function() {
 		$t.repeatableField();
 		$t.addRepeatableField();
 		$t.removeRepeatableField();
+		$t.optionGroupField();
 
 	};
 }

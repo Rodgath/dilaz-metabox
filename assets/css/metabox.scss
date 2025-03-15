@@ -1886,3 +1886,75 @@
     border-bottom: 8px solid transparent;
   }
 }
+
+/*--------------------------------------------------------------*/
+/* Option-Group Accordion
+/*--------------------------------------------------------------*/
+.dilaz-mb-opt-group-accordion {
+  margin: 0;
+  padding: 20px;
+
+  .dilaz-mb-opt-group-accordion-item {
+    border: 1px solid #d5d5d5;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    overflow: hidden;
+
+    .dilaz-mb-opt-group-accordion-header {
+      background-color: #f0f0f0;
+      color: #65686d;
+      padding: 0;
+      cursor: pointer;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 50px;
+
+      &.open {
+        border-bottom: 1px solid #d5d5d5;
+      }
+
+      .drag-handle {
+        cursor: grab;
+        margin-right: 10px;
+        height: 50px;
+        width: 50px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid #d5d5d5;
+      }
+
+      .toggle-handle {
+        display: flex;
+
+        svg {
+          width: 22px;
+          height: 22px;
+          transition: transform 0.3s ease;
+          margin-right: 12px
+        }
+      }
+
+      .rotate {
+        transform: rotate(180deg);
+      }
+    }
+
+    .dilaz-mb-opt-group-accordion-content {
+      display: none;
+      background: #fff;
+    }
+  }
+
+  .ui-sortable-placeholder {
+    border: 2px dashed #aaa !important;
+    background: #f9f9f9 !important;
+    visibility: visible !important;
+    margin-bottom: 8px !important;
+    border-radius: 5px !important;
+    height: 48px !important;
+    display: flex !important;
+  }
+}
