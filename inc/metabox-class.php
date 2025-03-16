@@ -530,8 +530,8 @@ if (!class_exists('Dilaz_Meta_Box')) {
         if (!isset($field['hide_val']))   $field['hide_val'] = '';
 
         # Desc setup
-        $field['desc']   = isset($field['desc']) && $field['desc'] !== '' ? '<span class="description">' . esc_html($field['desc']) . '</span>' : '';
-        $field['desc2']  = isset($field['desc2']) && $field['desc2'] !== '' ? '<span class="desc2">' . esc_html($field['desc2']) . '</span>' : '';
+        $field['desc']   = isset($field['desc']) && $field['desc'] !== '' ? '<span class="description">' . wp_kses_post($field['desc']) . '</span>' : '';
+        $field['desc2']  = isset($field['desc2']) && $field['desc2'] !== '' ? '<span class="desc2">' . wp_kses_post($field['desc2']) . '</span>' : '';
         $field['prefix'] = isset($field['prefix']) && $field['prefix'] !== '' ? '<span class="prefix">' . esc_html($field['prefix']) . '</span>' : '';
         $field['suffix'] = isset($field['suffix']) && $field['suffix'] !== '' ? '<span class="suffix">' . esc_html($field['suffix']) . '</span>' : '';
 
