@@ -1,6 +1,6 @@
 {
   "name": "dilaz-metabox",
-  "version": "3.2.11",
+  "version": "3.2.12",
   "description": "WordPress custom metabox fields for themes and plugins.",
   "main": "index.js",
   "scripts": {

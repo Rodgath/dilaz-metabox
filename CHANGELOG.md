@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.2.12
+```
+= ADDED - Recursive function to check fields for a specific type
+```
+
 ###### v3.2.11
 ```
 = FIXED - Remove hidden overflow from option group item

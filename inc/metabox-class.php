@@ -390,33 +390,56 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			return $pages;
 		}
 
-		# Check if metabox has fields
-		# =============================================================================================
-		function hasField($field_types) {
+    # Check if metabox has fields
+    # =============================================================================================
+    function hasField($field_types)
+    {
 
-			$pages = $this->metaBoxPages();
-			$box_content = $this->metaBoxContent();
+      $pages = $this->metaBoxPages();
+      $box_content = $this->metaBoxContent();
 
-			# Add meta box for multiple post types
-			foreach ($pages as $page) {
-				foreach ((array)$box_content as $metabox_set_id => $metabox_set) {
-					foreach ((array)$metabox_set['fields'] as $key => $field) {
+      # Add meta box for multiple post types
+      foreach ($pages as $page) {
+        foreach ((array)$box_content as $metabox_set_id => $metabox_set) {
+          if ($this->checkFieldsForType($metabox_set['fields'], $field_types)) {
+            return true;
+          }
+        }
+      }
 
-						if (!isset($field['type'])) continue;
+      return false;
+    }
 
-						if (is_array($field_types)) {
-							if (!in_array($field['type'], $field_types)) continue;
-							if (in_array($field['type'], $field_types)) return true;
-						} else {
-							if ($field['type'] != $field_types) continue;
-							if ($field['type'] == $field_types) return true;
-						}
-					}
-				}
-			}
+    # Recursive function to check fields for a specific type
+    # =============================================================================================
+    function checkFieldsForType($fields, $field_types)
+    {
+      foreach ($fields as $field) {
 
-			return false;
-		}
+        if (!isset($field['type'])) continue;
+
+        # Handle 'option_group' fields recursively
+        if ($field['type'] == 'option_group' && isset($field['group_options']) && is_array($field['group_options'])) {
+          if ($this->checkFieldsForType($field['group_options'], $field_types)) {
+            return true;
+          }
+          continue; // Skip the rest of the loop for the 'option_group' field itself
+        }
+
+        # Check if the field type matches
+        if (is_array($field_types)) {
+          if (in_array($field['type'], $field_types)) {
+            return true;
+          }
+        } else {
+          if ($field['type'] == $field_types) {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    }
 
 		# Check if metabox has field args
 		# =============================================================================================
