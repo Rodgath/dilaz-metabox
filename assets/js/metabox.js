@@ -836,6 +836,8 @@ var DilazMetaboxScript = new function() {
 
 	/**
 	 * option-group field
+	 *
+	 * @since Dilaz Metabox 3.2.0
 	 */
 	$t.optionGroupField = function () {
 
