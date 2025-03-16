@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.2.11
+```
+= FIXED - Remove hidden overflow from option group item
+```
+
 ###### v3.2.1
 ```
 = FIXED - Color picker layout
