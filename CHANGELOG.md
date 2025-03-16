@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.2.1
+```
+= FIXED - Color picker layout
+```
+
 ###### v3.2.0
 ```
 = ADDED - NEW FEATURE: Option-group field
