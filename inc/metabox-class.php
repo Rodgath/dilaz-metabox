@@ -153,8 +153,18 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					$dilaz_mb_color_script_js_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/color-script.js' ));
 					$dilaz_mb_color_alpha_js_ver  = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/js/wp-color-picker-alpha.min.js' ));
 
-					wp_enqueue_script('dilaz-ma-color-alpha', DILAZ_MB_URL .'assets/js/wp-color-picker-alpha.min.js', array('wp-color-picker'), $dilaz_mb_color_alpha_js_ver, true);
+					wp_enqueue_script('dilaz-mb-color-alpha', DILAZ_MB_URL .'assets/js/wp-color-picker-alpha.min.js', array('wp-color-picker'), $dilaz_mb_color_alpha_js_ver, true);
 					wp_enqueue_script('dilaz-mb-color-script', DILAZ_MB_URL .'assets/js/color-script.js', array('wp-color-picker'), $dilaz_mb_color_script_js_ver, true);
+
+          // Localize script for alpha color picker
+          wp_localize_script('dilaz-mb-color-alpha', 'wpColorPickerL10n', array(
+            'clear'            => __('Clear', 'textdomain'),
+            'clearAriaLabel'   => __('Clear color', 'textdomain'),
+            'defaultString'    => __('Default', 'textdomain'),
+            'defaultAriaLabel' => __('Select default color', 'textdomain'),
+            'pick'             => __('Select Color', 'textdomain'),
+            'defaultLabel'     => __('Color value', 'textdomain'),
+          ));
 				}
 
 				# datepicker scripts
