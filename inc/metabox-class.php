@@ -158,12 +158,12 @@ if (!class_exists('Dilaz_Meta_Box')) {
 
           // Localize script for alpha color picker
           wp_localize_script('dilaz-mb-color-alpha', 'wpColorPickerL10n', array(
-            'clear'            => __('Clear', 'textdomain'),
-            'clearAriaLabel'   => __('Clear color', 'textdomain'),
-            'defaultString'    => __('Default', 'textdomain'),
-            'defaultAriaLabel' => __('Select default color', 'textdomain'),
-            'pick'             => __('Select Color', 'textdomain'),
-            'defaultLabel'     => __('Color value', 'textdomain'),
+            'clear'            => __('Clear', 'dilaz-metabox'),
+            'clearAriaLabel'   => __('Clear color', 'dilaz-metabox'),
+            'defaultString'    => __('Default', 'dilaz-metabox'),
+            'defaultAriaLabel' => __('Select default color', 'dilaz-metabox'),
+            'pick'             => __('Select Color', 'dilaz-metabox'),
+            'defaultLabel'     => __('Color value', 'dilaz-metabox'),
           ));
 				}
 
