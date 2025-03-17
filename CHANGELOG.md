@@ -2,6 +2,12 @@
 
 ## Version 3
 
+###### v3.3.0
+```
+= ADDED - NEW FEATURE: Info block field
+= FIXED - Conditional field output escape using wp_keses_post()
+```
+
 ###### v3.2.12
 ```
 = ADDED - Recursive function to check fields for a specific type
