@@ -681,21 +681,15 @@ if (!class_exists('Dilaz_Meta_Box')) {
 
               # adjacent fields - first field
               if ($field['state'] == 'joined_start') {
-                echo '<div id="' . esc_attr($section_id) . '" class="row joined-state joined-start ' . esc_attr($section_class) . '" ' . $cond_fields . '><div class="left"><div class="header"><label for="' . esc_attr($field['id']) . '">' . esc_html($field['name']) . '</label>' . $field['desc'] . '</div></div><div class="right option"><div class="joined-table"><div class="joined-row"><div class="joined-cell">';
+                echo '<div id="' . esc_attr($section_id) . '" class="row joined-state joined-start ' . esc_attr($section_class) . '" ' . wp_kses_post($cond_fields ?: '') . '><div class="left"><div class="header"><label for="' . esc_attr($field['id']) . '">' . esc_html($field['name']) . '</label>' . $field['desc'] . '</div></div><div class="right option"><div class="joined-table"><div class="joined-row"><div class="joined-cell">';
 
                 # adjacent fields - middle fields
               } else if ($field['state'] == 'joined_middle') {
-                echo '<div class="joined-cell"><div id="' . esc_attr($section_id) . '" class="joined-state joined-middle ' . esc_attr($section_class) . '" ' . $cond_fields . '>';
+                echo '<div class="joined-cell"><div id="' . esc_attr($section_id) . '" class="joined-state joined-middle ' . esc_attr($section_class) . '" ' . wp_kses_post($cond_fields ?: '') . '>';
 
                 # adjacent fields - last field
               } else if ($field['state'] == 'joined_end') {
-                echo '<div class="joined-cell"><div id="' . esc_attr($section_id) . '" class="joined-state joined-end ' . esc_attr($section_class) . '" ' . $cond_fields . '>';
-              } else {
-                echo '<div id="' . esc_attr($section_id) . '" class="dilaz-metabox-item row ' . esc_attr($section_class) . ' ' . $post_formats . ' ' . $page_templates . '" ' . $cond_fields . ' ' . $hide . '>';
-                if ($field['name'] != '') {
-                  echo '<div class="left"><div class="header"><label for="' . esc_attr($field['id']) . '">' . esc_html($field['name']) . '</label>' . $field['desc'] . '</div></div>';
-                }
-                echo '<div class="right option clearfix">';
+                echo '<div class="joined-cell"><div id="' . esc_attr($section_id) . '" class="joined-state joined-end ' . esc_attr($section_class) . '" ' . wp_kses_post($cond_fields ?: '') . '>';
               }
             }
           }
