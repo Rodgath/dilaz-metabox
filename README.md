@@ -29,6 +29,7 @@ Download and install [Dilaz Demo Plugin](https://github.com/Rodgath/Dilaz-Demo-P
 * Text
 * Password
 * Hidden
+* Info
 * Paragraph
 * URL
 * Email
@@ -62,6 +63,7 @@ Download and install [Dilaz Demo Plugin](https://github.com/Rodgath/Dilaz-Demo-P
 * File Upload - *Image, Audio, Video, Document, Spreadsheet, Interactive, Text, Archive, Code*
 * Button & Buttonset
 * Switch Buttons
+* Grouped Fields
 
 ## File Structure
 ```
