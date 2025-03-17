@@ -690,6 +690,16 @@ if (!class_exists('Dilaz_Meta_Box')) {
                 # adjacent fields - last field
               } else if ($field['state'] == 'joined_end') {
                 echo '<div class="joined-cell"><div id="' . esc_attr($section_id) . '" class="joined-state joined-end ' . esc_attr($section_class) . '" ' . wp_kses_post($cond_fields ?: '') . '>';
+              } else {
+                if (isset($field['type']) && $field['type'] == 'info') {
+                  echo '<div id="'. esc_attr($section_id) .'" class="dilaz-metabox-item row '. esc_attr($section_class) .' ' . $post_formats . ' ' . $page_templates . ' dilaz-mb-info-wrap clearfix">';
+                } else {
+                  echo '<div id="' . esc_attr($section_id) . '" class="dilaz-metabox-item row ' . esc_attr($section_class) . ' ' . $post_formats . ' ' . $page_templates . '" ' . $cond_fields . ' ' . $hide . '>';
+                  if ($field['name'] != '') {
+                    echo '<div class="left"><div class="header"><label for="' . esc_attr($field['id']) . '">' . esc_html($field['name']) . '</label>' . $field['desc'] . '</div></div>';
+                  }
+                  echo '<div class="right option clearfix">';
+                }
               }
             }
           }
@@ -697,6 +707,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 
         switch ($field['type']) {
           case 'metabox_tab'       : break;
+          case 'info'              : DilazMetaboxFields\DilazMetaboxFields::fieldInfo($field); break;
           case 'text'              : DilazMetaboxFields\DilazMetaboxFields::fieldText($field); break;
           case 'multitext'         : DilazMetaboxFields\DilazMetaboxFields::fieldMultiText($field); break;
           case 'password'          : DilazMetaboxFields\DilazMetaboxFields::fieldPassword($field); break;
@@ -777,7 +788,11 @@ if (!class_exists('Dilaz_Meta_Box')) {
                 echo '</div><!-- /.right -->';        # .right
                 echo '</div><!-- /.joined-start -->'; # .joined-start
               } else {
-                echo '</div></div>';
+                if (isset($field['type']) && $field['type'] == 'info') {
+                  echo '</div>'; # .dilaz-mb-info-wrap
+                } else {
+                  echo '</div></div>';
+                }
               }
             }
           }

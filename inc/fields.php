@@ -27,6 +27,31 @@ if (!class_exists('DilazMetaboxFields')) {
 	class DilazMetaboxFields {
 
 		/**
+		 * Info
+		 *
+		 * @since  3.3.0
+		 * @access public
+		 *
+		 * @param  array $field Field arguments
+		 * @echo html  $output
+		 */
+		public static function fieldInfo($field)
+		{
+
+			extract($field);
+
+			$output = '';
+			$class = isset($class) ? sanitize_html_class($class) : '';
+
+			$output .= '<div class="dilaz-mb-info '. esc_attr($class) .'">';
+			$output .= $name != '' ? '<h4>'. wp_kses_post($name) .'</h4>' : '';
+			$output .= $desc != '' ? '<p>'. wp_kses_post($desc) .'</p>' : '';
+			$output .= '</div>';
+
+			echo $output;
+		}
+
+		/**
 		 * Text
 		 *
 		 * @since  1.0

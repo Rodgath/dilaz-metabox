@@ -254,6 +254,37 @@
     }
 
     /*--------------------------------------------------------------*/
+    /* Info
+    /*--------------------------------------------------------------*/
+    .dilaz-metabox .dilaz-mb-info-wrap {
+      padding: 20px 20px 10px;
+
+      &+.dilaz-metabox-item {
+        border-top: none;
+      }
+    }
+    .dilaz-metabox .dilaz-mb-info {
+      background: #d7f2ff;
+      padding: 20px 20px 10px;
+      border: 1px solid #acd4e6;
+      color: #1e6e91;
+
+      .description {
+        color: #1e6e91;
+      }
+
+      h4 {
+        margin: 0 0 10px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      p {
+        margin: 0 0 10px;
+      }
+    }
+
+    /*--------------------------------------------------------------*/
     /* Multitext
     /*--------------------------------------------------------------*/
     .dilaz-mb-field-multitext .dilaz-mb-multi-text {
