@@ -630,13 +630,14 @@ if (!class_exists('Dilaz_Meta_Box')) {
         if (isset($field['type']) && $field['type'] != 'metabox_tab' && $field['type'] != 'hidden') {
           if (isset($field['type']) && $field['type'] == 'option_group') {
             $group_saved_data = get_post_meta($post->ID, $field['metabox_set_id'], true);
+            $is_open = isset($field['is_open']) ? wp_validate_boolean($field['is_open']) : false;
             $sort_index = isset($group_saved_data[$field['id']]['sort_index']) ? $group_saved_data[$field['id']]['sort_index'] : '';
             echo '<div class="dilaz-mb-opt-group-accordion-item">
             <input type="hidden" class="dilaz-mb-input"
               data-sort-index="' . esc_attr($sort_index) . '"
               name="' . esc_attr(sanitize_key($field['metabox_set_id'])) . '_accordion[]"
               value="' . esc_attr(sanitize_key($field['id'])) . '">
-            <div class="dilaz-mb-opt-group-accordion-header">
+            <div class="dilaz-mb-opt-group-accordion-header ' . esc_attr($is_open ? 'open' : '') . '">
               <div>
                 <span class="drag-handle">☰</span>
                 <span>' . esc_html($field['name']) . '</span>
