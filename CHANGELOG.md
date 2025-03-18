@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.3.1
+```
+= FIXED - Option groups wrapping
+```
+
 ###### v3.3.0
 ```
 = ADDED - NEW FEATURE: Info block field
