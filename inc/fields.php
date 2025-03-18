@@ -45,7 +45,7 @@ if (!class_exists('DilazMetaboxFields')) {
 
 			$output .= '<div class="dilaz-mb-info '. esc_attr($class) .'">';
 			$output .= $name != '' ? '<h4>'. wp_kses_post($name) .'</h4>' : '';
-			$output .= $desc != '' ? '<p>'. wp_kses_post($desc) .'</p>' : '';
+			$output .= $desc != '' ? wp_kses_post(wpautop($desc)) : '';
 			$output .= '</div>';
 
 			echo $output;
