@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.3.2
+```
+= UPDATE - Info field description output and styling
+```
+
 ###### v3.3.1
 ```
 = FIXED - Option groups wrapping
