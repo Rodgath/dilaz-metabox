@@ -623,7 +623,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
           if ($counter >= 1) {
             echo '</div><!-- /.dilaz-meta-tab -->';
           }
-          echo '<div class="dilaz-meta-tab dilaz-mb-opt-group-accordion" id="' . esc_attr(sanitize_key($field['id'])) . '">';
+          echo '<div class="dilaz-meta-tab" id="' . esc_attr(sanitize_key($field['id'])) . '">';
           $counter++; // Increment counter for each tab
         }
 
@@ -632,7 +632,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
             $group_saved_data = get_post_meta($post->ID, $field['metabox_set_id'], true);
             $is_open = isset($field['is_open']) ? wp_validate_boolean($field['is_open']) : false;
             $sort_index = isset($group_saved_data[$field['id']]['sort_index']) ? $group_saved_data[$field['id']]['sort_index'] : '';
-            echo '<div class="dilaz-mb-opt-group-accordion-item">
+            echo '<div class="dilaz-mb-opt-group-accordion-item" data-sortable="true">
             <input type="hidden" class="dilaz-mb-input"
               data-sort-index="' . esc_attr($sort_index) . '"
               name="' . esc_attr(sanitize_key($field['metabox_set_id'])) . '_accordion[]"
@@ -646,10 +646,10 @@ if (!class_exists('Dilaz_Meta_Box')) {
                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg>
               </div>
             </div>
-            <div class="dilaz-mb-opt-group-accordion-content">';
+            <div class="dilaz-mb-opt-group-accordion-content" style="' . esc_attr($is_open ? 'display:block' : '') . '">';
           } else {
             if (isset($field['type']) && $field['type'] == 'header') {
-              echo '<div class="dilaz-metabox-head row" ' . esc_attr($hide) . '><div>' . $field['name'] . '</div><div></div>';
+              echo '<div class="dilaz-metabox-head row" ' . esc_attr($hide) . '><div>' . esc_html($field['name']) . '</div><div></div>';
             } else {
               $section_id    = 'dilaz-mb-field-' . sanitize_key($field['id']);
               $section_class = 'dilaz-mb-field dilaz-mb-field-' . esc_attr($field['type']) . ' ' . sanitize_html_class($field['class']);

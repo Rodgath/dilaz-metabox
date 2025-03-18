@@ -835,11 +835,67 @@ var DilazMetaboxScript = new function() {
 	}
 
 	/**
+	 * Wrap option group fields
+	 *
+	 * @since Dilaz Metabox 3.3.1
+	 */
+	$t.wrapAdjacentSortableOptionGroupFields = function () {
+
+	  // Select all accordion divs
+	  const sortableOptionGroups = document.querySelectorAll('.dilaz-mb-opt-group-accordion-item[data-sortable="true"]');
+
+	  // Array to keep track of processed divs
+	  let processedOptionGroups = [];
+
+	  // Loop through all sortable divs
+	  sortableOptionGroups.forEach((div, index) => {
+
+	    // Skip if the div has already been processed
+	    if (processedOptionGroups.includes(div)) return;
+
+	    // Find adjacent divs with the same class and data-sortable="true"
+	    let adjacentDivs = [div];
+	    let nextSibling = div.nextElementSibling;
+
+	    while (nextSibling && nextSibling.classList.contains('dilaz-mb-opt-group-accordion-item') && nextSibling.getAttribute('data-sortable') === 'true') {
+	      adjacentDivs.push(nextSibling);
+	      nextSibling = nextSibling.nextElementSibling;
+	    }
+
+	    // Create a wrapper div
+	    const wrapper = document.createElement('div');
+	    wrapper.classList.add('dilaz-mb-opt-group-accordion', 'dilaz-metabox-item', 'row');
+
+	    // Insert the wrapper before the first adjacent div
+	    adjacentDivs[0].parentNode.insertBefore(wrapper, adjacentDivs[0]);
+
+	    // Move all adjacent divs into the wrapper
+	    adjacentDivs.forEach((adjacentDiv) => {
+	      wrapper.appendChild(adjacentDiv);
+	      processedOptionGroups.push(adjacentDiv); // Mark as processed
+	    });
+	  });
+
+	  // Wrap non-adjacent divs individually
+	  sortableOptionGroups.forEach((div) => {
+	    if (!processedOptionGroups.includes(div)) {
+	      const wrapper = document.createElement('div');
+	      wrapper.classList.add('dilaz-mb-opt-group-accordion', 'dilaz-metabox-item', 'row');
+	      div.parentNode.insertBefore(wrapper, div);
+	      wrapper.appendChild(div);
+	    }
+	  });
+	}
+
+	/**
 	 * option-group field
 	 *
 	 * @since Dilaz Metabox 3.2.0
 	 */
 	$t.optionGroupField = function () {
+
+    // Wrap option groups
+    $t.wrapAdjacentSortableOptionGroupFields();
 
 	  // Accordion functionality
 	  $doc.on('click', '.dilaz-mb-opt-group-accordion-header', function(event) {
