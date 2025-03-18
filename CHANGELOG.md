@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.3.21
+```
+= UPDATE - Remove border-radius from accordion items
+```
+
 ###### v3.3.2
 ```
 = UPDATE - Info field description output and styling
