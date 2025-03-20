@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.3.22
+```
+= FIX - Add metabox menu tab missing id attribute value
+```
+
 ###### v3.3.21
 ```
 = UPDATE - Remove border-radius from accordion items
