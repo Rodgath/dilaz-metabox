@@ -342,7 +342,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 									$icon = '<span class="mdi mdi-settings"></span>';
 								}
 
-								$menu .= '<li id="" class="dilaz-mb-tabs-nav-item">'. $icon .''. esc_html($child['title']) .'</li>';
+								$menu .= '<li id="'. $child['id'] .'-tab" class="dilaz-mb-tabs-nav-item">'. $icon .''. esc_html($child['title']) .'</li>';
 							}
 							$menu .= '</ul>';
 						}
