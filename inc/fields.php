@@ -1349,6 +1349,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		 * File Upload
 		 *
 		 * @since  1.0
+		 * @since  3.3.23 - Add 'object_fit' argument
 		 * @access public
 		 *
 		 * @param array $field Field arguments
@@ -1373,6 +1374,7 @@ if (!class_exists('DilazMetaboxFields')) {
 			$data_file_specific = (isset($args['file_specific']) && $args['file_specific'] == true) ? 'data-file-specific="true"' : '';
 			$frame_title        = (isset($args['frame_title']) && $args['frame_title'] != '') ? sanitize_text_field($args['frame_title']) : '';
 			$frame_button_text  = (isset($args['frame_button_text']) && $args['frame_button_text'] != '') ? sanitize_text_field($args['frame_button_text']) : '';
+			$object_fit  = (isset($args['object_fit']) && $args['object_fit'] != '') ? sanitize_text_field($args['object_fit']) : 'contain';
 
       // Frame title and button text based on file type
       $file_type_labels = [
@@ -1470,7 +1472,10 @@ if (!class_exists('DilazMetaboxFields')) {
                   'code' => DILAZ_MB_IMAGES . 'media/code.png',
                 ];
 
-                $output .= $file_ext ? '<img src="' . esc_url($file_type_images[$file_type] ?? '') . '" class="dilaz-mb-file-preview file-' . esc_attr($file_type) . '" alt="" />' . $media_remove : '';
+                $output .= $file_ext ? '<img
+                  src="' . esc_url($file_type_images[$file_type] ?? '') . '"
+                  class="dilaz-mb-file-preview file-' . esc_attr($file_type) . ' object-fit-' . esc_attr($object_fit) . '"
+                  alt="" />' . $media_remove : '';
 								$output .= '</div><!-- .dilaz-mb-media-file -->'; // end .dilaz-mb-media-file
 							}
 						}
