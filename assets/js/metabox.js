@@ -609,6 +609,9 @@ var DilazMetaboxScript = new function() {
           $(document).find(unhiddenTabs[0]).trigger('click'); // Click the first one to activate it
         }
 	    });
+
+      // Re-init doWhen fields
+      $t.doWhen();
 	  }
 
 	  /* automatically show fields for selected page template */
