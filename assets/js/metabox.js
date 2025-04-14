@@ -495,7 +495,7 @@ var DilazMetaboxScript = new function() {
 	  // Hide and disable fields for skipped metaboxes
 	  function disableField(field) {
 	    field
-	      .addClass('dilaz-mb-d-none').removeClass('dilaz-mb-d-block')
+	      .hide()
 	      .find("[name]")
 	      .each(function () {
 	        $(this).attr("data-skip-save", "true").prop("disabled", true);
@@ -505,12 +505,13 @@ var DilazMetaboxScript = new function() {
 	  // Show and enable fields for selected template
 	  function enableField(field) {
 	    field
-	      .removeClass('dilaz-mb-d-none').addClass('dilaz-mb-d-block')
+	      .show()
 	      .find("[name]")
 	      .each(function () {
 	        $(this).removeAttr("data-skip-save").prop("disabled", false);
 	      });
 	  }
+
     /**
      * Show or hide metabox block, tab or field depending on 'data-page-templates' attribute.
      * This also enables/disables fields to ensure that only required fields are saved to the database.
@@ -520,22 +521,11 @@ var DilazMetaboxScript = new function() {
 	    const selectedTemplate = pageTemplateSelector.val();
 	    const templateName = selectedTemplate.replace('page-templates/', '').replace('.php', '');
 
-	    // Iterate through dilaz metaboxes
-	    $('.dilaz-metabox').each(function () {
-
-	      const dilazMetabox = $(this);
-
-	      if (dilazMetabox[0].hasAttribute('data-page-templates')) {
-          if (dilazMetabox.data('page-templates').split(',').indexOf(templateName) > -1) {
-            dilazMetabox.closest('.postbox').removeClass('dilaz-mb-d-none').addClass('dilaz-mb-d-block');
-          } else {
-            dilazMetabox.closest('.postbox').addClass('dilaz-mb-d-none').removeClass('dilaz-mb-d-block');
-          }
-        }
-	    });
+      // Get metabox tabs metabox tabs nav
+      const metaboxTabsNav = $('.dilaz-mb-tabs-nav-item');
 
 	    // Iterate through dilaz metabox tabs
-	    $('.dilaz-mb-tabs-nav-item').each(function () {
+	    metaboxTabsNav.each(function () {
 
 	      const metaboxTab = $(this);
 	      const metaboxTabID = metaboxTab[0].getAttribute('id').replace('-tab', '');
@@ -546,12 +536,9 @@ var DilazMetaboxScript = new function() {
 	        const tabSelectedTemplates = metaboxTab.data('page-templates').split(',');
 
 	        if (tabSelectedTemplates.indexOf(templateName) > -1) {
-	          metaboxTab.removeClass('dilaz-mb-d-none').addClass('dilaz-mb-d-block');
+	          metaboxTab.show();
 	        } else {
-	          metaboxTab.addClass('dilaz-mb-d-none').removeClass('dilaz-mb-d-block');
-	          if (metaboxTab.index() == 0) {
-	            metaboxTab.next().trigger('click');
-	          }
+	          metaboxTab.hide();
 	        }
 
 	        // Work on tab content metabox fields
@@ -598,6 +585,29 @@ var DilazMetaboxScript = new function() {
 	          }
 	        });
 	      }
+	    });
+
+	    // Iterate through dilaz metaboxes
+	    $('.dilaz-metabox').each(function () {
+
+	      const dilazMetabox = $(this);
+
+	      if (dilazMetabox[0].hasAttribute('data-page-templates')) {
+          if (dilazMetabox.data('page-templates').split(',').indexOf(templateName) > -1) {
+            dilazMetabox.closest('.postbox').show();
+            if (dilazMetabox.hasClass('hide-if-js')) {
+              dilazMetabox.addClass('dilaz-mb-d-block');
+            }
+          } else {
+            dilazMetabox.closest('.postbox').hide();
+          }
+        }
+
+        // Get metabox tab navs that are not hidden
+        const unhiddenTabs = dilazMetabox.find('.dilaz-mb-tabs-nav-item').filter((i, mbtn) => $(mbtn).is(':visible'));
+        if (unhiddenTabs.length > 0 && dilazMetabox.closest('.postbox').is(':visible')) {
+          $(document).find(unhiddenTabs[0]).trigger('click'); // Click the first one to activate it
+        }
 	    });
 	  }
 
