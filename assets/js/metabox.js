@@ -486,48 +486,132 @@ var DilazMetaboxScript = new function() {
 	 * page template select
 	 * Show/Hide fields for specific page templates
 	 */
-	$t.pageTemplateSelect = function() {
+	$t.pageTemplateSelect = function () {
 
-		$('.dilaz-mb-field').each(function() {
+	  const pageTemplateSelector = $('select#page_template');
 
-			$.fn.hasClassPrefix = function(classPrefix) {
-				$t.hasClassPrefix(classPrefix);
-			}
+	  if (!pageTemplateSelector.length) return; // Return if template selector does not exist in the page
 
-			var $optField = $(this);
+	  // Hide and disable fields for skipped metaboxes
+	  function disableField(field) {
+	    field
+	      .addClass('dilaz-mb-d-none').removeClass('dilaz-mb-d-block')
+	      .find("[name]")
+	      .each(function () {
+	        $(this).attr("data-skip-save", "true").prop("disabled", true);
+	      });
+	  }
 
-			if ($optField.hasClassPrefix('page-')) {
-				$optField.css('display', 'none');
-			} else {
-				$optField.css('display', 'block');
-			}
-		});
+	  // Show and enable fields for selected template
+	  function enableField(field) {
+	    field
+	      .removeClass('dilaz-mb-d-none').addClass('dilaz-mb-d-block')
+	      .find("[name]")
+	      .each(function () {
+	        $(this).removeAttr("data-skip-save").prop("disabled", false);
+	      });
+	  }
+    /**
+     * Show or hide metabox block, tab or field depending on 'data-page-templates' attribute.
+     * This also enables/disables fields to ensure that only required fields are saved to the database.
+     */
+	  function toggleMetabox() {
 
-		var $pageTemplateSelect = $('select#page_template');
+	    const selectedTemplate = pageTemplateSelector.val();
+	    const templateName = selectedTemplate.replace('page-templates/', '').replace('.php', '');
 
-		$pageTemplateSelect.on('change', function() {
+	    // Iterate through dilaz metaboxes
+	    $('.dilaz-metabox').each(function () {
 
-			var $pageTemplate      = $(this),
-				$pageTemplateVal   = $pageTemplate.val(),
-				$pageTemplateOpt   = $pageTemplateVal.slice(0,-4), // remove .php file extension
-				$mbTabContentField = $('.dilaz-mb-field');
+	      const dilazMetabox = $(this);
 
-			$mbTabContentField.each(function() {
+	      if (dilazMetabox[0].hasAttribute('data-page-templates')) {
+          if (dilazMetabox.data('page-templates').split(',').indexOf(templateName) > -1) {
+            dilazMetabox.closest('.postbox').removeClass('dilaz-mb-d-none').addClass('dilaz-mb-d-block');
+          } else {
+            dilazMetabox.closest('.postbox').addClass('dilaz-mb-d-none').removeClass('dilaz-mb-d-block');
+          }
+        }
+	    });
 
-				var $optField = $(this);
+	    // Iterate through dilaz metabox tabs
+	    $('.dilaz-mb-tabs-nav-item').each(function () {
 
-				if ($optField.hasClassPrefix('page-')) {
-					if ($optField.hasClass($pageTemplateOpt)) {
-						$optField.css('display', 'block');
-					} else {
-						$optField.css('display', 'none');
-					}
-				}
-			});
-		});
+	      const metaboxTab = $(this);
+	      const metaboxTabID = metaboxTab[0].getAttribute('id').replace('-tab', '');
+	      const metaboxTabContet = $('#' + metaboxTabID);
 
-		/* automatically show fields for selected page template */
-		$pageTemplateSelect.trigger('change');
+	      // Work on any tab with page templates options, including all the tabs metabox fields
+	      if (metaboxTab[0].hasAttribute('data-page-templates')) {
+	        const tabSelectedTemplates = metaboxTab.data('page-templates').split(',');
+
+	        if (tabSelectedTemplates.indexOf(templateName) > -1) {
+	          metaboxTab.removeClass('dilaz-mb-d-none').addClass('dilaz-mb-d-block');
+	        } else {
+	          metaboxTab.addClass('dilaz-mb-d-none').removeClass('dilaz-mb-d-block');
+	          if (metaboxTab.index() == 0) {
+	            metaboxTab.next().trigger('click');
+	          }
+	        }
+
+	        // Work on tab content metabox fields
+	        metaboxTabContet.find('.dilaz-mb-field').each(function () {
+
+	          const optField = $(this);
+
+	          if (optField[0].hasAttribute('data-page-templates')) {
+
+	            disableField(optField);
+
+	            const fieldSelectedTemplates = optField.data('page-templates').split(',');
+
+	            if (fieldSelectedTemplates.indexOf(templateName) > -1 && tabSelectedTemplates.indexOf(templateName) > -1) {
+	              enableField(optField);
+	            }
+
+	          } else {
+
+	            disableField(optField);
+
+	            if (tabSelectedTemplates.indexOf(templateName) > -1) {
+	              enableField(optField);
+	            }
+	          }
+	        });
+
+	      } else {
+
+	        // Work on fields whose parent tab does not have page templates options
+	        metaboxTabContet.find('.dilaz-mb-field').each(function () {
+
+	          var optField = $(this);
+
+	          if (optField[0].hasAttribute('data-page-templates')) {
+
+	            disableField(optField);
+
+	            const fieldSelectedTemplates = optField.data('page-templates').split(',');
+
+	            if (fieldSelectedTemplates.indexOf(templateName) > -1) {
+	              enableField(optField);
+	            }
+	          }
+	        });
+	      }
+	    });
+	  }
+
+	  /* automatically show fields for selected page template */
+	  // pageTemplateSelector.trigger('change');
+	  toggleMetabox();
+
+    /* Run the toggler when page is changed */
+	  pageTemplateSelector.on('change', toggleMetabox);
+
+    /* Hook into the update/publish button click */
+    $('#publish, #save-post').on('click', function(e) {
+      toggleMetabox();
+    });
 	}
 
 	/**
