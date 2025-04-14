@@ -342,7 +342,26 @@ if (!class_exists('Dilaz_Meta_Box')) {
 									$icon = '<span class="mdi mdi-settings"></span>';
 								}
 
-								$menu .= '<li id="'. $child['id'] .'-tab" class="dilaz-mb-tabs-nav-item">'. $icon .''. esc_html($child['title']) .'</li>';
+                # page template support
+                $page_templates = '';
+                $page_templates_data_attr = '';
+                if (isset($child['args']['page_template'])) {
+
+                  # Get the current screen object
+                  $screen = get_current_screen();
+
+                  if ($screen->id == 'page') {
+                    # use preg_filter() to add "page-" prefix to every array element in page_template array
+                    if (is_array($child['args']['page_template']) && isset($child['args']['page_template'])) {
+                      $page_templates = implode(' ', preg_filter('/^/', 'page-', $child['args']['page_template']));
+                      if (count($child['args']['page_template']) > 0) {
+                        $page_templates_data_attr = 'data-page-templates="' . esc_attr(implode(',', $child['args']['page_template'])) . '"';
+                      }
+                    }
+                  }
+                }
+
+								$menu .= '<li id="'. esc_attr($child['id']) .'-tab" class="dilaz-mb-tabs-nav-item ' . esc_attr($page_templates) . '" ' . $page_templates_data_attr . '>'. $icon .''. esc_html($child['title']) .'</li>';
 							}
 							$menu .= '</ul>';
 						}
@@ -669,15 +688,18 @@ if (!class_exists('Dilaz_Meta_Box')) {
               }
 
               # page template support
+              $page_templates = '';
+              $page_templates_data_attr = '';
               if ($field['args'] != '') {
                 if (isset($field['args']['page_template']) && $screen->id == 'page') {
                   # use preg_filter() to add "page-" prefix to every array element in page_template array
-                  $page_templates = is_array($field['args']['page_template']) ? implode(' ', preg_filter('/^/', 'page-', $field['args']['page_template'])) : '';
-                } else {
-                  $page_templates = '';
+                  if (is_array($field['args']['page_template']) && isset($field['args']['page_template'])) {
+                    $page_templates = implode(' ', preg_filter('/^/', 'page-', $field['args']['page_template']));
+                    if (count($field['args']['page_template']) > 0) {
+                      $page_templates_data_attr = 'data-page-templates="' . implode(',', $field['args']['page_template']) . '"';
+                    }
+                  }
                 }
-              } else {
-                $page_templates = '';
               }
 
               # adjacent fields - first field
@@ -693,9 +715,9 @@ if (!class_exists('Dilaz_Meta_Box')) {
                 echo '<div class="joined-cell"><div id="' . esc_attr($section_id) . '" class="joined-state joined-end ' . esc_attr($section_class) . '" ' . wp_kses_post($cond_fields ?: '') . '>';
               } else {
                 if (isset($field['type']) && $field['type'] == 'info') {
-                  echo '<div id="'. esc_attr($section_id) .'" class="dilaz-metabox-item row '. esc_attr($section_class) .' ' . $post_formats . ' ' . $page_templates . ' dilaz-mb-info-wrap clearfix">';
+                  echo '<div id="'. esc_attr($section_id) .'" class="dilaz-metabox-item row '. esc_attr($section_class) .' ' . $post_formats . ' ' . $page_templates . ' dilaz-mb-info-wrap clearfix" ' . $page_templates_data_attr . '>';
                 } else {
-                  echo '<div id="' . esc_attr($section_id) . '" class="dilaz-metabox-item row ' . esc_attr($section_class) . ' ' . $post_formats . ' ' . $page_templates . '" ' . $cond_fields . ' ' . $hide . '>';
+                  echo '<div id="' . esc_attr($section_id) . '" class="dilaz-metabox-item row ' . esc_attr($section_class) . ' ' . $post_formats . ' ' . $page_templates . '" ' . $cond_fields . ' ' . $hide . ' ' . $page_templates_data_attr . '>';
                   if ($field['name'] != '') {
                     echo '<div class="left"><div class="header"><label for="' . esc_attr($field['id']) . '">' . esc_html($field['name']) . '</label>' . $field['desc'] . '</div></div>';
                   }
@@ -821,8 +843,32 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			if ( version_compare( $GLOBALS['wp_version'], '6', '>' ) && version_compare( $GLOBALS['wp_version'], '7', '<' ) ) {
 				$dilaz_mb_wpx_class = 'dilaz-mb-wp6';
 			}
+      
+      # page template support
+      $page_templates_classes = '';
+      $page_templates_data_attr = '';
 
-			echo '<div class="dilaz-metabox '. $dilaz_mb_wpx_class .'">';
+      $metabox_cb_args = isset($id['callback'][0]->_meta_box[1]['args']) ? $id['callback'][0]->_meta_box[1]['args'] : [];
+      if (isset($id['callback'][0]->_meta_box[1]['id']) && $id['callback'][0]->_meta_box[1]['id'] === $id['id']) {
+        if (isset($metabox_cb_args['page_template'])) {
+
+          error_log('UI');
+          # Get the current screen object
+          $screen = get_current_screen();
+
+          if ($screen->id == 'page') {
+            # use preg_filter() to add "page-" prefix to every array element in page_template array
+            if (is_array($metabox_cb_args['page_template']) && isset($metabox_cb_args['page_template'])) {
+              $page_templates_classes = implode(' ', preg_filter('/^/', 'page-', $metabox_cb_args['page_template']));
+              if (count($metabox_cb_args['page_template']) > 0) {
+                $page_templates_data_attr = 'data-page-templates="' . esc_attr(implode(',', $metabox_cb_args['page_template'])) . '"';
+              }
+            }
+          }
+        }
+      }
+
+			echo '<div class="dilaz-metabox '. $dilaz_mb_wpx_class . ' ' . $page_templates_classes . '" ' . $page_templates_data_attr . '>';
 
 				# Vertical Tabs
 				echo '<div class="dilaz-mb-tabs">';
