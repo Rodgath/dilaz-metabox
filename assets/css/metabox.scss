@@ -369,7 +369,8 @@
       height: 100px;
       overflow: hidden;
       border-radius: 2px;
-      display: flex
+      display: flex;
+      align-items: center;
     }
     [data-file-thumb="false"] + .dilaz-mb-file-wrapper .dilaz-mb-media-file {
       padding: 10px;
@@ -379,10 +380,17 @@
     .dilaz-metabox .dilaz-mb-media-file.empty {
       margin-top: 0;
     }
-    .dilaz-metabox .dilaz-mb-media-file img {
-      min-width: 100px;
-      max-width: 100%;
-      float: left;
+    .dilaz-metabox .dilaz-mb-media-file {
+      img {
+        min-width: 100px;
+        max-width: 100%;
+        float: left;
+        object-fit: contain;
+
+        &.object-fit-cover {
+          object-fit: cover;
+        }
+      }
     }
     [data-file-thumb="false"] + .dilaz-mb-file-wrapper .dilaz-mb-media-file img {
       min-width: auto;
