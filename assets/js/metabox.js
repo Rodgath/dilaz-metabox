@@ -542,7 +542,7 @@ var DilazMetaboxScript = new function() {
 	        }
 
 	        // Work on tab content metabox fields
-	        metaboxTabContet.find('.dilaz-mb-field').each(function () {
+	        metaboxTabContet.find('.dilaz-mb-field, .dilaz-mb-opt-group-accordion-item').each(function () {
 
 	          const optField = $(this);
 
@@ -569,7 +569,7 @@ var DilazMetaboxScript = new function() {
 	      } else {
 
 	        // Work on fields whose parent tab does not have page templates options
-	        metaboxTabContet.find('.dilaz-mb-field').each(function () {
+	        metaboxTabContet.find('.dilaz-mb-field, .dilaz-mb-opt-group-accordion-item').each(function () {
 
 	          var optField = $(this);
 
@@ -606,7 +606,7 @@ var DilazMetaboxScript = new function() {
         // Get metabox tab navs that are not hidden
         const unhiddenTabs = dilazMetabox.find('.dilaz-mb-tabs-nav-item').filter((i, mbtn) => $(mbtn).is(':visible'));
         if (unhiddenTabs.length > 0 && dilazMetabox.closest('.postbox').is(':visible')) {
-          $(document).find(unhiddenTabs[0]).trigger('click'); // Click the first one to activate it
+            $(document).find(unhiddenTabs[0]).trigger('click'); // Click the first one to activate it
         }
 	    });
 
