@@ -1433,7 +1433,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
           # Recursively process nested fields
           foreach ($field['group_options'] as $child_field) {
             $child_key = $child_field['id'];
-            $child_value = isset($_POST[$child_key]) ? $_POST[$child_key] : null;
+            $child_value = isset($_POST[$child_key]) ? $_POST[$child_key] : '';
 
             # Sanitize the child field value
             $sanitized_child_value = $this->sanitizeMeta($child_field['type'], $child_value, $child_field);
@@ -1451,7 +1451,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 
         # Handle regular fields
         $old = get_post_meta($post_id, $field['id'], true);
-        $new = isset($_POST[$field['id']]) ? $_POST[$field['id']] : null;
+        $new = isset($_POST[$field['id']]) ? $_POST[$field['id']] : '';
 
         # Sanitize the field value
         $sanitized_meta = $this->sanitizeMeta($field['type'], $new, $field);
