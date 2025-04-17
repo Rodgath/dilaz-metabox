@@ -1062,13 +1062,17 @@ if (!class_exists('Dilaz_Meta_Box')) {
 					break;
 
 				case 'color':
-					if ( FALSE !== stripos( $input, 'rgb' ) ) {
-						$output = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_rgb_color($input);
-					} else if ( FALSE !== stripos( $input, 'hsl' ) ) {
-						$output = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_hsl_color($input);
-					} else {
-						$output = sanitize_hex_color($input);
-					}
+          if (!empty($input)) {
+            if ( FALSE !== stripos( $input, 'rgb' ) ) {
+              $output = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_rgb_color($input);
+            } else if ( FALSE !== stripos( $input, 'hsl' ) ) {
+              $output = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_hsl_color($input);
+            } else {
+              $output = sanitize_hex_color($input);
+            }
+          } else {
+            $output = $input;
+          }
 					return $output;
 					break;
 
