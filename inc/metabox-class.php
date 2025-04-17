@@ -620,7 +620,9 @@ if (!class_exists('Dilaz_Meta_Box')) {
           $meta = get_post_meta($post->ID, $field['group_parent_id'], true);
 
           # Show value or default value
-          $meta = ('' === $meta || !is_array($meta)) ? $field['std'] : $meta[$field['group_id']][$field['id']];
+          $meta = ('' === $meta || !is_array($meta)) ?
+          (isset($field['std']) ? $field['std'] : '') :
+          (isset($meta[$field['group_id']][$field['id']]) ? $meta[$field['group_id']][$field['id']] : '');
 
           # integrate variables into $field array
           $field['meta'] = $meta;
