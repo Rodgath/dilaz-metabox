@@ -845,7 +845,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			if ( version_compare( $GLOBALS['wp_version'], '6', '>' ) && version_compare( $GLOBALS['wp_version'], '7', '<' ) ) {
 				$dilaz_mb_wpx_class = 'dilaz-mb-wp6';
 			}
-      
+
       # page template support
       $page_templates_classes = '';
       $page_templates_data_attr = '';
@@ -854,7 +854,6 @@ if (!class_exists('Dilaz_Meta_Box')) {
       if (isset($id['callback'][0]->_meta_box[1]['id']) && $id['callback'][0]->_meta_box[1]['id'] === $id['id']) {
         if (isset($metabox_cb_args['page_template'])) {
 
-          error_log('UI');
           # Get the current screen object
           $screen = get_current_screen();
 
@@ -932,10 +931,12 @@ if (!class_exists('Dilaz_Meta_Box')) {
 
 				case 'multitext':
 					$output = [];
-					foreach ((array)$input as $k => $v) {
-						if (isset($field['options'][$k])) {
-							$output[$k] = sanitize_text_field($v);
-						}
+          if (is_array($input)) {
+            foreach ((array)$input as $k => $v) {
+              if (isset($field['options'][$k])) {
+                $output[$k] = sanitize_text_field($v);
+              }
+            }
 					}
 					return !empty($output) ? $output : '';
 					break;
@@ -1036,22 +1037,26 @@ if (!class_exists('Dilaz_Meta_Box')) {
 
 				case 'multicheck':
 					$output = [];
-					foreach ((array)$input as $k => $v) {
-						if (isset($field['options'][$k]) && $v == true) {
-							$output[$k] = true;
-						} else {
-							$output[$k] = false;
-						}
+          if (is_array($input)) {
+            foreach ((array)$input as $k => $v) {
+              if (isset($field['options'][$k]) && $v == true) {
+                $output[$k] = true;
+              } else {
+                $output[$k] = false;
+              }
+            }
 					}
 					return !empty($output) ? $output : '';
 					break;
 
 				case 'repeatable':
 					$output = [];
-					foreach ((array)$input as $key => $value) {
-						foreach ($value as $k => $v) {
-							$output[$key][$k] = sanitize_text_field($v);
-						}
+          if (is_array($input)) {
+            foreach ((array)$input as $key => $value) {
+              foreach ($value as $k => $v) {
+                $output[$key][$k] = sanitize_text_field($v);
+              }
+            }
 					}
 					return !empty($output) ? $output : '';
 					break;
@@ -1069,70 +1074,78 @@ if (!class_exists('Dilaz_Meta_Box')) {
 
 				case 'multicolor':
 					$output = [];
-					foreach ((array)$input as $k => $v) {
-						if (isset($field['options'][$k])) {
-							if ( FALSE !== stripos( $v, 'rgb' ) ) {
-								$output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_rgb_color($v);
-							} else if ( FALSE !== stripos( $v, 'hsl' ) ) {
-								$output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_hsl_color($v);
-							} else {
-								$output[$k] = sanitize_hex_color($v);
-							}
-						}
+          if (is_array($input)) {
+            foreach ((array)$input as $k => $v) {
+              if (isset($field['options'][$k])) {
+                if ( FALSE !== stripos( $v, 'rgb' ) ) {
+                  $output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_rgb_color($v);
+                } else if ( FALSE !== stripos( $v, 'hsl' ) ) {
+                  $output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_hsl_color($v);
+                } else {
+                  $output[$k] = sanitize_hex_color($v);
+                }
+              }
+            }
 					}
 					return !empty($output) ? $output : '';
 					break;
 
 				case 'font':
 					$output = array();
-					foreach ((array)$input as $k => $v) {
-						if (isset($field['options'][$k]) && $k == 'color') {
-							if ( FALSE !== stripos( $v, 'rgb' ) ) {
-								$output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_rgb_color($v);
-							} else if ( FALSE !== stripos( $v, 'hsl' ) ) {
-								$output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_hsl_color($v);
-							} else {
-								$output[$k] = sanitize_hex_color($v);
-							}
-						} else {
-							$output[$k] = $v;
-						}
+          if (is_array($input)) {
+					  foreach ((array)$input as $k => $v) {
+              if (isset($field['options'][$k]) && $k == 'color') {
+                if ( FALSE !== stripos( $v, 'rgb' ) ) {
+                  $output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_rgb_color($v);
+                } else if ( FALSE !== stripos( $v, 'hsl' ) ) {
+                  $output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_hsl_color($v);
+                } else {
+                  $output[$k] = sanitize_hex_color($v);
+                }
+              } else {
+                $output[$k] = $v;
+              }
+            }
 					}
 					return $output;
 					break;
 
 				case 'font':
 					$output = array();
-					foreach ((array)$input as $k => $v) {
-						if ( ( isset($field['options'][$k]) && ($k == 'size' || $k == 'height') ) /* || $set_option */ ) {
-							$output[$k] = is_int($v) ? absint($v) : '';
-						} else if (isset($field['options'][$k]) && $k == 'color') {
-							$output[$k] = sanitize_hex_color($v);
-						} else if (isset($field['options'][$k]) && $k == 'subset') {
-							$output[$k] = is_array($v) ? array_map('sanitize_text_field', $v) : sanitize_text_field($v);
-						} else {
-							$output[$k] = sanitize_text_field($v);
-						}
+          if (is_array($input)) {
+            foreach ((array)$input as $k => $v) {
+              if ( ( isset($field['options'][$k]) && ($k == 'size' || $k == 'height') ) /* || $set_option */ ) {
+                $output[$k] = is_int($v) ? absint($v) : '';
+              } else if (isset($field['options'][$k]) && $k == 'color') {
+                $output[$k] = sanitize_hex_color($v);
+              } else if (isset($field['options'][$k]) && $k == 'subset') {
+                $output[$k] = is_array($v) ? array_map('sanitize_text_field', $v) : sanitize_text_field($v);
+              } else {
+                $output[$k] = sanitize_text_field($v);
+              }
+            }
 					}
 					return !empty($output) ? $output : '';
 					break;
 
 				case 'background':
 					$output = array();
-					foreach ((array)$input as $k => $v) {
-						if (isset($field['options'][$k]) && $k == 'image') {
-							$output[$k] = absint($v);
-						} else if (isset($field['options'][$k]) && $k == 'color') {
-							if ( FALSE !== stripos( $v, 'rgb' ) ) {
-								$output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_rgb_color($v);
-							} else if ( FALSE !== stripos( $v, 'hsl' ) ) {
-								$output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_hsl_color($v);
-							} else {
-								$output[$k] = sanitize_hex_color($v);
-							}
-						} else if (isset($field['options'][$k]) && ($k == 'repeat' || $k == 'size' || $k == 'position' || $k == 'attachment' || $k == 'origin')) {
-							$output[$k] = is_array($v) ? array_map('sanitize_text_field', $v) : sanitize_text_field($v);
-						}
+          if (is_array($input)) {
+            foreach ((array)$input as $k => $v) {
+              if (isset($field['options'][$k]) && $k == 'image') {
+                $output[$k] = absint($v);
+              } else if (isset($field['options'][$k]) && $k == 'color') {
+                if ( FALSE !== stripos( $v, 'rgb' ) ) {
+                  $output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_rgb_color($v);
+                } else if ( FALSE !== stripos( $v, 'hsl' ) ) {
+                  $output[$k] = DilazMetaboxFunction\DilazMetaboxFunction::sanitize_hsl_color($v);
+                } else {
+                  $output[$k] = sanitize_hex_color($v);
+                }
+              } else if (isset($field['options'][$k]) && ($k == 'repeat' || $k == 'size' || $k == 'position' || $k == 'attachment' || $k == 'origin')) {
+                $output[$k] = is_array($v) ? array_map('sanitize_text_field', $v) : sanitize_text_field($v);
+              }
+            }
 					}
 					return !empty($output) ? $output : '';
 					break;
@@ -1189,8 +1202,10 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				case 'time_from_to':
 				case 'date_time_from_to':
 					$output = array();
-					foreach ((array)$input as $k => $v) {
-						$output[$k] = !empty($v) ? strtotime($v) : 0;
+          if (is_array($input)) {
+            foreach ((array)$input as $k => $v) {
+              $output[$k] = !empty($v) ? strtotime($v) : 0;
+            }
 					}
 					return !empty($output) ? $output : '';
 					break;
