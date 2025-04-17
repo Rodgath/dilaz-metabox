@@ -1502,9 +1502,17 @@ if (!class_exists('Dilaz_Meta_Box')) {
           }
         }
 
+        # Handle regular fields
+        $old_ordered_group_data = get_post_meta($post_id, $parent_key, true);
+        $new_ordered_group_data = !empty($ordered_group_data) ? $ordered_group_data : '';
+
         # Save the ordered group data under the parent key
-        if (!empty($ordered_group_data)) {
+        if ($new_ordered_group_data != $old_ordered_group_data && false !== $new_ordered_group_data) {
           update_post_meta($post_id, $parent_key, $ordered_group_data);
+        } else if ($new_ordered_group_data != $old_ordered_group_data) {
+          update_post_meta($post_id, $parent_key, $ordered_group_data);
+        } else if (('' === $new_ordered_group_data || false === $new_ordered_group_data) && $old_ordered_group_data) {
+          delete_post_meta($post_id, $parent_key, $old_ordered_group_data);
         }
       }
     }
