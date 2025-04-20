@@ -2,7 +2,7 @@
 
 ## Version 3
 
-###### v3.3.23
+###### v3.3.3
 ```
 = ADD - Add 'object_fit' argument to upload media field
 = ADD - Add page template support for metaboxes, meta tabs and meta fields

@@ -1349,7 +1349,7 @@ if (!class_exists('DilazMetaboxFields')) {
 		 * File Upload
 		 *
 		 * @since  1.0
-		 * @since  3.3.23 - Add 'object_fit' argument
+		 * @since  3.3.3 - Add 'object_fit' argument
 		 * @access public
 		 *
 		 * @param array $field Field arguments
