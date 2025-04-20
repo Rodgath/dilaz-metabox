@@ -697,12 +697,17 @@
     /* numeric stepper
     /*--------------------------------------------------------------*/
     .stepper-wrap {
-        position: relative;
-        display: inline-block;
-        margin-right: 0 !important;
-    }
-    .stepper-wrap input {
-        text-align: right;
+      position: relative;
+      display: inline-block;
+      margin-right: 0 !important;
+
+      input {
+        text-align: right
+      }
+
+      + .suffix {
+        margin-left: 25px
+      }
     }
     .stepper-btn-wrap {
         position: absolute;
