@@ -2,6 +2,15 @@
 
 ## Version 3
 
+###### v3.3.23
+```
+= ADD - Add 'object_fit' argument to upload media field
+= ADD - Add page template support for metaboxes, meta tabs and meta fields
+= FIX - Multiple field value sanitization
+= FIX - Multiple field value sanitization
+= FIX - Numeric stepper field suffix layout issue
+```
+
 ###### v3.3.22
 ```
 = FIX - Add metabox menu tab missing id attribute value
