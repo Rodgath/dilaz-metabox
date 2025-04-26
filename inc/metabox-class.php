@@ -229,6 +229,59 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				$dilaz_mb_style_css_ver = date('ymd-Gis', filemtime( DILAZ_MB_DIR .'assets/css/metabox.min.css' )); # file version based on last update
 				wp_enqueue_style('dilaz-metabox-style', DILAZ_MB_URL .'assets/css/metabox.min.css', array('thickbox'), $dilaz_mb_style_css_ver);
 
+        # Inline style for preloader
+        wp_add_inline_style('dilaz-metabox-style', '
+          /* When preloader is present - set fixed height */
+          .dilaz-metabox:has(.dilaz-metabox-preloader) {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            transition: height 0.3s ease;
+          }
+
+          /* When preloader is hidden - remove height constraint */
+          .dilaz-metabox:not(:has(.dilaz-metabox-preloader)) {
+            height: auto;
+            overflow: visible;
+          }
+
+          /* Preloader styles */
+          .dilaz-metabox-preloader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+          }
+
+          .dilaz-metabox-preloader .spinnner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+          }
+
+          /* Hidden state */
+          .dilaz-metabox-preloader[hidden],
+          .dilaz-metabox-preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+          }
+
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        ');
+
 				do_action('dilaz_mb_after_scripts_enqueue', $this->_prefix, $this->_meta_box);
 			}
 		}
