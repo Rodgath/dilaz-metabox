@@ -1152,33 +1152,6 @@ var DilazMetaboxScript = new function() {
 	}
 
 	/**
-	 * Metabox postbox preloader manager
-	 * @since Dilaz Metabox 3.5.0
-	 */
-	$t.managePreloader = function () {
-	  var observer = new MutationObserver(function (mutations) {
-	    mutations.forEach(function (mutation) {
-	      if ($(".dilaz-mb-tabs-content").length) {
-	        observer.disconnect();
-	        setTimeout(() => {
-	          $(".dilaz-metabox-preloader").fadeOut(300, function () {
-	            $(this).addClass("hidden");
-	            $(this).closest(".dilaz-metabox").css("height", "auto");
-	          });
-	        }, 500);
-	        $(".dilaz-mb-tabs, .dilaz-mb-tabs-content").removeClass("dilaz-mb-d-none");
-	        jQuery(document).doWhen();
-	      }
-	    });
-	  });
-
-	  observer.observe(document.body, {
-	    childList: true,
-	    subtree: true
-	  });
-	}
-
-	/**
 	 * Init
 	 *
 	 */
@@ -1204,7 +1177,6 @@ var DilazMetaboxScript = new function() {
 		$t.addRepeatableField();
 		$t.removeRepeatableField();
 		$t.optionGroupField();
-		$t.managePreloader();
 
 	};
 }
