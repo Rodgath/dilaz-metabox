@@ -69,7 +69,7 @@ var DilazMetaboxScript = new function() {
 		$('.dilaz-mb-tabs').on('click', '.dilaz-mb-tabs-nav-item', function() {
 
 			var	tabNav     = $(this),
-				tabContent = tabNav.closest('.dilaz-mb-tabs').siblings().children().eq(tabNav.index());
+				tabContent = tabNav.closest('.dilaz-mb-tabs').siblings('.dilaz-mb-tabs-content').children().eq(tabNav.index());
 
 			tabNav.addClass('active').siblings().removeClass('active');
 			tabContent.addClass('active').siblings().removeClass('active');
