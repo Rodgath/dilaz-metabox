@@ -872,7 +872,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 			echo '<div class="dilaz-metabox '. $dilaz_mb_wpx_class . ' ' . $page_templates_classes . '" ' . $page_templates_data_attr . '>';
         echo '<div class="dilaz-metabox-preloader"><div class="spinnner"></div></div>';
 				# Vertical Tabs
-				echo '<div class="dilaz-mb-tabs">';
+				echo '<div class="dilaz-mb-tabs dilaz-mb-d-none">';
 
 					# Tabs Navigation
 					$meta_box_id = isset($id['id']) ? $id['id'] : '';
@@ -883,7 +883,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
 				echo '</div>';
 
 				# Tabs Content
-				echo '<div class="dilaz-mb-tabs-content">';
+				echo '<div class="dilaz-mb-tabs-content dilaz-mb-d-none">';
 
 					if ($meta_box_id != '') {
 
