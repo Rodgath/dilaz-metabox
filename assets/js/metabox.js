@@ -1153,7 +1153,7 @@ var DilazMetaboxScript = new function() {
 
 	/**
 	 * Metabox postbox preloader manager
-	 * @since Dilaz Metabox 3.4.0
+	 * @since Dilaz Metabox 3.5.0
 	 */
 	$t.managePreloader = function () {
 	  var observer = new MutationObserver(function (mutations) {

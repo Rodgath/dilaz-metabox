@@ -2,9 +2,13 @@
 
 ## Version 3
 
-###### v3.4.0
+###### v3.5.0
 ```
 = ADD - Add preloader for metabox postbox elements
+```
+
+###### v3.4.0
+```
 = ADD - Add 'object_fit' argument to upload media field
 = ADD - Add page template support for metaboxes, meta tabs and meta fields
 = FIX - Multiple field value sanitization
