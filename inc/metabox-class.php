@@ -870,7 +870,7 @@ if (!class_exists('Dilaz_Meta_Box')) {
       }
 
 			echo '<div class="dilaz-metabox '. $dilaz_mb_wpx_class . ' ' . $page_templates_classes . '" ' . $page_templates_data_attr . '>';
-
+        echo '<div class="dilaz-metabox-preloader"><div class="spinnner"></div></div>';
 				# Vertical Tabs
 				echo '<div class="dilaz-mb-tabs">';
 
