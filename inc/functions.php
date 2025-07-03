@@ -113,7 +113,7 @@ if (!class_exists('DilazMetaboxFunction')) {
 				foreach ($users as $user) {
 					$data[] = array(
 						'id'   => $user->ID,
-						'name' => $user->nickname,
+						'name' => $user->nickname . ' (' . $user->display_name . ')',
 					);
 				}
 

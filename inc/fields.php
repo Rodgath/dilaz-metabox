@@ -644,7 +644,7 @@ if (!class_exists('DilazMetaboxFields')) {
 					$name = get_post_field('post_title', $item_id);
 				} else if ($query_type == 'user') {
 					$user_data = get_userdata($item_id);
-					$name = ($user_data && !is_wp_error($user_data)) ? $user_data->nickname : '';
+					$name = ($user_data && !is_wp_error($user_data)) ? $user_data->nickname . ' (' . $user_data->display_name . ')' : '';
 				} else if ($query_type == 'term') {
 					$term_data = get_term($item_id);
 					$name = ($term_data && !is_wp_error($term_data)) ? $term_data->name : '';
