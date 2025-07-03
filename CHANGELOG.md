@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.5.2
+```
+= ADD - Show user display name in select2 AJAX dropdown
+```
+
 ###### v3.5.1
 ```
 = FIX - Put preloader JS in showMetabox function so that DOM mutations may be observed for page template selection(s)
