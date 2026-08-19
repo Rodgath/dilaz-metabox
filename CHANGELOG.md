@@ -2,6 +2,11 @@
 
 ## Version 3
 
+###### v3.5.3
+```
+= FIX: Update dependecies and upgrade immutable to version 5.1.8
+```
+
 ###### v3.5.2
 ```
 = ADD - Show user display name in select2 AJAX dropdown
